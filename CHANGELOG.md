@@ -66,6 +66,11 @@ here. Entries below describe what landed in this copy.
   harness index. Reworked the verification-kit index into unnumbered,
   linked artifacts and separated the run method, observed results, and limits
   without changing the empirical record.
+- Aligned the ChatGPT Personalization sample with a Candid base style, less
+  warmth and enthusiasm, and more headers and emoji. The Custom Instructions
+  channel emoji into functional heading/status signposts and ask for a personal
+  sharp-peer register rather than treating those presentation controls as a
+  capability or grounding change.
 
 ## 2026-08-18
 
