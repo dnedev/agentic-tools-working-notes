@@ -149,6 +149,7 @@ the active environment, follow those rules.
 ## Not needed here
 
 No build, no tests, no linter. Don't add tooling or CI for its own sake — this
-repo is a handful of markdown files and should stay cheap to maintain. It's a
-**SHA-256 object-format** git repo; if older Git tooling errors on the object
-format, that's why, not corruption.
+repo is a handful of markdown files and should stay cheap to maintain. The
+private source uses **SHA-256 objects**; the public GitHub snapshot uses
+**SHA-1** for hosting compatibility. If older Git tooling errors while working
+with the private source, the object format is the likely cause, not corruption.
