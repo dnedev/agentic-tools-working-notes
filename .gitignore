@@ -1,0 +1,9 @@
+# Raw, unsanitized canonical source synced from the private claude.ai
+# project. Kept locally as the origin for verification-kit/ and harness/
+# updates, but never committed: these files carry real trace origins, live
+# config, and full profile/project-instruction history that the published
+# docs deliberately sanitize. Rename the dir if you like — keep it ignored.
+_input/
+
+# Finder metadata has no place in either private or public snapshots.
+.DS_Store
