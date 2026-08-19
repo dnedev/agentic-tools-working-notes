@@ -8,58 +8,54 @@ a small set of instruments that turned out to be the durable part. This
 package shares those. It's one person's method, graded by one person's
 judgment. Take what's useful, discard the rest.
 
-## What's in the package
+## What's here
 
-**1. A failure-pattern taxonomy** (`failure-pattern-taxonomy.md`).
-Recurring ways LLM answers go wrong, each with a binary FAIL
-test. Not theoretical — every pattern was distilled from a real failure
-in my own chat transcripts. Examples: presenting a generated URL or
-figure as if it were retrieved; treating "I didn't find X" as "X doesn't
-exist"; quietly joining two retrieved facts into a new claim that nothing
-actually supports.
+- **[Failure-pattern taxonomy](failure-pattern-taxonomy.md).** Recurring ways
+  LLM answers go wrong, each with a binary FAIL test. Every pattern came from a
+  failure in my own chat transcripts rather than from an attempt to enumerate
+  the space.
+- **[Trace self-audit template](trace-self-audit-template.md).** A static,
+  domain-neutral prompt that grades a supplied conversation against the
+  taxonomy, requires a quote for each finding, forbids manufacturing them, and
+  routes each finding to an account-level rule, a project-level prompt, or a
+  watch item.
+- **[Regression corpus method](regression-corpus-method.md).** How a confirmed
+  failure becomes a private regression entry, including the run protocol and
+  grading conventions. The entries stay private; this repository contains the
+  method.
+- **[Evolution and lessons](evolution-and-lessons.md).** A dated account of
+  what changed, what failed, and which apparent improvements were later
+  withdrawn or narrowed.
 
-**2. A trace self-audit template** (`trace-self-audit-template.md`).
-A static, domain-neutral prompt you paste at the end of any conversation
-(any major LLM platform). It makes the conversation grade itself against
-those patterns, with a quote-or-it-didn't-happen rule and explicit
-guardrails against the auditor inventing findings. Output routes each
-finding to where a fix belongs: your global custom instructions, a
-project-level prompt, or a watch list.
+## How I use the regression loop
 
-**3. The regression corpus method** (`regression-corpus-method.md`).
-The third instrument, and the one that isn't a document: how a confirmed
-failure becomes a regression entry, the run protocol, and the
-grading conventions — including the two that exist because I threw away
-a result. No entries, just the shape.
+Grading is manual: start a fresh chat, provide the trigger, and judge the result
+against the binary check. There is no automation or CI. A pass over the corpus
+is a handful of fresh chats and a Markdown table; the
+[corpus method](regression-corpus-method.md) owns the details.
 
-**4. The backstory** (`evolution-and-lessons.md`). A one-page
-timeline of how this evolved — what failed, what each failure taught,
-and the lessons that transfer even if you adopt nothing else here.
+The corpus has a handful of private entries. Its purpose is a no-regression
+gate for this workflow, not a benchmark or a claim that the instructions caused
+an outcome.
 
-## The loop (and what I actually ran)
+## What the runs showed
 
-The third piece is a discipline rather than a document — now written up
-in `regression-corpus-method.md`. Grading is manual: fresh chat, paste trigger, judge
-against the check. No automation, no CI. A run is four chats and a
-markdown table.
+- The first baseline ran 2026-06-10: two entries across two current models,
+  fresh chats, and 4/4 passes after the config fix the original failures
+  motivated. The same run showed that a planned config rewrite was unnecessary,
+  so I dropped it unshipped.
+- A second batch ran 2026-07-26 against a newly released flagship model: eight
+  entry-model runs, **seven valid passes, no failures**, including the first
+  real validation of the P13 and P14 fixes and confirmation of three
+  provisional entries.
+- The remaining run was discarded because it reused the origin trace's phrasing
+  and tested recall rather than the fix. That entry remains open.
 
-Honest status: the corpus has a handful of entries. The first baseline
-ran 2026-06-10 — two entries across two current models, fresh chats,
-4/4 pass after the config fix the original failures motivated — and the
-same run showed that a config rewrite I had planned was unnecessary, so
-I dropped it unshipped. A second batch ran 2026-07-26 against a newly
-released flagship model: eight runs, **seven valid passes, no
-failures**, including the first real validation of the P13 and P14
-fixes, and three provisional entries confirmed as standing.
-The eighth run was thrown out — it had reused the origin trace's own
-phrasing, so it tested recall rather than the fix, and that entry is
-still open. Three caveats I'd rather state than bury: there was no
-config-off control arm, so a green board is a no-regression gate and not
-proof that my instructions caused the passes; one entry was graded on a
-partial read of the response; and several patterns still have no entry
-at all. That's the whole pitch in one anecdote: even a manual,
-binary-graded loop changed a decision — and caught itself grading a
-result that didn't count.
+The limits matter: there was no config-off control arm, so the green results are
+a no-regression gate and not proof that the instructions caused the passes; one
+entry was graded from a partial read of the response; and several patterns
+still have no regression entry. The useful result is not the score. The loop
+changed a decision and caught itself grading a result that did not count.
 
 ## Try it in ten minutes
 

@@ -26,36 +26,22 @@ it invalidates its own apparent successes.
 
 ## What's here
 
-- **[`verification-kit/`](verification-kit/README.md)** — a personal
-  method for keeping LLM-assisted work grounded: a
-  [failure-pattern taxonomy](verification-kit/failure-pattern-taxonomy.md)
-  (the recurring ways LLM answers go wrong, each with a binary
-  test), a paste-in
-  [trace self-audit template](verification-kit/trace-self-audit-template.md)
-  that makes any conversation grade itself against those patterns, a
-  [regression corpus method](verification-kit/regression-corpus-method.md)
-  for turning confirmed failures into binary regression checks, and
-  the [evolution story](verification-kit/evolution-and-lessons.md)
-  behind them.
-- **[`harness/`](harness/README.md)** — personal config and operating
-  notes for agentic tools. Includes sanitized examples of my user-global
-  config — [`CLAUDE.example.md`](harness/CLAUDE.example.md) for Claude Code,
-  [`AGENTS.example.md`](harness/AGENTS.example.md) for Codex,
-  [`cursor-user-defaults.example.mdc`](harness/cursor-user-defaults.example.mdc)
-  for Cursor, and
-  [`coco-user-defaults.example.md`](harness/coco-user-defaults.example.md) for
-  Snowflake CoCo —
-  copy sheets for [claude.ai profile
-  instructions](harness/claude-ai-profile-instructions.example.md) and
-  [ChatGPT personalization](harness/chatgpt-personalization.example.md), plus
-  durable, figure-free operating principles for
-  [Claude Code](harness/claude-code-notes.md),
-  [Cursor](harness/cursor-notes.md),
-  [Snowflake CoCo](harness/coco-notes.md),
-  [claude.ai](harness/claude-ai-notes.md), and
-  [OpenAI surfaces](harness/openai-surfaces-notes.md). Also sample
-  [`skills/`](harness/skills/): an ADR stub format, a spec-driven-change
-  loop, and a chezmoi dotfiles pair.
+- **[`verification-kit/`](verification-kit/README.md)** — instruments for
+  classifying trace failures, auditing a conversation, maintaining private
+  regression cases, plus a dated account of how the method changed.
+- **[`harness/`](harness/README.md)** — sanitized cross-surface instruction
+  samples, operating notes, and reusable skills for Claude Code, claude.ai,
+  Codex, ChatGPT, Cursor, and Snowflake CoCo. Its own index links each artifact.
+
+## Where to start
+
+- Audit a conversation with the
+  [trace self-audit template](verification-kit/trace-self-audit-template.md).
+- Inspect recurring failure patterns in the
+  [taxonomy](verification-kit/failure-pattern-taxonomy.md).
+- Turn a confirmed failure into a private regression check with the
+  [corpus method](verification-kit/regression-corpus-method.md).
+- Adapt instruction or skill samples from the [harness](harness/README.md).
 
 Dated changes, and the reasoning behind the conventions, are in
 [CHANGELOG.md](CHANGELOG.md).

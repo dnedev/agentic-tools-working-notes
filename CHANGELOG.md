@@ -61,6 +61,11 @@ here. Entries below describe what landed in this copy.
   file set flat. Samples remain next to their operating notes, and shared
   procedures remain under `harness/skills/`; vendor nesting and an underscore
   prefix would add path churn without clarifying ownership at this size.
+- Shortened the root inventory to directory-level summaries and added
+  task-oriented starting points, leaving detailed surface discovery to the
+  harness index. Reworked the verification-kit index into unnumbered,
+  linked artifacts and separated the run method, observed results, and limits
+  without changing the empirical record.
 
 ## 2026-08-18
 
