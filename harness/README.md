@@ -4,29 +4,39 @@ Personal config for agentic tools — things like `CLAUDE.md`, custom
 instructions, and skills. It's illustrative, not prescriptive: tuned to
 my register and defaults, so it's the wrong starting point to copy
 wholesale (the same "wrong for you by design" spirit as the
-[verification kit](../verification-kit/README.md)). Included now:
-sanitized examples of my user-global config —
-[`CLAUDE.example.md`](CLAUDE.example.md) for Claude Code,
-[`AGENTS.example.md`](AGENTS.example.md) for Codex,
-[`cursor-user-defaults.example.mdc`](cursor-user-defaults.example.mdc) for
-Cursor, and [`coco-user-defaults.example.md`](coco-user-defaults.example.md)
-for Snowflake CoCo — copy sheets for
-[claude.ai profile instructions](claude-ai-profile-instructions.example.md)
-and [ChatGPT personalization](chatgpt-personalization.example.md), and
-figure-free notes on durable operating principles for
-[Claude Code](claude-code-notes.md), [Cursor](cursor-notes.md),
-[Snowflake CoCo](coco-notes.md), [claude.ai](claude-ai-notes.md), and
-[OpenAI surfaces](openai-surfaces-notes.md). Sample
-[`skills/`](skills/) round it out: an
-[ADR stub](skills/adr-stub/SKILL.md) format and a
-[spec-driven-change](skills/spec-driven-change/SKILL.md) loop, both extracted
-out of the config above so each format lives in one place instead of being
-pasted into every layer, plus a
-[dotfiles-discover](skills/dotfiles-discover/SKILL.md) /
-[dotfiles-sync](skills/dotfiles-sync/SKILL.md) pair — standalone rather than
-extracted — that keeps a chezmoi repo from swallowing secrets and from
-overwriting live edits with a stale source copy. All runtime-neutral prose, so
-the same skill can be installed under each tool's supported skill root.
+[verification kit](../verification-kit/README.md)).
+
+## Surfaces and artifacts
+
+- **Claude Code** — a sanitized
+  [`CLAUDE.md` user-global sample](CLAUDE.example.md) and
+  [durable operating notes](claude-code-notes.md).
+- **claude.ai** — a
+  [profile-instructions copy sheet](claude-ai-profile-instructions.example.md)
+  and [surface notes](claude-ai-notes.md).
+- **Codex** — a sanitized
+  [`AGENTS.md` user-global sample](AGENTS.example.md), with shared
+  [OpenAI surface notes](openai-surfaces-notes.md).
+- **ChatGPT** — a
+  [Personalization copy sheet](chatgpt-personalization.example.md), with the
+  same [OpenAI surface notes](openai-surfaces-notes.md).
+- **Cursor** — an installable
+  [user-rule sample](cursor-user-defaults.example.mdc) and
+  [durable operating notes](cursor-notes.md).
+- **Snowflake CoCo** — a partial
+  [user-defaults sample](coco-user-defaults.example.md) and
+  [durable operating notes](coco-notes.md).
+- **Shared skills** — an [ADR stub](skills/adr-stub/SKILL.md), a
+  [spec-driven-change loop](skills/spec-driven-change/SKILL.md), and a
+  [dotfiles-discover](skills/dotfiles-discover/SKILL.md) /
+  [dotfiles-sync](skills/dotfiles-sync/SKILL.md) pair. Their prose is
+  runtime-neutral, so the same skill can be installed under each tool's
+  supported skill root.
+
+The roles are deliberately separate: examples own installable or copy-ready
+instruction content; notes own surface mechanics and dated caveats; `skills/`
+owns on-demand procedures. Fixed installed filenames such as `CLAUDE.md` and
+`AGENTS.md` remain visible in their sample names where that aids recognition.
 
 ## Partial projection, where a surface already loads another tool's config
 

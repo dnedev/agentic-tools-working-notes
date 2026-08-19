@@ -57,6 +57,10 @@ here. Entries below describe what landed in this copy.
   behavior it names; the ADR sample uses MADR's actual template name. The
   license section now makes clear that linked works remain under their own
   terms.
+- Reworked the harness inventory around agent surfaces while keeping its small
+  file set flat. Samples remain next to their operating notes, and shared
+  procedures remain under `harness/skills/`; vendor nesting and an underscore
+  prefix would add path churn without clarifying ownership at this size.
 
 ## 2026-08-18
 
