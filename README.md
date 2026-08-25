@@ -57,6 +57,12 @@ not represent any employer and do not replace applicable policy or
 mandatory requirements. If anything here conflicts with the rules in
 your environment, follow those rules.
 
+## Acknowledgment
+
+This project builds on work done at Booking.com. With approval from
+Booking.com, it was released as open source, for which the author would
+like to express his gratitude.
+
 ## License
 
 Licensed [CC BY 4.0](LICENSE) — use, adapt, and share, including
