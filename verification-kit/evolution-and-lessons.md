@@ -1,4 +1,4 @@
-# How It Evolved — Milestones and Lessons (Mar–Aug 2026)
+# How It Evolved — Milestones and Lessons (Mar–Sep 2026)
 
 Companion to `README.md`. This is the curated story of how the
 taxonomy and the audit template came to exist — compiled from the
@@ -30,7 +30,11 @@ beat one "God evaluator"; write the evals before the artifact). Rebuild:
 the starter cut ~990 → ~380 tokens by making each rule live in exactly
 one layer; an instruction-budget ceiling (~150–200 distinct rules before
 adherence degrades, arXiv:2507.11538) became a standing design
-constraint. Auditing a sibling project the same week found ~40% of its
+constraint. *(Correction, 2026-10-02: that paper measures keyword-inclusion
+instructions and reports three model-dependent degradation patterns and a
+bias toward earlier instructions; a general ceiling at that size is not
+what it shows. Where a rule sits, and how long a conversation runs, look
+like the nearer risks at this scale.)* Auditing a sibling project the same week found ~40% of its
 instructions duplicated the global layer. *Lessons: duplication across
 layers is a deletion, not an addition — and token budget is attention
 budget.*
@@ -194,6 +198,68 @@ want this" is a sufficient reason to remove one, as long as you record that the
 evidence didn't change — otherwise the removal reads later as a retraction, and
 someone re-derives the rule from the same traces.*
 
+**September 3 — the sequence became the unit of inspection.** A multi-thread
+product-comparison scan exposed a longer form of P14. Individual recommendation
+changes could each look locally plausible while the lead alternated across the
+thread, because the criteria weights were silently rebuilt from the user's
+latest emphasis. That folded into P14 rather than minting a key: the mechanism
+and fix were already there — a priority was silently re-ranked, so pin and echo
+the ranking before the next recommendation and name what moved when the answer
+changes. A separate old-thread specimen exposed the same issue for time: a turn
+order establishes position, not wall-clock timing, so phrases such as "just
+now" or "this afternoon" are generated specifics when no date or timing was
+established. That folded into P1, with positional references as the repair.
+The same pass found confidence footers staying flat or moving without explaining
+what changed in the evidence. The account-level example now asks later footers
+on the same question to state both the move and its cause, and makes explicit
+that an unsupported hedge-to-assertion change in the answer body fails the same
+test. The private corpus has provisional checks for these behaviors; they had
+not been run when this note was written. *Lesson: a turn can look reasonable
+while the sequence is unstable. Inspect what stayed pinned between turns —
+priority, evidence, or time — before treating each answer as an isolated call.*
+
+**September 3 — provenance applied to the rules themselves.** The same source
+reconciliation found that a private taxonomy/history chain described the
+August interlocutor clause as recast into a replacement grammar. The recorded
+decision and installed text instead showed deletion on preference grounds. The
+tracked evolution note had already preserved the deletion accurately; the
+taxonomy now states the distinction explicitly and the private regression case
+is a no-clause watch, not a test of a rule that does not exist. *Lesson: a rule's
+lineage is a factual claim too. Verify it against the installed text or the
+decision record before propagating a neat explanation across artifacts.*
+
+**September 22–28 — the layer under the profile.** Reading the claude.ai
+system context directly, in live sessions, turned up two lines that mattered
+to the account-level profile and appeared only there, not in the published
+copy of the system prompt: one telling the model to treat earlier answers as
+done, and one applying user preferences by default only when they are phrased
+as always-on. A Cowork task carried a different prompt again. The profile
+answered both — earlier answers stay open to correction, and the defaults now
+say they apply in all chats and tasks — but the larger change was to method:
+whether a profile rule is needed is a per-model, per-surface question, so the
+platform layer gets re-read at each release instead of being assumed from the
+published text. *Lesson: you don't control the layer under your instructions,
+and its published copy isn't necessarily the one that runs. Re-read it before
+calling a rule necessary or redundant.*
+
+**September 25 — a control arm took the credit.** The first profile-off
+control arm ran three regression entries through an API harness on one model:
+single turn, five repeats per arm, graded by log checks and a blinded model
+grader with my own review still pending. 15 of 15 runs passed with the
+profile and 15 of 15 without it. That doesn't show the rules are useless; it shows these
+three checks, on this model, can't tell — and none of them has yet produced the
+FAIL that would validate it as a detector. The corpus now calls such passes
+*stack-default* until a control arm reproduces them. *Lesson: a PASS under
+your full stack is not evidence that the stack caused it.*
+
+**September — keep the text, not just the story.** The profile's version
+history had been replacing its installed copy at each install, so the
+outgoing version's verbatim text was overwritten each time; several versions
+had to be reconstructed by reversing recorded edits. The history now keeps
+every installed version's verbatim text beside its rationale. *Lesson: a
+version history without the versions' text is a story about them. Keep the
+text.*
+
 ## The lessons, distilled
 
 1. **One layer per rule.** Duplication across layers is deletion.
@@ -204,18 +270,25 @@ someone re-derives the rule from the same traces.*
 4. **Provided input is the floor, not the ceiling** — for sources,
    options, and first findings alike.
 5. **Version, date, and eval-gate everything.** The version log is
-   where the lessons turned out to live.
+   where the lessons turned out to live — and it needs each installed
+   version's text, not just a description of it.
 
 ## More, learned since
 
 6. **Sharpen before you add.** A new failure that shares an existing
    pattern's mechanism is a broadening, not a new key.
 7. **A check that has never failed may be testing nothing.** Validate
-   your detectors, or retire them.
+   your detectors, or retire them. And a pass under your whole stack may
+   be the model's until a control arm says otherwise.
 8. **A rule that's known and not followed needs a different shape, not a
    louder voice.** Compile the check into an output you already have to
    produce, at the point the decision gets made. An appended "check
    yourself" step arrives after the verdict and gets answered with
    narration.
+9. **Inspect the sequence, not just each turn.** A recommendation can look
+   defensible one change at a time while the full thread oscillates. Keep the
+   decision criteria visible so later movement has a stable reference.
+10. **The layer under yours moves.** Re-read the platform's own prompt at each
+    release before deciding a rule is needed or redundant.
 
-August 2026, sanitized for sharing.
+September 2026, sanitized for sharing.

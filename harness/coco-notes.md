@@ -52,6 +52,10 @@ general gates.
 Under that precondition, a personal CoCo file has no reason to restate the core.
 Doing so would put a second, competing copy of the same rules into always-on
 context, worded slightly differently, which can compete with the existing copy.
+The Desktop instruction-files page also lists `~/.cursor/rules/` for user-level
+`.mdc` files (checked 2026-10-01), so an installed Cursor user rule may load
+there as well. That is an untested reading of the documentation; check what
+actually loads before installing both.
 The personal layer earns its place only where a rule is Snowflake-shaped and
 unowned by any other layer: effective context, tier isolation, result
 completeness, validation stage, and the handoff.
@@ -116,8 +120,9 @@ interactive prompts. The installed CLI's `cortex exec --help` also exposes
 sandbox. A blocked-tool list strengthens a behavioral probe: with file and
 shell tools blocked, the model cannot retrieve markers from disk, so loaded
 context is the only legitimate source and the controls can expose fabricated
-presence. These flags were verified against the installed binary rather than
-inferred from flags not listed on the rendered reference page.
+presence. These flags were verified against the installed binary. As of
+2026-10-01 the reference page lists `--max-turns`, `--cloud`,
+`--allowed-tools`, and `--disallowed-tools`; `--blocked` remains undocumented.
 
 ## Verifying a change to the personal layer
 
@@ -155,7 +160,8 @@ in user scope is a silent instruction in every later session.
 - [Extensibility](https://docs.snowflake.com/en/user-guide/cortex-code/extensibility)
 - [Bundled skills](https://docs.snowflake.com/en/user-guide/cortex-code/bundled-skills)
 
-_Checked 2026-08-19 against the linked documentation and CoCo CLI 1.1.66. The
+_Checked 2026-08-19 against the linked documentation and CoCo CLI 1.1.66;
+documentation rechecked 2026-10-01, later CLI releases not re-probed. The
 CLI observations above came from that release on one machine, with positive and
 negative controls; they are not a claim about behavior after an update. The
 Desktop same-name collision and other CLI instruction patterns remain

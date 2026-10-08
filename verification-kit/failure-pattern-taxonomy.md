@@ -2,7 +2,7 @@
 
 Recurring failure patterns in LLM-assisted work, each with a
 binary FAIL test. Distilled from real failures in the author's own chat
-transcripts (March–August 2026); every pattern has at least one observed
+transcripts (March–September 2026); every pattern has at least one observed
 instance — none are hypothetical. Origin labels below are genericized to
 the domain of the source thread.
 
@@ -44,6 +44,12 @@ P12.** A genuinely mixed trace fires both.
 
 ## Distinctions that keep grading honest
 
+- **P1, temporal specifics:** Turns in a conversation do not by themselves
+  establish wall-clock timing. "This afternoon," "just now," or "a moment
+  ago" about the conversation's own history fires P1 when nothing in the
+  trace established that timing; a positional reference such as "earlier in
+  this conversation" does not. The mechanism and fix are the same as for any
+  other generated date, so this is a sub-entry rather than a new key.
 - **P3 vs P4:** P4 is the distributional subset; every other
   confidence-without-grounding case is P3.
 - **P3 / calibration drift:** P3 also covers confidence that fails to
@@ -83,6 +89,16 @@ P12.** A genuinely mixed trace fires both.
 - **P14 vs P12:** opposite ends of the same axis. P12 anchors on the
   *first* finding and the lead never moves; in P14 the lead *does* move —
   to the *latest* option.
+- **P14, oscillation form:** A longer comparison can alternate rather than
+  reverse once. If criteria weights are never pinned, each follow-up can
+  silently reweight toward the latest emphasis and move the lead back and
+  forth without any single swap looking obviously wrong. This folds into P14
+  because the failure and fix are unchanged — a priority is silently
+  re-ranked. Pin and echo the ranking before recommending, or ask for a
+  ranking where none was given; any later move names which axis changed and
+  what it costs. In the source scan, perceived reassertion was this structural
+  oscillation; it did not establish a clean case of a retracted fact being
+  repeated verbatim.
 - **P14 vs P6:** P6 anchors on the *user's* frame; P14 is the model's
   *own* pick drifting across turns.
 - **P15 vs P6:** P6 anchors on a frame the user *did* assert; P15 asserts
@@ -94,6 +110,15 @@ P12.** A genuinely mixed trace fires both.
   ("you clearly already know this") fires P15 as readily as a critical
   one — just as unfalsifiable, just as unsourced. Keep the analysis on
   the subject; quote the user's words or ask.
+- **P15 stays a grading key without a standing rule:** the related
+  account-level clause was removed on preference grounds in August; it was
+  not recast into a replacement characterization rule. The evidence for the
+  pattern did not change. Its regression case therefore watches the model
+  default without the clause, and a failure is evidence for reconsideration
+  rather than a regression against an installed fix. Part of that fix now
+  sits in the platform's own prompt, and which part depends on the model
+  (read 2026-09-22), so a model-default pass on the watch holds per model
+  and per platform-prompt revision.
 - **Co-firing is normal.** One real failure can fire several patterns;
   tag the most upstream as primary.
 - **Omissions aren't keyed.** Every pattern here is a *commission* — it
@@ -102,6 +127,34 @@ P12.** A genuinely mixed trace fires both.
   caught by the audit template's open-discovery pass, not by a key here.
   Minting an omission key would need a deliberately different,
   counterfactual test — don't add one casually.
+- **Coverage has a ceiling.** Every key here was minted from an audited
+  trace, so this doc cannot contain a failure that has not yet occurred in
+  one, nor one that occurred and went undetected. The complement runs
+  top-down, outside this repository: check an external checklist against
+  the installed instructions and record, per item, whether it is handled,
+  partial, absent, or out of scope, and whether it is detectable. The
+  first such pass, against a cross-field survey of analytic safeguards,
+  found the largest gaps to be comparative-only and omission failures —
+  neither is key-shaped. The pass has its own falsifier: if two runs
+  against real external checklists find nothing the bottom-up instruments
+  hadn't, retire it.
+- **Comparative-only failures are paired entries, not keys.** Sycophancy
+  toward a stated leaning, candidate-order and paraphrase sensitivity,
+  and confidence-grade inconsistency across equivalent inputs are real,
+  documented, and invisible to single-trace grading by construction. A
+  key needs a span, and these have none in any one trace; the regression
+  corpus grades them as paired entries (see `regression-corpus-method.md`).
+- **External canons map onto what's already here.** From the same survey:
+  a quality-of-information check maps to P8 plus the profile's tier and
+  join rules; an inconsistencies finder to its source-disagreement rule;
+  deception detection to its untrusted-input rule, with injected
+  product-page content as the current form; structured self-critique to
+  the audit template; and a key-assumptions check to P6 for the user's
+  premises only — your own unstated assumptions are an omission and
+  belong to the template's open-discovery pass. Analysis of competing
+  hypotheses is deliberately not mapped: the controlled evidence is
+  negative (Karvetski, Mandel & Irwin 2020; Wilcox & Mandel 2024), so
+  don't mint a key or rule shaped like it.
 - **Watch — not yet a key: asymmetric scrutiny.** Nothing here grades
   whether a comparison applied the *same* test to every candidate —
   scrutinizing one option harder than its rivals. Seen once so far; left
@@ -139,10 +192,21 @@ distinct test, a distinct fix, and clean tie-breaks against every
 neighbour, after it recurred across two independent traces. A candidate
 needs all of that before it earns a key; when in doubt, fold.
 
-v1.5 (August 2026), sanitized for sharing.
-Changes since v1.4: a source-overlap watch item added at label grain — a
-candidate key, not a mint. No pattern was added, renamed, or retired, and
-the table is unchanged.
+v1.8 (September 2026), sanitized for sharing.
+Changes since v1.6: v1.7 records the method's coverage ceiling and its
+top-down complement, names comparative-only failures as paired-entry
+material rather than keys, and maps external analytic canons onto existing
+keys and rules while declining a competing-hypotheses key; v1.8 notes that
+part of P15's fix now sits in the platform layer, model by model. No pattern
+was added, renamed, or retired, and the table is unchanged.
+Changes in v1.6 relative to v1.5: P1 gains a temporal sub-entry; P14's recurring
+oscillation form is folded in without a new key; and P15's instruction-history
+note records that its related account-level clause remains removed by
+preference. No pattern was added, renamed, or retired, and the table is
+unchanged.
+Changes in v1.5 relative to v1.4: a source-overlap watch item added at label
+grain — a candidate key, not a mint. No pattern was added, renamed, or
+retired, and the table is unchanged.
 Changes since v1.3: P2 extended to a third object — provenance (a false
 self-retraction read off absent-looking tool output); P15 added
 (interlocutor-state adjudication); coverage notes added for omissions and

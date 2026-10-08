@@ -51,19 +51,21 @@ an outcome.
 - The remaining run was discarded because it reused the origin trace's phrasing
   and tested recall rather than the fix. That entry remains open.
 
-The limits matter: there was no config-off control arm, so the green results are
-a no-regression gate and not proof that the instructions caused the passes; one
+The limits matter: there was no config-off control arm (a first one ran in
+September; see the evolution notes), so the green results are a no-regression
+gate and not proof that the instructions caused the passes; one
 entry was graded from a partial read of the response; and several patterns
 still have no regression entry. The useful result is not the score. The loop
 changed a decision and caught itself grading a result that did not count.
 
-## Try it in ten minutes
+## Try it on one conversation
 
 1. Take a recent substantive LLM conversation — research, a comparison,
    a recommendation you acted on.
-2. Paste the self-audit template at the end (or, better, into a fresh
-   chat with the transcript attached — a model grades its own thread
-   more gently than a clean session does).
+2. Paste the [self-audit template](trace-self-audit-template.md#paste-ready-template-copy-everything-in-the-block)
+   at the end (or, better, into a fresh chat with the transcript attached — a
+   model grades its own thread more gently than a clean session does). Use a
+   surface that transcript is allowed to reach.
 3. Read the findings. If one stings, write the one-line rule that would
    have prevented it, and put it where the routing says it belongs.
 

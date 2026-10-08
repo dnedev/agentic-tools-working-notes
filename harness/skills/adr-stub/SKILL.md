@@ -22,19 +22,20 @@ only the **format**, so there is one copy to change instead of one per layer.
 ## ADR: [Title]
 Status: Proposed | Accepted | Deprecated | Superseded by <ADR>
 Date: YYYY-MM-DD
+Decided by: who decided (optional)
 Context: why needed
 Decision: what was chosen
 Alternatives: what was considered
 Consequences: impact and trade-offs
 ```
 
-Nothing here is invented, though one line is adapted rather than adopted.
+Nothing here is invented, though two lines are adapted rather than adopted.
 `Title`, `Context`, `Decision`, `Status`, and `Consequences` are Nygard's five
 original sections — including the `Status` treatment that carries deprecated
 and superseded along with a pointer to the replacement. His template has no
 date field: `Date` comes from MADR, whose 4.0.0 `adr-template.md` and
 `adr-template-bare.md` carry an optional `date` while the minimal variants
-don't. `Alternatives` is the adaptation — a one-line shortening of MADR's
+don't. `Alternatives` is one adaptation — a one-line shortening of MADR's
 `Considered Options`, not a field either source spells that way.
 
 These fields earn their place because they are what turns a directory of ADRs
@@ -42,10 +43,11 @@ into a series you can read backwards: without a status you can't tell a live
 decision from a dead one, and without a supersession link the dead one keeps
 arguing with you.
 
-MADR also offers `decision-makers` and `Decision Drivers`. Both are omitted
-above — `decision-makers` adds little for solo or small-team work, and
-`Decision Drivers` overlaps `Context` closely enough to invite writing the same
-thing twice. Reinstate either if your situation actually differs.
+MADR also offers `decision-makers` and `Decision Drivers`. `Decided by` is an
+optional, renamed `decision-makers`: it adds little when one person both
+proposes and decides, but earns its line when an agent proposes and a person
+decides, because who decided is then the point. `Decision Drivers` stays out; it
+overlaps `Context` closely enough to invite writing the same thing twice.
 
 Sources — Nygard's original article, and MADR's tagged 4.0.0 release:
 <https://www.cognitect.com/blog/2011/11/15/documenting-architecture-decisions>
@@ -90,8 +92,10 @@ later.
 
 ---
 
-Sanitized for sharing — last revised 2026-08-07, adding `Status`, `Date`, and
+Sanitized for sharing — revised 2026-08-07, adding `Status`, `Date`, and
 the supersession reference after checking this format against the Nygard and
 MADR conventions, and restating the length limit as a prohibition on narrative
 sections rather than a line count. Installed and load-tested under both Claude
-Code and Codex; not yet exercised on a substantive real ADR.
+Code and Codex; not yet exercised on a substantive real ADR. An optional
+`Decided by` field (a renamed MADR `decision-makers`) was added 2026-09-25; it
+has not been load-tested or used on a real decision.

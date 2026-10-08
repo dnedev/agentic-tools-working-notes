@@ -8,13 +8,283 @@ Updated when a convention changes or the repo changes shape, not on every
 edit.
 
 Two omissions are deliberate. There is no version number: this is not
-released software, and the only versioned things in it are the
-verification-kit instruments, which carry their own version lines. And
-there is no pattern count anywhere below — the taxonomy table is the only
-place one lives, for the reason recorded under 2026-08-05.
+released software, while individual instruments and candidate contracts carry
+their own version lines. And there is no pattern count anywhere below — the
+taxonomy table is the only place one lives, for the reason recorded under
+2026-08-05.
 
-The taxonomy and the audit template are maintained elsewhere and copied
-here. Entries below describe what landed in this copy.
+The taxonomy and the audit template are maintained in the claude.ai project
+and ported here. Entries below describe what landed in this copy.
+
+## 2026-10-08
+
+- Reordered the entry points by what a reader came for, after a friend called
+  the notes "too much framework" and said a few readers didn't run most of it.
+  Simulated cold reads by three reader personas, and a structure map, found
+  the usable parts behind about forty lines of caveats, method, and a
+  directory listing, every
+  sample two clicks from the README, and an agent file written only for
+  maintainers. The README now opens with a short intro that carries the
+  caveats, then a **Start here** table of separate entry points: the task
+  brief, a hand-off prompt for the reader's own agent, review, recovery, the
+  audit prompt's paste block, the coding-agent samples, the other tools'
+  samples, the workflow, and passing the notes on.
+  Where the notes came from, the method, and its evidence follow, and the full
+  disclaimer moved into Scope rather than being cut. The samples and the
+  method are now described as two halves of the same work rather than the
+  samples as supporting artifacts. The [harness index](harness/README.md)
+  leads with a table of samples by tool; its background essays follow the
+  catalog, grouped under one heading and otherwise unchanged. The kit's quick
+  start is now "Try it on one conversation", because a simulated cold reader
+  found "ten minutes" oversold for the
+  length of the paste block. No file moved, and no instrument changed.
+- [AGENTS.md](AGENTS.md) now opens with a short section for an agent that
+  someone points at these notes to use them. Every maintainer rule stays in
+  the same auto-loaded file under "Editing this repository", unchanged apart
+  from its heading level and the section's opening lines ("Applicable
+  guidance" moved up beside the new section, since it applies to both),
+  because that is where an editing agent sees the propagation rule; the
+  taxonomy's amendment note alone didn't stop count drift. The cost is that
+  an agent only using the notes loads those rules too, and the file, already
+  past the under-200-lines target in Claude Code's
+  [memory documentation](https://code.claude.com/docs/en/memory) (checked
+  2026-10-08), grows further. The CLAUDE.md sentinel names the new sections.
+- Added a [hand-off prompt](README.md#hand-it-to-an-agent) for a reader who'd
+  rather point their own agent at the notes and ask what's useful. Its limits
+  sit in the reader's message rather than only in this repository: an agent
+  that reads the repository from a link doesn't load `AGENTS.md`, and a
+  repository shouldn't be what tells someone's agent how careful to be with
+  it. "Using these notes" now has an agent read a sample's header and the
+  reasons for its rules before proposing them, ask for the person's setup when
+  it can't see it, and keep its changes out of this repository. The audit
+  routes now say to run it on a surface the transcript is allowed to reach.
+  The sharing row now says to pass on the link; the sharing checklist is for
+  an adapted copy. Before this change, one simulated agent given the same ask without
+  this repository's instructions loaded found "Using these notes" on its own,
+  kept the n=1 limits, and proposed single rules rather than whole files: one
+  run, not a test.
+
+## 2026-10-02
+
+- Ported the claude.ai project's September work. The taxonomy moves to v1.8:
+  a coverage ceiling, comparative-only failures as paired entries, a map of
+  external canons that declines a competing-hypotheses key, and P15's
+  platform-layer note. No key changed, so Part B is unchanged. The corpus
+  method gains conventions for paired entries and for stack-default versus
+  model-default passes, and its limits note the first control arm. The
+  evolution notes gain three September entries, with their lessons mostly
+  folded into the existing list, and a correction to an April paraphrase of
+  an instruction-count paper. The profile copy sheet completes the
+  2026-10-01 refresh with the two deletions that had been held for
+  confirmation.
+- Replaced the untrusted-input line in every sample with one shared wording,
+  after Anthropic's current prompting note and OpenAI's Model Spec: content I
+  didn't write is data, followed only as far as my own words point, with a
+  check before consequential or outbound actions. The coding and chat
+  samples each add one surface-specific line. The workflow now says that
+  instruction lines are one layer, and that private data, untrusted content,
+  and outbound channels shouldn't all be on in one session.
+- Added a parameterized
+  [project-instructions copy sheet](harness/claude-ai-project-instructions.example.md)
+  and checked mechanics to the [claude.ai notes](harness/claude-ai-notes.md).
+- Added two limits to the [corpus method](verification-kit/regression-corpus-method.md):
+  its checks run only in fresh sessions, so long-thread drift goes unmeasured,
+  and passing checks grade process, not whether the answer was right.
+- Named the claude.ai project in AGENTS.md as the instrument source: a fifth
+  place that feeds staging through reviewed packages. Replaced "apply
+  verbatim" with porting each change as a sanitized semantic delta, which is
+  what the copies had already been doing.
+
+## 2026-10-01
+
+- Changed how releases flow. Staging `main` is now the editing home for the
+  shareable notes and keeps full history; the public repository receives one
+  squashed snapshot per release through a staging `public` branch, built from
+  `main` minus `.publish-exclude`. Work that starts in the private source
+  arrives as a sanitized, gated extraction, and staging changes go back as a
+  reviewed handoff that the receiving agent adapts rather than applies
+  blindly. Published commits use the GitHub noreply address, and anything
+  citing these notes pins a public release commit. [AGENTS.md](AGENTS.md) holds
+  the rules and the
+  [sharing checklist](harness/sharing-and-release.md#publishing-a-release) the
+  commands. The roadmap and research plan stay in staging and are left out of
+  public releases.
+- Revised the Claude Code sample's Agents and delegation section from the
+  author's live configuration: critique through a pinned `critic` on a
+  top-tier model chosen per task, explicit models for unpinned subagents, no
+  forks for independent checks, read-only helpers that keep Bash behind an
+  allowlist hook, and the host's built-in review command as the default review
+  route. These remain unmeasured personal defaults.
+- Moved the delegation and review measurement candidates (design only) out of
+  the archived backlog into the live
+  [measurement candidates](harness/evaluations/measurement-candidates.md). Their
+  partial probes are recorded in the Claude Code and OpenAI notes; in one Codex
+  probe, a child's requested read-only sandbox did not hold while its parent
+  could write.
+- Acted on a pre-publication review. The evidence status gained a key to its
+  run labels and now holds the R1 and R1P figures; the coding samples'
+  task-scale paragraph and the task brief use plainer words; the spec-driven
+  skill's test-first step became a regular instruction; and the September
+  entries below were compressed to changes in shape, leaving run figures to
+  the evidence status and source intake.
+- Rechecked the surface notes against current documentation: Cowork's move
+  into the new Claude experience and the October 6 cloud-only change for new
+  Pro and Max tasks, default-on claude.ai memory, custom GPTs moving to
+  plugins, Cursor's renamed rule settings and hook failure behavior, newly
+  documented CoCo CLI flags, and redirected or dead links. Refreshed the
+  claude.ai profile copy sheet from the current live profile.
+
+## 2026-09-25
+
+- Consolidated the notes for daily use after a read-only once-over review (a
+  review, not an experiment). The
+  [everyday guide](harness/agentic-development-adoption.md) became the daily
+  page — the task brief, reviewing and merging the result, recovering a
+  session that goes sideways, and optional setup — and the README separates
+  "Today" from "When you are changing how you work".
+- Moved the evidence record out of the archive to
+  [harness/evidence-status.md](harness/evidence-status.md), because the
+  guidance links to it, and corrected it in place where a pre-commit review
+  found errors (R0A-B-02 invalid, unrun R0A conditions, the R0C baseline), with
+  dated amendment notes in frozen files. Moved the role contracts under
+  `harness/evaluations/roles/` and archived the retired R0A to R0D
+  fixture/grader pairs; R1 and R5 are held privately.
+- Reworked the workflow's discovery section into a discovery ladder with tool
+  use: route verification, host-enforced read-only access, sampled IDE reads,
+  and narrow queries, drawn from R2. Replaced the model/effort table with
+  capability classes and added a short incident lane. The Claude Code and
+  OpenAI notes gained MCP status and allowlist mechanics, and the Cowork notes
+  were corrected, against current documentation.
+- Shortened the task-scale paragraph to three sentences, identical across the
+  three coding samples, and added an unexercised test-first proposal to the
+  spec-driven skill. adr-stub gained an optional Decided by field; the Claude
+  Code notes describe a tool-less loading check and the parent `CLAUDE.md` gap
+  it found; and this repository's import sentinel no longer depends on the
+  import's position.
+- Prepared the tracked tree for a reviewed public snapshot: generalized
+  catalog, distribution, and baseline wording, and held the R1 operator
+  templates and the unrun R5 fixture privately.
+
+## 2026-09-24
+
+- Archived the roadmap and research plan, lightly revised, and replaced the
+  next execution plan with a shorter
+  [research backlog](archive/2026-09-agentic-development/research-backlog.md).
+  Added the revision spec and evidence reconciliation, and ignored `_output/`
+  for private drafts and handoffs. Archived pending work remains pending.
+- Added a small [working core](harness/working-principles.md) and an everyday
+  adoption path with previews for Codex, Claude Code, and Cowork, keeping
+  personal samples, contributor guidance, on-demand procedures, and
+  experiments in separate scopes. Projected a compact task-scale and
+  delegation paragraph into the Codex, Claude Code, and Cursor samples, and
+  rewrote the Claude Code notes against current documentation, withdrawing the
+  earlier per-item fan-out and client-age update advice.
+- Extended the workflow through handoff, authorized release, operational
+  observation, failure and recovery, and feedback into intent, with one
+  sufficient worker packet that counts approvals and whole-task review cost.
+  These remain working choices, not a validated productivity package.
+- Reconciled the evidence: R1's delegated treatment stays invalid, R1P stays
+  marker-only, the P0 fan-out record cannot rank models, R2's IDE result used
+  text and file operations only, and model/effort tuning (C4) was not
+  completed. Retired prompt treatments were not promoted. Aligned the candidate
+  role contracts and added run-record fields for repetitions, frozen
+  registration, grader independence, approvals, and later defects.
+- Removed private subject names, private-history references, and
+  source-specific grader answers from shareable evaluation material; no
+  historical result was regraded. Added a two-audience
+  [sharing checklist](harness/sharing-and-release.md). The verification-kit
+  instruments and installed skills were unchanged.
+
+## 2026-09-04
+
+- Ran the first frozen comparisons; outcomes and figures are in the
+  [evidence status](harness/evidence-status.md) and
+  [source intake](harness/evaluations/source-intake-and-overlap.md). In short:
+  R0A's guided treatment improved decision coverage but violated prerequisite
+  order, and its stricter rewrite was an invalid run; R0B's prototype treatment
+  added no direct evidence; R0C's decomposition treatment failed, and R0D's
+  graph representation failed its schema; R3's two-ledger review made per-axis
+  status visible but misplaced a critical risk; R2's IDE route repaired a
+  completeness miss at about twice the exposed tokens; R1's forked explorer was
+  invalid; and the R1P marker preflight passed. No prompt-only procedure was
+  promoted to an installed skill, and no index or role was installed.
+- Froze R5, a source-only Terraform assessment comparing the generic review
+  contract with one independently worded overlay. It has not run.
+- Held automatic fan-out: one delegate first, after a fresh-packet, zero-tool
+  role preflight, instead of the earlier "two or three delegates" heuristic. A
+  retrospective broad research fan-out produced useful evidence but was
+  retired by operator judgment; it had no predeclared cost ceiling and cannot
+  rank models.
+- Materialized vendor-neutral v1 role contracts for the
+  [owner](harness/evaluations/roles/owner.md),
+  [explorer](harness/evaluations/roles/explorer.md),
+  [reviewer](harness/evaluations/roles/reviewer.md), and
+  [classifier](harness/evaluations/roles/classifier.md) as evaluation
+  candidates, and revised the owner and explorer contracts to capture context
+  mode, role identity, and actual tool and effect compliance. A role label or a
+  clean final tree is no longer treated as proof that a worker stayed
+  read-only.
+- Versioned the R0A fixture after invalid baselines exposed an objective-stop
+  gap and profile contamination, and split the model-capability and
+  reasoning-effort experiments so each run changes one variable. Persistent
+  context, evidence volume, tool turns, synthesis, and review are explicit
+  whole-task cost terms; model tier alone is not the main cost control.
+
+## 2026-09-03
+
+- Accepted the
+  [selective-derivation decision](harness/decisions/0001-selective-skill-derivation.md):
+  keep neutral contracts, derive only mechanisms that beat an existing
+  baseline on a frozen local comparison, preserve license and provenance, and
+  behavior-test host-native projections. Acceptance authorizes the structure,
+  not any individual skill.
+- Added the first
+  [source-intake and overlap record](harness/evaluations/source-intake-and-overlap.md),
+  a [run-record contract](harness/evaluations/run-record-template.md), and
+  frozen R0A, R0B, and R1 fixture/grader pairs. They pin the reviewed public
+  revisions and licenses and predeclare safety, quality, cost, cleanup, and
+  keep/change/retire rules before any run. The run record stays a Markdown
+  contract; a machine schema is deferred unless the manual instrument earns
+  it. No skill or collection was installed.
+- Promoted guided discovery and question-driven prototyping to explicit
+  workflow lanes, separating requirements ambiguity from solution
+  uncertainty. Spec Kit, Superpowers, gstack, and BMAD are comparison sources;
+  their broader bundles and side-effect assumptions are not adopted.
+- Added a research and execution plan (archived; not in public releases) that
+  extends the program across application code, infrastructure, data, semantic
+  models, incidents, and research, and separates portable role contracts from
+  host-native projections. Machine state, internal sources, exact model IDs,
+  and the detailed claim register stay in ignored private files.
+- Synced the [failure-pattern taxonomy](verification-kit/failure-pattern-taxonomy.md)
+  to its September v1.6 semantics. P1 now makes explicit that unsupported
+  wall-clock language about a conversation's own history is a generated
+  specific; P14 covers the repeated oscillation caused by silently reweighted
+  criteria; and the P15 note records that its related account-level clause was
+  removed by preference rather than recast. The key set did not change, so the
+  audit template's Part B sweep remains unchanged.
+- Refreshed the
+  [claude.ai profile copy sheet](harness/claude-ai-profile-instructions.example.md)
+  from the September source snapshot: positional references when prior-turn
+  timing is not established, verification-tracking in the answer body as well
+  as the footer, and later footers that state a confidence move and its cause.
+  Raw registry, profile lineage, and private regression-corpus inputs stayed
+  ignored; none of their identifiers entered the tracked files.
+
+## 2026-09-01
+
+- Added a master roadmap (archived; not in public releases) above the task
+  workflow, and a cross-surface
+  [agentic-development workflow pilot](harness/agentic-development-workflow.md)
+  for choosing a direct, disposable-prototype, or spec-driven lane, routing
+  model capability and effort, and deciding when read-heavy fan-out is worth
+  its review cost.
+- Kept the note figure-free and policy-neutral, and added an adoption gate for
+  another code index or MCP integration: approval, a distinct capability
+  demonstrated against the existing discovery ladder, maintenance ownership,
+  and a reversible disable path.
+- Recorded the external sources as influences rather than validation: Codex
+  subagent guidance, Matt Pocock's public skills collection, and Anthropic's
+  AI-native SDLC playbook.
 
 ## 2026-08-19
 

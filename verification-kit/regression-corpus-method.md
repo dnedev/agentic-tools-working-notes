@@ -10,7 +10,9 @@ my actual entries. They're distilled from personal transcripts and would
 be useless to you anyway; the shape is the transferable part.
 
 Everything below is manual. No automation, no CI. A run is a handful of
-fresh chats and a markdown table, and it has still changed decisions.
+fresh chats and a markdown table, and it has still changed decisions. (The
+first control arm, in September, went through a small API harness instead;
+nothing here requires one.)
 
 ## Why bother
 
@@ -114,6 +116,34 @@ produced a result I later had to throw away.
    exact wording later, go back to the origin session and ask for it. Such
    an entry is still valid — it just sits a tier lower on provenance, and
    the run log should be able to say which entries those are.
+9. **Paired (metamorphic) entries.** Some failures leave no span in any
+   single trace: sycophancy toward a stated leaning, order or paraphrase
+   sensitivity, a confidence grade that drifts between equivalent inputs,
+   a counter-case that appears only under one framing. Grade these as a
+   *relation between two responses*: two triggers that differ by exactly
+   one stated transformation, run in **separate fresh sessions**, with a
+   check of type **INV** (the output must not change) or **DIR** (it must
+   change in a stated direction). Name the type in the entry. Keep both
+   triggers natural-task-shaped and never let one mention the other:
+   evaluation awareness is documented for some current models, and a bare
+   A/B pair reads as a test. Have a person confirm the pair's equivalence
+   before recording a FAIL, because natural-language transformations
+   drift and a drifted pair produces a false FAIL. Grade with a span or
+   structural comparison rather than an LLM judge, whose verdicts can
+   shift across random seeds (Schroeder & Wood-Doughty 2024). A
+   single-arm entry becomes a pair by adding one transformation — decisive
+   evidence added to a recommendation-reversal entry (DIR), say, or one
+   more hard constraint added to a constraint-dropping entry.
+10. **Stack-default until a control arm says otherwise.** A PASS observed
+    with the installed profile and project instructions is
+    *stack-default*; it becomes *model-default* only when a profile-off
+    arm reproduces it. Convention 4 applies to rubrics as well as entries:
+    a check that has never returned a FAIL is unvalidated as a detector,
+    however many PASSes it holds. And a technique imported from an
+    external canon arrives with its entry already minted, or it does not
+    arrive: a prominent structured analytic technique tested negative
+    under controlled conditions (see the taxonomy's note on external
+    canons).
 
 Conventions 4 and 5 both came from the same run. An entry passed cleanly,
 and the response did everything the check asked for — searched first,
@@ -157,14 +187,33 @@ failure the taxonomy's P1 is about, committed against your own notes.
   at the instruction layer.
 - **A green board is a no-regression gate, not proof of lift.** Without a
   config-off control arm, a passing run can't separate your instruction
-  layer from the model's own improvement. Running that arm on two entries
-  is cheap and I keep not doing it — stated here so the omission is
-  visible rather than implied.
+  layer from the model's own improvement. The first such arm ran in
+  September 2026 on three entries and one model: every PASS reproduced
+  without the profile, so those passes were the model's (convention 10).
+  It was graded by log checks and a blinded model grader, with my own
+  review still pending, so it is provisional.
 - **Model upgrades don't retire your rules uniformly.** A new model can
   fix one failure class while regressing another, which means the honest
   response to a release is a per-pattern re-triage, not a wholesale "the
   model handles this now." Vendor release notes and system cards are
   useful evidence here, and they are the *vendor's* evidence — your corpus
   is how you check it against your own usage.
+- **Fresh sessions only.** Every check runs its trigger in a new session,
+  so the corpus can't see what happens deep in a long thread. A large
+  simulation study found models doing markedly worse when a task unfolds
+  over several turns than when it arrives in one, mostly by becoming less
+  reliable (Laban et al. 2025, arXiv:2505.06120). That study measured task
+  performance, not standing instructions, but whether those slip the same
+  way is exactly what this corpus doesn't measure. A check that plants an
+  instruction early and looks for it many turns later would be the next
+  kind of entry to add.
+- **Passing checks don't show the answer was right.** Every check here
+  grades process — did it search, ledger, hedge, cite — not whether the
+  final answer turned out to be correct. That needs outcomes: log each
+  answer's confidence rung, record later whether the answer held, and test
+  whether higher rungs turn out wrong less often than lower ones. Use a
+  rank test, because the rungs are ordinal evidence grades, not
+  probabilities. I keep such a register privately; it has no resolved
+  items yet.
 
-August 2026, sanitized for sharing.
+October 2026, sanitized for sharing.

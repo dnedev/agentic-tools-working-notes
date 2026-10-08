@@ -32,9 +32,11 @@ onto them directly:
   (which plans gate projects is a look-it-up — see the footer). This is
   **[B] project-level**: context and requirements
   for one kind of work. A project also carries **Project Knowledge** —
-  files the chats in it can read.
-- **Styles / Skills** — customize how responses are formatted and
-  delivered, and (skills) add task capabilities. Keep *behavior* rules out
+  files the chats in it can read. One example sits in the
+  [project-instructions copy sheet](claude-ai-project-instructions.example.md).
+- **Skills (and styles, where still shown)** — customize how responses are
+  formatted and delivered, and (skills) add task capabilities. The
+  personalization article checked 2026-10-01 lists skills and no styles. Keep *behavior* rules out
   of the style layer; a tone preset that quietly carries enforcement is
   the mistake the evolution notes call out
   ([evolution-and-lessons.md](../verification-kit/evolution-and-lessons.md),
@@ -59,7 +61,8 @@ uses the native primitives:
   explicitly tells the auditor to ignore any project instructions attached
   to the thread. The taxonomy and template are then the *rubric*, read
   from Knowledge rather than from memory.
-- **Grade in a fresh chat, not at the tail of the thread that failed.**
+- **Grade in a fresh chat with Memory off, not at the tail of the
+  thread that failed.**
   Start a new conversation in the audit project and paste in the
   transcript to be graded, then the template. A clean session is the
   closest thing this surface has to an independent reviewer; the model
@@ -69,8 +72,9 @@ uses the native primitives:
   Self-preference bias is worst when a model grades its own output, so a
   same-model tail audit is the weakest configuration, not the default.
 - **The auditor can't see the trace's original context.** A fresh chat is
-  not handed the source session's model, instruction layers, or date —
-  cross-chat retrieval is by paste/excerpt, not automatic. That is exactly
+  not handed the source session's model, instruction layers, or date, though
+  memory, on by default for Free, Pro, and Max plans, can carry other context
+  in (checked 2026-10-01); turn it off for the audit chat. That is exactly
   why the template opens with a RECORD block: you supply the trace's model,
   the instruction versions in force *during* the trace, and its date by
   hand, or mark them "unrecorded" rather than inferring.
@@ -114,13 +118,49 @@ already written up in
 ## Where the current specifics live (look them up)
 
 - Help center (features, plans, settings): `support.claude.com`
-- Product & developer docs: `docs.claude.com`
+- Product & developer docs: `platform.claude.com/docs` (`docs.claude.com`
+  redirects there, checked 2026-10-01)
 - Things that rot and should be re-checked, never cached here: which plans
   gate Projects and project instructions; the current model lineup and
   per-model context window; whether styles or skills is the live
   tone/format surface; per-model behavioral priors (these age in months —
   the [kit's drift caveat](../verification-kit/README.md) applies).
 
+## Cowork and tasks
+
+On Pro and Max plans in the new Claude experience, any conversation can now do
+what Cowork does; Team and Enterprise keep Cowork separate for now (checked
+2026-10-01). These chat/profile notes do not establish task execution or
+instruction mechanics. Use the [Cowork notes](cowork-notes.md) and its scoped
+copy sheet for artifact work. The global instructions field is shared in the
+new experience, and projects work in every conversation, so do not paste two
+competing global instruction sets or fork a task-only copy of a project's
+instructions. The Cowork notes carry the dated primary-source check.
+
+## Checking what actually reaches the model
+
+- **The platform prompt is a layer you don't control.** Anthropic publishes
+  the claude.ai system prompt per model in its
+  [release notes](https://platform.claude.com/docs/en/release-notes/system-prompts/overview),
+  but live sessions read on 2026-09-22 and 2026-09-23 carried lines the
+  published copy lacked, and a Cowork task's prompt differed again. Read the
+  published copy at each release and confirm in a live session before
+  deciding a profile rule is needed or redundant.
+- **Make installs checkable.** A short stamp line in each installed
+  artifact, such as a version or date the model can quote, lets a fresh
+  session confirm what actually reached it; that is how the profile was
+  confirmed to reach Cowork tasks (observed 2026-09-23 and 2026-09-28).
+- **Chat search has edges.** Past-chat search is a "Search and reference
+  chats" toggle in settings, and inside a project it searches only that
+  project's conversations (checked 2026-10-02). It was not available inside
+  one cloud Cowork task (observed 2026-09-29), so keep version texts in
+  project knowledge rather than relying on search to find them.
+- **A GitHub repository in a project is a snapshot.** You select files and
+  folders from one branch; it refreshes only when you press Sync now, and no
+  commit history or pull requests come with it (checked 2026-10-02).
+
 _Principles current as of 2026-08-05; feature names verified against the
 Claude help center articles on Projects and personalization (last modified
-July 2026). The figures are intentionally elsewhere._
+July 2026), with memory, styles, and the docs host rechecked 2026-10-01. The
+last two sections carry their own dates: "checked" marks a help-center check
+on that date, and "observed" marks the author's own sessions. The figures are intentionally elsewhere._

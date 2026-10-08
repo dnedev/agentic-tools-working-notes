@@ -1,15 +1,17 @@
 # Project instructions
 
-<!-- Claude Code's current documentation says it reads CLAUDE.md rather than
-     AGENTS.md natively and prescribes this import adapter:
-     https://code.claude.com/docs/en/memory#agentsmd. Keep the import until the
-     official documentation says otherwise. -->
+<!-- Checked 2026-10-01: Claude Code documents conditional native AGENTS.md
+     discovery at https://code.claude.com/docs/en/memory#agents-md. Retain this
+     explicit import adapter so this repository's canonical instructions do
+     not depend on that conditional discovery path. -->
 
 @AGENTS.md
 
-> **Import sentinel.** If you don't see project-specific rules (the Propagation
-> rule, the "instruments are canonical" rule, the epistemic-register directive)
-> below this point, the `@AGENTS.md` import may have failed silently — read
+> **Import sentinel.** If your context doesn't contain the `AGENTS.md`
+> sections "Using these notes" and "Editing this repository", with
+> "Preserve the epistemic register — the prime directive", "Propagation — the
+> one thing to get right", and "The instruments are ported derivatives" under
+> the second, the `@AGENTS.md` import may have failed silently — read
 > `AGENTS.md` directly before proceeding.
 
 Project instructions live in `AGENTS.md` (read by Codex, Cursor, Copilot, and other

@@ -24,7 +24,8 @@ Cursor has several instruction sources with different jobs:
 - **Project rules** under `.cursor/rules/` carry version-controlled,
   repository-specific guidance and can be always-on, file-scoped,
   relevance-selected, or manual.
-- **User rules** in Cursor Settings carry account-synced preferences.
+- **User rules** set under Customize → Rules carry account-synced
+  preferences (some help text still says Cursor Settings; checked 2026-10-01).
   User-rule files under `~/.cursor/rules/` are machine-local instead.
 - **`AGENTS.md`** is the portable project baseline. Nested copies combine with
   their parents, with more-specific instructions taking precedence.
@@ -46,8 +47,8 @@ extension. It already carries `alwaysApply: true`, which makes it part of every
 Agent conversation. Rule names do not create precedence; use a descriptive
 filename for people, not to imply an ordering Cursor does not provide.
 
-Files in `~/.cursor/rules/` stay on the machine and do not sync. Cursor Settings
-user rules do sync with the account but are not ordinary version-controlled
+Files in `~/.cursor/rules/` stay on the machine and do not sync. Account user
+rules (Customize → Rules) do sync with the account but are not ordinary version-controlled
 files. A dotfile manager can make the file-based option reproducible, but that
 is a maintenance choice rather than a prompt-quality guarantee.
 
@@ -57,7 +58,8 @@ file that is not selected can fail by omission rather than by an obvious error.
 ## Cross-tool prompt architecture
 
 At project scope, keep portable facts and conventions in `AGENTS.md`; use a
-thin `CLAUDE.md` import adapter until Claude Code reads `AGENTS.md` natively;
+thin `CLAUDE.md` import adapter so the canonical file does not depend on
+Claude Code's conditional native `AGENTS.md` discovery;
 add Cursor project rules only for Cursor-specific scoping or behavior.
 
 There is no equivalent portable user-global file across Claude Code, Codex, and
@@ -78,8 +80,9 @@ controls into hooks or settings.
 
 A prose rule requests behavior; it does not enforce it. Cursor's global ignore
 list and project `.cursorignore` can block Agent and editor AI features from
-accessing matched files, while `.cursorindexingignore` only removes them from
-indexing. Cursor documents an important seam: terminal and MCP tools are not
+accessing matched files. An indexing-only `.cursorindexingignore` was
+described earlier but no longer appears in the documentation checked
+2026-10-01; treat it as unverified. Cursor documents an important seam: terminal and MCP tools are not
 restrained by `.cursorignore`.
 
 User hooks live in `~/.cursor/hooks.json`. Current hook contracts include:
@@ -89,8 +92,10 @@ User hooks live in `~/.cursor/hooks.json`. Current hook contracts include:
 - `beforeShellExecution` and `beforeMCPExecution`: return
   `permission: "allow" | "deny" | "ask"`.
 
-Hook failures allow the action by default. Set `failClosed: true` only where a
-failure should block, and test the real action after installation. Tab has
+Crashes, timeouts, and non-zero exits other than `2` allow the action by
+default; exit code `2` blocks it, and for permission hooks invalid or
+off-schema output blocks it too (checked 2026-10-01). Set `failClosed: true`
+only where a failure should block, and test the real action after installation. Tab has
 separate file-read and edit hooks.
 
 Rules apply to Agent (Chat), not Tab completion, Inline Edit, or Bugbot reviews.
@@ -107,14 +112,19 @@ relative path that will break after the rule is installed elsewhere.
 - Rules and storage:
   <https://cursor.com/help/customization/rules>
 - Rule formats and precedence:
-  <https://cursor.com/docs/context/rules>
+  <https://cursor.com/docs/rules>
 - Skills and compatibility roots:
   <https://cursor.com/help/customization/skills>
 - Ignore-file boundaries:
-  <https://cursor.com/docs/context/ignore-files>
+  <https://cursor.com/docs/reference/ignore-file>
 - Hook events and outputs:
-  <https://cursor.com/docs/agent/hooks>
+  <https://cursor.com/docs/hooks>
 
-_Checked 2026-08-18. The sample has not yet been exercised in a fresh Cursor
-session; these notes describe the documented mechanism, not a completed
-behavioral evaluation._
+_Checked 2026-08-18; user-rule location, ignore files, hook failures, and
+links rechecked 2026-10-01. The sample's Task scale and delegation section was
+added 2026-09-24, shortened 2026-09-25, and reworded in plain terms
+2026-10-01; its untrusted-input lines took the wording shared across the
+samples 2026-10-02. Cursor documents that subagents start with a clean context, but
+not whether rules reach them. The sample has not yet been exercised in a fresh Cursor session; these
+notes describe the documented mechanism, not a completed behavioral
+evaluation._
