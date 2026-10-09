@@ -206,35 +206,84 @@ together. Use independent review when risk earns it.
 
 - Commit, push, or open a PR only when asked, even when a plugin skill's
   workflow ends with those steps.
-- **Model preference** — mine, not a measured rule: a top-tier model for the
-  main session, at the effort I choose; that part stays my call. Fan-out is
-  looser: model and effort chosen per task instead of inherited from the
-  session. A top-tier model for judgment (review, verification, design,
-  synthesis) and a mid tier for lookups and mechanical, well-specified work a
-  reviewer checks; effort at least medium, higher only where a stage decides
-  the outcome. Critique goes through a dedicated `critic` agent, its top-tier
-  model chosen per task (for example Fable or Opus, or an equivalent from
-  another vendor, where the provider and any policy allow it), ideally a
-  different model from the one that wrote the work. I skip the smallest tier,
-  a personal opt-out from the workflow's capability classes (revisit if a
-  smallest-tier `scout` passes a check of which model actually served it). Unpinned subagents inherit the session's model
-  (unless a default subagent model is configured) and effort, so
-  general-purpose and workflow agents get an explicit model.
-  `scout` and `critic` are my own pinned agent definitions; they keep Bash,
-  held read-only by instruction plus an allowlist hook rather than by tool
-  list (partially probed, not evaluated; see the
+- **Model choice** — mine, not a measured rule: pick the model most likely to
+  get the work right and complete on the first pass, then the fastest of
+  those. Token price is what I trade first; a redo, a silent omission, or
+  work that doesn't hold costs more than the tokens saved. Choose by what
+  checks the output, not how the prompt reads. The main session is an
+  Opus-class model at the effort I choose; that part stays my call.
+- **Name the model and effort on every agent call and workflow stage.**
+  Unpinned subagents take `CLAUDE_CODE_SUBAGENT_MODEL` if it's set, else the
+  session's model, and inherit its thinking settings and probably its
+  effort. A family alias resolves to the session's exact model when the
+  session runs that family, and an alias pinned in an agent definition
+  didn't hold for me in a session running a different model, so pass the
+  model per call where it matters. Two environment settings outrank
+  per-call ones:
+  `CLAUDE_CODE_EFFORT_LEVEL` beats both the per-call effort and the
+  definition's, and `CLAUDE_CODE_SUBAGENT_MODEL_FORCE` ignores both model
+  settings, so keep them unset when routing per call. In Claude Code,
+  thinking can't be switched off on the 5.5 models or Fable-class; effort is
+  the dial.
+- **Classes** (2026-10 names; substitute your vendor's equivalents):
+  - Opus-class, never below high: judgment (review, verification, design,
+    synthesis), multi-step work, sweeps, and absence or completeness
+    questions; xhigh only for the stage that decides the outcome.
+  - Sonnet-class at medium: single-hop lookups, and work with a complete
+    brief and a check that runs. When it falls short, move up a class
+    rather than raising its effort.
+  - Fable-class, never below high, where the provider and data policy allow
+    it (it requires data retention, so it's out where zero retention is
+    required): the `critic`, and the step past Opus-class at xhigh. Slower
+    and pricier, so not for sweeps or lookups; at low effort it also
+    searches less and answers from memory more.
+  - No Haiku-class in fan-out. Its vendor pitches it as a coding subagent
+    while keeping the larger classes for complex agentic coding. On one
+    third-party comparison at medium effort (Artificial Analysis, 2026-10)
+    it was about as fast per task as Sonnet-class, several times slower to
+    first output, and lower scoring; in practitioner reports and my own runs
+    of its predecessor, its misses were silent omissions. It backs only the
+    host's own background helpers.
+- **In a plugin workflow that names tiers but not effort** (superpowers, for
+  one), map its roles:
+  - implementer with the complete code and a named test: Sonnet-class,
+    medium;
+  - implementer from prose, or integration and debugging work: Opus-class,
+    high;
+  - task reviewer and scoped re-review: Opus-class, high;
+  - final whole-branch review: Opus-class at xhigh, or the `critic`;
+  - a stuck fix loop: one step up (Sonnet-class medium, Opus-class high,
+    Opus-class xhigh, then Fable-class where allowed); past that, stop and
+    hand it back to me;
+  - an orchestrator for a long plan, if used: Opus-class, high. It buys a
+    clean main context, not savings.
+- **`critic` and `scout`** are my own pinned agent definitions. `critic`
+  runs on a different model from the one that wrote the work where one is
+  allowed (Fable-class); otherwise on Opus-class, the writer's own class,
+  which makes it a weaker check. Either way at high, or xhigh for a final
+  review. `scout` is Sonnet-class at medium for single-hop lookups. They
+  keep Bash, held read-only by instruction plus an allowlist hook rather
+  than by tool list
+  (partially probed, not evaluated; see the
   [Claude Code notes](claude-code-notes.md#bounded-subagents)). The
   definitions and hook are not published here; substitute yours.
+- Ask an agent for what it checked and a short explanation, not for
+  written-out reasoning: some current models may decline that.
 - **Right level of fan-out** — a personal default, unmeasured: stay solo for
-  small, sequential, or coupled work; `scout` for search sweeps too broad to
-  run directly; the host's built-in review command per non-trivial diff (in
-  Claude Code, `/code-review` at an effort that fits the risk), with specialist
-  reviewers only when a diff's risk sits on their axis; one `critic`,
-  sparingly, for a final whole-branch or pre-publication once-over or a design
-  critique. Never fork the conversation for an independent check. Run a
-  multi-agent workflow only when asked, and first state its agent count,
-  models, effort, and rough cost. Project delegation rules still apply to
-  every dispatch.
+  small, sequential, or coupled work; `scout` for batched single-hop lookups
+  whose raw output isn't worth carrying, with broad sweeps and absence
+  questions going to an Opus-class stage instead; the host's built-in review
+  command per non-trivial diff (in Claude Code, `/code-review` at an effort
+  that fits the risk), with specialist reviewers only when a diff's risk
+  sits on their axis; one `critic`, sparingly, for a final whole-branch or
+  pre-publication once-over or a design critique. Never fork the
+  conversation for an independent check. My host's standing workflow mode
+  (Claude Code's ultracode) is on by default: it pre-authorizes multi-agent
+  workflows for substantive tasks, not acks, git, config, status, or
+  continuing known work; before one, state its agent count, models, effort,
+  and rough cost. Before a safety guard ships, run adversarial probes and a
+  differential test against the previous version. Project delegation rules
+  still apply to every dispatch.
 - Explore and Plan agents skip CLAUDE.md: put the rules the task needs in their
   prompt. A fork inherits the whole conversation; use a named agent or a fresh
   session when independence matters.
@@ -312,12 +361,32 @@ delegation section was added
 2026-09-25 from the live config and revised 2026-10-01 (critique model chosen
 per task, explicit models for unpinned agents, no forks for independent
 checks, a read-only Bash hook for scout and critic, the built-in review
-command as the default review route); its model names are examples, and
-host-specific policy and opt-in details are left out. Its medium effort floor
-reflects a personal lean toward a stronger setting wherever it can change the
-result; the explorer role contract under `evaluations/roles/` starts direct
-lookups at low effort on purpose, because it tests the cheaper baseline. Both sections are working
-hypotheses, not behaviorally tested. The 2026-08-19 revision adds a
+command as the default review route), and again 2026-10-09 (effort as the
+only dial, with the top tier never below high; no smallest tier in fan-out,
+because it saved money but not time; `scout` narrowed to single-hop
+lookups; the model passed per call; workflows pre-authorized by the standing
+workflow mode; probes before a safety guard ships). The 2026-10-09 revision
+followed a review of the author's own sessions that traced little rework to
+reasoning depth and most to checks that weren't run. A same-day rewrite
+reframed model choice around first-pass correctness and completeness, with
+token price traded first; named the environment settings that outrank
+per-call routing; placed Fable-class at the critic and the step above
+Opus-class; stated the vendor's case for Haiku-class subagents next to the
+reason it stays out; mapped a plugin workflow's roles; and asked agents for
+what they checked rather than written-out reasoning. Its facts were
+checked on 2026-10-09 against the Claude Code subagent docs, the vendor's
+model, pricing, prompting, and data-retention pages, and Artificial
+Analysis comparisons; the effort guidance is per model and moves with
+releases. Open: whether medium effort holds for checkable sweeps and scoped
+re-reviews, testable by re-running past review diffs that caught defects;
+and whether Haiku-class matches Sonnet-class on completeness in less time,
+which would reopen it for fan-out.
+Its class names are examples, and host-specific policy and opt-in details
+are left out. Its effort floors reflect a personal lean toward a stronger
+setting wherever it can change the result; the explorer role contract under
+`evaluations/roles/` starts direct lookups at low effort on purpose, because
+it tests the cheaper baseline. Both sections are working hypotheses, not
+behaviorally tested. The 2026-08-19 revision adds a
 callee audience guard to specialist-tool routing, after an observed specialist
 loaded its host's global
 file. It also carries the commit-in-prose scoping that keeps explicit status

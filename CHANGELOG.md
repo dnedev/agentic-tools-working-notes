@@ -16,6 +16,33 @@ taxonomy table is the only place one lives, for the reason recorded under
 The taxonomy and the audit template are maintained in the claude.ai project
 and ported here. Entries below describe what landed in this copy.
 
+## 2026-10-09
+
+- Revised the Claude Code sample's Agents and delegation section again, from
+  the author's live configuration. Effort is the only dial, since thinking
+  can't be switched off on the current models, and the top tier never runs
+  below high. The smallest tier stays out of fan-out: on the current models
+  it saved money but not time, and its misses are silent omissions; it backs
+  only the host's background helpers. `scout` is narrowed to single-hop lookups, with sweeps and absence questions
+  going to a top-tier stage. The model is passed per call, after a pinned alias
+  didn't hold in a session running a different model. The host's standing
+  workflow mode pre-authorizes workflows for substantive tasks, and a safety
+  guard gets adversarial probes and a differential test before it ships. A
+  review of the author's own sessions had traced little rework to reasoning
+  depth and most to checks that weren't run. These remain unmeasured personal
+  defaults.
+- Rewrote the model choice in the same section around first-pass
+  correctness and completeness, with token price the dimension traded first.
+  It names the environment settings that outrank per-call model and effort,
+  places Fable-class models at the `critic` and the step above Opus-class
+  where data policy allows (they require data retention), keeps Haiku-class
+  out of fan-out with its vendor's case for subagent use stated next to the
+  reason, maps a plugin workflow's roles to a class and effort, and asks
+  agents for what they checked rather than for written-out reasoning. Checked
+  2026-10-09 against the Claude Code subagent docs, the vendor's model,
+  pricing, prompting, and data-retention pages, and Artificial Analysis.
+  Still unmeasured personal defaults.
+
 ## 2026-10-08
 
 - Reordered the entry points by what a reader came for, after a friend called
