@@ -1,6 +1,8 @@
 # Delegation and review measurement candidates
 
-Status: design only, 2026-10-01. None of these has been run. They follow from a
+Status: design only, 2026-10-01. None of these has been run; the delegation
+skill recorded [below](#candidate-a-delegation-skill-for-chat-and-cowork) on
+2026-10-11 has its own status. They follow from a
 research pass on agent roles, fan-out, and review, and from read-only lookup
 and review roles added to the author's live Claude Code and Codex
 configuration. Those roles are not evaluated; M1 is their first check. The
@@ -32,3 +34,72 @@ failure.
 Change one role or one contract per experiment. For an instruction change,
 map the old requirements to the candidate first, so a shorter prompt can't
 win by silently dropping work.
+
+## Candidate: a delegation skill for chat and Cowork
+
+Status: recorded 2026-10-11 as a candidate projection for chat and Cowork,
+not added to the [shared skills](../README.md#samples-by-tool). Unlike the
+rows above, it has had two runs, neither of them a comparison.
+
+The author drafted a skill, in the claude.ai project, that carries the
+[Claude Code sample](../CLAUDE.example.md)'s delegation rules into chat and
+Cowork: the fan-out gate, a model named on every call, a brief that carries
+the rules because subagents there didn't get the profile (see the
+[Cowork notes](../cowork-notes.md#delegation-as-observed-2026-10-11)), scout
+and critic contracts, and checking what comes back. It had one critique by a
+Fable-class agent before use, then two runs on 2026-10-11, one inside a
+project and one outside any project, each checked against five criteria fixed
+before the first run:
+
+1. The skill loads before the first agent call.
+2. The model is named, and the independent check runs on a model other than
+   the writer's.
+3. The brief carries scope, a budget and stop rule, an anchored return, and
+   the refusal line.
+4. The agent count, models, and rough cost are stated before launch.
+5. The results are checked.
+
+Both runs loaded the skill from its description alone, did the lookups in the
+main session, and gated delegation to one blind verifier on a different
+model, with a brief that carried scope, evidence rules, a budget, a stop rule,
+and the refusal line; both checked the result against its anchors. Cost
+estimates ran several times low or were given in calls rather than tokens,
+and in one run the verifier overran its stated call ceiling. The Sonnet-class
+lookup route was never exercised. The second run was graded from its
+transcript in the claude.ai project the skill came from; neither is recorded
+as graded independently.
+
+As a shared skill, it doesn't meet the bar of the
+[selective-derivation decision](../decisions/0001-selective-skill-derivation.md).
+Neither run had a baseline arm, so the runs show the skill loading and being
+followed, not doing better than the profile and sample alone, and the skill
+puts host model classes and surface mechanics into what the decision keeps
+as a neutral contract. The decision's own shape fits it better: the neutral
+rules stay with the workflow's
+[gate](../agentic-development-workflow.md#fan-out-gate) and
+[packet](../agentic-development-workflow.md#worker-packet-and-return), the
+Claude Code sample stays their Claude Code projection, and the skill becomes
+a tested projection for chat and Cowork that carries only what differs there
+(no effort setting, no profile in a subagent, roles held read-only by
+instruction) and points to the workflow for the rest. As drafted, it
+restates rules the workflow and the sample already state, so adding it would
+make another home for them.
+
+No surface switch keeps it to chat and Cowork. claude.ai turns a skill on or
+off for the whole account, and an account skill also loads in Claude Code's
+cloud and signed-in terminal sessions; in a cloud session, this one was
+listed next to the user file's own delegation rules
+([Claude Code notes](../claude-code-notes.md#cloud-sessions)). Keeping it out
+of Claude Code is a setting on the Claude Code side. The author means it for
+chat and Cowork only: in Claude Code, the sample's delegation section, a
+plugin workflow (superpowers, for one), and the host's workflow mode already
+cover fan-out, so a synced copy there would be one more trigger for the same
+moment.
+
+The smallest useful comparison: the same frozen prompts in chat and in a
+Cowork task, with and without the skill, graded blind on the five criteria
+plus cost-estimate accuracy and budget adherence, with a task that needs a
+lookup agent. Cowork's skill-creator is documented to run the same prompts
+without the skill as a baseline, which could supply the missing arm for the
+Cowork runs, though not in chat; blind grading would still need arranging.
+[Create custom skills](https://claude.com/docs/skills/how-to)

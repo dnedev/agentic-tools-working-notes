@@ -60,6 +60,18 @@ route any warranted fix to the right instruction layer, add a
 regression case where a stable check exists, and revisit it after
 model or harness drift.
 
+```mermaid
+flowchart LR
+  A["A conversation<br/>goes wrong"] --> B["Audit it in<br/>a fresh session"]
+  B --> C["Classify each failure<br/>against the taxonomy"]
+  C --> D{"Change<br/>anything?"}
+  D -- "not yet" --> W["Watch item"]
+  D -- "yes" --> R["Fix it in one layer:<br/>account or project"]
+  R --> E["Add a regression check<br/>where a stable one exists"]
+  E --> F["Re-run after a model<br/>or harness change"]
+  F -. "fails again" .-> C
+```
+
 The example configurations and the inspectable method are two halves of the
 same work: the configurations are sanitized derivatives of my own instructions, and the
 method is how I decide whether a change to them earned its place — including
@@ -88,7 +100,13 @@ cases where it invalidates its own apparent successes.
   caused it, nor that they don't help: these three checks, on that model,
   can't tell, and none of them has yet produced the FAIL that would validate
   it as a detector. Until a profile-off run reproduces a pass, the corpus
-  calls it *stack-default*.
+  calls it *stack-default*. An October suite of cases that had drawn a FAIL
+  without my profile did separate the setups by its checks: 18 of 114 agreed
+  runs failed with the profile, 39 of 105 without it. On runs its two model
+  judges agreed on, though, my own labels matched theirs only about half the
+  time, weighted: a fifth without the profile, four fifths with it. Going by
+  my reasons, the checks grade one rule and I graded the whole answer, and the
+  profile's footer showed me the setup. The evolution notes have the limits.
 
 ## What's here
 
@@ -130,6 +148,9 @@ your environment, follow those rules.
 This project builds on work done at Booking.com. With approval from
 Booking.com, it was released as open source, for which the author would
 like to express his gratitude.
+
+The notes are drafted and maintained with Claude (Anthropic), mostly through
+Claude Code; the author decides what goes in and reviews it.
 
 ## License
 

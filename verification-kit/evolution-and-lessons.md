@@ -1,4 +1,4 @@
-# How It Evolved — Milestones and Lessons (Mar–Sep 2026)
+# How It Evolved — Milestones and Lessons (Mar–Oct 2026)
 
 Companion to `README.md`. This is the curated story of how the
 taxonomy and the audit template came to exist — compiled from the
@@ -260,6 +260,41 @@ every installed version's verbatim text beside its rationale. *Lesson: a
 version history without the versions' text is a story about them. Keep the
 text.*
 
+**October 12 — the judges agreed with each other more than with me.** The
+September checks had never failed on the model they ran on, so I built a private
+suite of cases that can: drafted, mostly by a model, from the kinds of questions
+I ask, plus new ones written to probe particular rules. I kept the 23 that drew
+a FAIL in a screen without my profile, 19 from both judges and 4 from the larger
+judge alone, and ran each five times per setup, on one or two models: 545 runs
+across four setups, graded blind by two model judges, though the profile's
+confidence footer gives the setup away. Where both judges agreed, 39 of 105 runs
+failed with the platform prompt alone and 18 of 114 with my profile added;
+stratified by case and model, the odds of a FAIL were 3.4 to 4.4 times higher
+without it, however the split verdicts are counted, and the gap held with
+either judge's verdicts alone and with any one case left out. Across all 545,
+110 runs they split on or couldn't grade are still mine to review. The price:
+answers about 75% longer and runs about 70% slower (medians).
+
+Removing the first rule each case lists left the runs between the two, closer
+to the profile, and older profile versions showed no detectable difference
+from the current one, so the gain may sit in other rules or in the profile as
+a whole. The checks grade whether a rule was followed, some in the profile's
+own wording, on cases mostly drawn from what the profile was written from; the
+two that weren't showed nothing either way.
+
+Then I labelled 20 runs the judges had agreed on: five
+passes and five fails, each with and without the profile. Weighted back to all
+the agreed runs in those two setups, I agreed with them on about half of those I
+could decide (roughly a third to two thirds): a fifth without the profile, four
+fifths with it. Two models, one of them a judge model, re-read the checks with
+the judges' reasons in view and found the check as written behind the judges'
+call on 19 of the 20. Going by my own reasons, I was grading something else:
+whether the answer was right, deep enough, searched when it should have, or
+ended with the footer my profile asks for. By my labels the profile looked
+better still, but that footer told me which setup I was reading every time, and
+I wrote the profile. *Lesson: a check tests one rule; I judge the whole answer.
+Measure both, and say which one a number is.*
+
 ## The lessons, distilled
 
 1. **One layer per rule.** Duplication across layers is deletion.
@@ -291,4 +326,4 @@ text.*
 10. **The layer under yours moves.** Re-read the platform's own prompt at each
     release before deciding a rule is needed or redundant.
 
-September 2026, sanitized for sharing.
+October 2026, sanitized for sharing.

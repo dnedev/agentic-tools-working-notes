@@ -35,7 +35,8 @@ conditions.
   are evaluation inputs that specialize the workflow's worker packet, not
   installed agents or evidence that fan-out helps.
 - [Measurement candidates](measurement-candidates.md) — delegation and review
-  comparisons, design only (2026-10-01); none has run.
+  comparisons, design only (2026-10-01); none has run. It also records a
+  delegation skill for chat and Cowork as a candidate (2026-10-11).
 
 Retired fixtures (R0A–R0D) are [archived](../../archive/README.md) as dated
 history; the R1 operator template and the unrun R5 fixture are held privately.

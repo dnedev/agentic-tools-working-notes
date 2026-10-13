@@ -145,22 +145,45 @@ instructions. The Cowork notes carry the dated primary-source check.
   but live sessions read on 2026-09-22 and 2026-09-23 carried lines the
   published copy lacked, and a Cowork task's prompt differed again. Read the
   published copy at each release and confirm in a live session before
-  deciding a profile rule is needed or redundant.
+  deciding a profile rule is needed or redundant. The per-model pages also
+  served Markdown at the same URL plus `.md` (observed 2026-09-24,
+  2026-10-09, and 2026-10-10).
 - **Make installs checkable.** A short stamp line in each installed
   artifact, such as a version or date the model can quote, lets a fresh
   session confirm what actually reached it; that is how the profile was
   confirmed to reach Cowork tasks (observed 2026-09-23 and 2026-09-28).
+- **An instructions edit reaches a running chat late.** An edit to a
+  project's instructions field didn't appear in a chat that was already
+  running; it appeared after that chat's session restarted. New chats and
+  scheduled tasks loaded it at start, each confirmed by quoting its stamp
+  line (observed 2026-10-11). Test an edit in a new chat.
+- **Large project knowledge isn't in context.** In a project with a large
+  knowledge base, a fresh session had only the file list in context, not the
+  contents, and read files with the project tool (observed 2026-10-11). The
+  help center says retrieval turns on as project knowledge approaches the
+  context window, with a project knowledge search tool (checked 2026-10-11);
+  that this session was in that mode is an inference. Don't assume a project
+  file was read because it is in the project.
+  [RAG for projects](https://support.claude.com/en/articles/11473015-retrieval-augmented-generation-rag-for-projects)
+- **The project tool's file names.** A session's project tool wrote a bare
+  file name under `claude/`, and a leading `/` was kept as part of the name,
+  so the session couldn't create a file at the project's root. In one session
+  the tool returned a document of about 227 KB inline rather than as a local
+  file (both observed 2026-10-11).
 - **Chat search has edges.** Past-chat search is a "Search and reference
   chats" toggle in settings, and inside a project it searches only that
   project's conversations (checked 2026-10-02). It was not available inside
-  one cloud Cowork task (observed 2026-09-29), so keep version texts in
-  project knowledge rather than relying on search to find them.
+  one cloud Cowork task (observed 2026-09-29), and a scheduled-task session
+  didn't show up in it a few minutes after it ran (one check, observed
+  2026-10-11), so keep version texts in project knowledge rather than relying
+  on search to find them.
 - **A GitHub repository in a project is a snapshot.** You select files and
   folders from one branch; it refreshes only when you press Sync now, and no
   commit history or pull requests come with it (checked 2026-10-02).
 
 _Principles current as of 2026-08-05; feature names verified against the
 Claude help center articles on Projects and personalization (last modified
-July 2026), with memory, styles, and the docs host rechecked 2026-10-01. The
-last two sections carry their own dates: "checked" marks a help-center check
+July 2026), with memory, styles, and the docs host rechecked 2026-10-01, and
+the system-prompt pages' Markdown copies fetched 2026-10-10. The last two
+sections carry their own dates: "checked" marks a help-center check
 on that date, and "observed" marks the author's own sessions. The figures are intentionally elsewhere._

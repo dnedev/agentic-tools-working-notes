@@ -1,8 +1,10 @@
 # Cowork — practical operating notes
 
 Reference, not always-loaded instructions. Primary documentation checked
-2026-09-24 and rechecked 2026-10-01; no Cowork session, account, or permission
-probe was run for these notes. The [copy sheet](cowork-instructions.example.md) is an adoption preview.
+2026-09-24 and rechecked 2026-10-01. Apart from the delegation observations
+dated 2026-10-11, no Cowork session, account, or permission probe was run for
+these notes. The [copy sheet](cowork-instructions.example.md) is an adoption
+preview.
 
 ## Use the surface that is actually present
 
@@ -61,13 +63,68 @@ for project instructions. Inspect active sources rather than assume parity.
 [Instruction loading](https://code.claude.com/docs/en/memory),
 [Changelog](https://claude.com/docs/cowork/changelog)
 
-Subagent coordination is documented; configurable child model/effort, fresh
-packet selection, per-child tool denial, action telemetry, and cancellation
-parity with Codex or Claude Code were **not established by this review**.
+Subagent coordination is documented. The author's sessions of 2026-10-11
+observed a model per call but no effort setting, and what a subagent was and
+wasn't given ([below](#delegation-as-observed-2026-10-11)); per-child tool
+denial, action telemetry, and cancellation parity with Codex or Claude Code
+were still **not established**.
 Use the [packet](agentic-development-workflow.md#worker-packet-and-return) as
 a task contract when supported, and label unenforced limits as requests. If a
 task requires a boundary the surface cannot demonstrate, keep it in a host
 where that boundary can be checked or return the unresolved decision.
+
+### Delegation as observed (2026-10-11)
+
+Observed in the author's own sessions on one day, on the merged chat-and-Cowork
+surface with an Opus-class main session; one session per observation unless
+stated. The new-experience article, rechecked the same day, names Pro and Max
+for the rollout and says more plans will follow, so check which surface an
+account has before relying on any of this. These are observations, not
+documented behavior.
+
+- **A model per call, no effort.** The agent tool took a model on each call,
+  by class (Haiku, Sonnet, Opus, Fable), and had no effort parameter. Agent
+  definitions with an `effort` field loaded, but whether it applied couldn't
+  be seen.
+- **No fork, no nesting.** Asking for a fork agent returned "Agent type 'fork'
+  not found". Subagents had no agent tool of their own, so spawn depth was one.
+- **What reached a subagent.** The profile preferences didn't, in marker
+  probes across several sessions that asked for a stamp line to be quoted. In
+  a scheduled Cowork task, a subagent saw the project's instructions, through
+  the attached project's context, and the full skill list, with a Skill tool.
+  Repository instructions (`CLAUDE.md`, and an `AGENTS.md` it imports) were
+  added to the main session, and to a subagent, the first time either read a
+  file inside that repository. Put the rules a task needs in its brief.
+- **Repository agents loaded; their hooks didn't run.** With a personal
+  repository attached and cloned, its `.claude/agents/` definitions appeared
+  as agent types mid-session, and their frontmatter `model` was honored. Their
+  frontmatter `PreToolUse` read-only hook did not run: a lookup agent's
+  `touch` of a temporary file succeeded. Had it run, its path lookup would
+  have blocked every Bash call, since none of its candidate paths existed in
+  that clone's layout. A read-only role is read-only by instruction here, so
+  check what it did. In a Claude Code cloud session, the same kind of hook
+  did block a subagent's writes ([Claude Code
+  notes](claude-code-notes.md#bounded-subagents)). The plugin support table
+  lists plugin agents and hooks as ignored in chat and loaded in desktop
+  Cowork tasks (checked 2026-10-11); these were repository definitions, not
+  plugin components, and which column this surface follows wasn't
+  established. [Plugin feature
+  support](https://claude.com/docs/plugins/platform-support)
+- **Starting a session from a session.** A one-time scheduled task started a
+  fresh session in Cowork mode, bound to the same project, with automatic
+  approval. That session scheduled a message to itself to continue later and
+  resumed when it arrived, but couldn't attach repositories, and didn't
+  appear in past-chat search; its only way back was a file it wrote into the
+  project.
+- **Messaging another session.** Sending to another chat by name failed ("No
+  agent named … is reachable"), and no tool listed sessions.
+
+A delegation skill for these surfaces is recorded as a
+[candidate](evaluations/measurement-candidates.md#candidate-a-delegation-skill-for-chat-and-cowork),
+not a shared skill. A skill turned on for the account also loads in Claude
+Code's cloud and signed-in terminal sessions, so a chat and Cowork skill
+reaches there too unless it's turned off on the Claude Code side ([Claude
+Code notes](claude-code-notes.md#cloud-sessions)).
 
 ## First-use recipe
 

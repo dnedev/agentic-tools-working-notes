@@ -206,20 +206,28 @@ together. Use independent review when risk earns it.
 
 - Commit, push, or open a PR only when asked, even when a plugin skill's
   workflow ends with those steps.
+- Before a session ends, write anything meant to last (notes, handoffs,
+  design rationale) to a repository file, and ask to commit it if it isn't
+  yet; scratchpads and cloud containers don't carry over.
+- When auto mode, a permission rule, or a proxy refuses an action, stop and
+  report the exact error; don't retry it by another route. It goes back to
+  me or the session I direct. Put this rule in every agent's brief.
 - **Model choice** — mine, not a measured rule: pick the model most likely to
   get the work right and complete on the first pass, then the fastest of
   those. Token price is what I trade first; a redo, a silent omission, or
   work that doesn't hold costs more than the tokens saved. Choose by what
   checks the output, not how the prompt reads. The main session is an
-  Opus-class model at the effort I choose; that part stays my call.
+  Opus-class model at the effort I choose; that part stays my call. On any
+  call, within a class, run its latest release unless the run is testing a
+  specific version; then pin that version by its full ID and say why.
 - **Name the model and effort on every agent call and workflow stage.**
   Unpinned subagents take `CLAUDE_CODE_SUBAGENT_MODEL` if it's set, else the
-  session's model, and inherit its thinking settings and probably its
-  effort. A family alias resolves to the session's exact model when the
-  session runs that family, and an alias pinned in an agent definition
-  didn't hold for me in a session running a different model, so pass the
-  model per call where it matters. Two environment settings outrank
-  per-call ones:
+  session's model, and inherit its thinking settings and its effort (seen
+  for a plugin reviewer that pinned only a model). A family alias resolves
+  to the session's exact model when the session runs that family, and an
+  alias pinned in an agent definition didn't hold for me in a session
+  running a different model, so pass the model per call where it matters.
+  Two environment settings outrank per-call ones:
   `CLAUDE_CODE_EFFORT_LEVEL` beats both the per-call effort and the
   definition's, and `CLAUDE_CODE_SUBAGENT_MODEL_FORCE` ignores both model
   settings, so keep them unset when routing per call. In Claude Code,
@@ -237,13 +245,16 @@ together. Use independent review when risk earns it.
     required): the `critic`, and the step past Opus-class at xhigh. Slower
     and pricier, so not for sweeps or lookups; at low effort it also
     searches less and answers from memory more.
-  - No Haiku-class in fan-out. Its vendor pitches it as a coding subagent
-    while keeping the larger classes for complex agentic coding. On one
-    third-party comparison at medium effort (Artificial Analysis, 2026-10)
-    it was about as fast per task as Sonnet-class, several times slower to
-    first output, and lower scoring; in practitioner reports and my own runs
-    of its predecessor, its misses were silent omissions. It backs only the
-    host's own background helpers.
+  - Haiku-class: not by default. At the effort I'd run it, it's barely
+    faster than Sonnet-class, and Sonnet-class gives much better results;
+    that's my preference, not a measurement. Use it only where a task shows
+    it materially faster at equal quality. Its vendor pitches it as a coding
+    subagent while keeping the larger classes for complex agentic coding. On
+    one third-party comparison at medium effort (Artificial Analysis,
+    2026-10) it was about as fast per task as Sonnet-class, several times
+    slower to first output, and lower scoring; in practitioner reports and my
+    own runs of its predecessor, its misses were silent omissions. Otherwise
+    it backs only the host's own background helpers.
 - **In a plugin workflow that names tiers but not effort** (superpowers, for
   one), map its roles:
   - implementer with the complete code and a named test: Sonnet-class,
@@ -281,9 +292,13 @@ together. Use independent review when risk earns it.
   (Claude Code's ultracode) is on by default: it pre-authorizes multi-agent
   workflows for substantive tasks, not acks, git, config, status, or
   continuing known work; before one, state its agent count, models, effort,
-  and rough cost. Before a safety guard ships, run adversarial probes and a
-  differential test against the previous version. Project delegation rules
-  still apply to every dispatch.
+  and rough cost, and check each stage against the classes above. Before a
+  safety guard ships, run adversarial probes and a differential test against
+  the previous version. Run delegated work as in-session agents or workflows
+  by default; start a separate session only when it needs another
+  environment, its own setup under test, a long unattended run, or a hook
+  scoped to one repository, and keep instruction-file edits in the session I
+  direct. Project delegation rules still apply to every dispatch.
 - Explore and Plan agents skip CLAUDE.md: put the rules the task needs in their
   prompt. A fork inherits the whole conversation; use a named agent or a fresh
   session when independence matters.
@@ -328,6 +343,9 @@ covered by the harness. Add your organization's extensions, e.g.:
   migrations.
 - Deny credential paths at the `settings.json` layer (`.env*`, `secrets/`,
   `keys/`, `certs/`, `~/.ssh/`, `~/.aws/credentials`, cloud / DB / IaC config).
+  Write each as `Read(...)` and `Edit(...)` rules: a `Write(...)` rule is
+  accepted and never consulted. Anchoring and what Bash still reaches are in
+  the [Claude Code notes](claude-code-notes.md#permissions-and-completion).
   When in doubt, ask.
 
 ---
@@ -373,20 +391,38 @@ token price traded first; named the environment settings that outrank
 per-call routing; placed Fable-class at the critic and the step above
 Opus-class; stated the vendor's case for Haiku-class subagents next to the
 reason it stays out; mapped a plugin workflow's roles; and asked agents for
-what they checked rather than written-out reasoning. Its facts were
-checked on 2026-10-09 against the Claude Code subagent docs, the vendor's
-model, pricing, prompting, and data-retention pages, and Artificial
-Analysis comparisons; the effort guidance is per model and moves with
-releases. Open: whether medium effort holds for checkable sweeps and scoped
-re-reviews, testable by re-running past review diffs that caught defects;
-and whether Haiku-class matches Sonnet-class on completeness in less time,
-which would reopen it for fan-out.
-Its class names are examples, and host-specific policy and opt-in details
-are left out. Its effort floors reflect a personal lean toward a stronger
-setting wherever it can change the result; the explorer role contract under
-`evaluations/roles/` starts direct lookups at low effort on purpose, because
-it tests the cheaper baseline. Both sections are working hypotheses, not
-behaviorally tested. The 2026-08-19 revision adds a
+what they checked rather than written-out reasoning. Edits on 2026-10-09 and
+2026-10-10 added that agents inherit the session's effort (seen when a plugin
+reviewer that pinned only a model ran at the session's effort); made a class's
+latest release the default unless a run tests a specific version, for judges,
+graders, and helpers too (after a grader was found still pinned to an older
+release); preferred in-session agents over separate sessions (after a session
+directed by another was refused instruction-file edits by auto mode's checks);
+and added writing anything meant to last to a repository file before the session
+ends, stopping on a refusal rather than routing around it, and a check of each
+workflow stage against the classes before launch (after one fan-out ran every
+agent on Opus-class or Fable-class, lookups included). Each followed something
+observed in the author's own sessions; the repository's changelog dates them.
+On 2026-10-11 the Haiku-class line became a conditional default, not by
+default and used only where a task shows it materially faster at equal
+quality, after the author restated it as a preference rather than a dislike;
+the evidence sentence stayed.
+The section's facts were checked on 2026-10-09 against the Claude Code subagent
+docs, the vendor's model, pricing, prompting, and
+data-retention pages, and Artificial Analysis comparisons; the effort
+guidance is per model and moves with releases. Open: whether medium effort
+holds for checkable sweeps and scoped re-reviews, testable by re-running
+past review diffs that caught defects; and whether Haiku-class matches
+Sonnet-class on completeness in less time, the condition under which the
+line now admits it. Its class names are examples, and host-specific policy
+and opt-in details are left out. Its effort floors reflect a personal lean
+toward a stronger setting wherever it can change the result; the explorer role
+contract under `evaluations/roles/` starts direct lookups at low effort on
+purpose, because it tests the cheaper baseline. Both sections are working
+hypotheses, not behaviorally tested. A separate 2026-10-10 edit has the
+Safety section's credential deny written as `Read(...)` and `Edit(...)`
+rules, because the permissions docs, checked that day, say a `Write(...)` path
+rule is accepted and never consulted. The 2026-08-19 revision adds a
 callee audience guard to specialist-tool routing, after an observed specialist
 loaded its host's global
 file. It also carries the commit-in-prose scoping that keeps explicit status

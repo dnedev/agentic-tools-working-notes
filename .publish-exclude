@@ -1,5 +1,6 @@
 # Paths kept in staging main but left out of public release snapshots.
 # One git pathspec per line; lines starting with # are ignored.
 # See harness/sharing-and-release.md#publishing-a-release.
-archive/2026-09-agentic-development/roadmap.md
-archive/2026-09-agentic-development/research-plan.md
+# Repository tooling for maintaining this copy (owner, 2026-10-10).
+.pre-commit-config.yaml
+scripts/

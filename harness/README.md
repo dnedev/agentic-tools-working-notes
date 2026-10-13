@@ -52,8 +52,8 @@ You don't need this section to use a sample.
 - **Sharing** — to share an adapted copy for colleague or public review, use
   the [sharing checklist](sharing-and-release.md).
 
-The older roadmap, research plan, backlog, revision records, and retired
-fixtures are in the [archive](../archive/README.md). They remain available without being an active
+The older research backlog, revision records, and retired fixtures are in the
+[archive](../archive/README.md). They remain available without being an active
 task queue or required reading for everyday work.
 
 The artifact classes are deliberately separate: examples own installable or

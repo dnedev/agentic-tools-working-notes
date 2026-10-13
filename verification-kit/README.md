@@ -50,10 +50,52 @@ an outcome.
   provisional entries.
 - The remaining run was discarded because it reused the origin trace's phrasing
   and tested recall rather than the fix. That entry remains open.
+- The first control arm ran 2026-09-25: the same checks with my profile off.
+  15 of 15 runs passed either way, so those checks couldn't tell.
+- In October a private suite of cases that had drawn a FAIL without the
+  profile did separate the setups: where both model judges agreed, 39 of 105
+  runs failed without the profile and 18 of 114 with it. The evolution notes'
+  October 12 entry has the limits.
 
-The limits matter: there was no config-off control arm (a first one ran in
-September; see the evolution notes), so the green results are a no-regression
-gate and not proof that the instructions caused the passes; one
+Most of the profile's rewriting came before the checks could tell a
+difference:
+
+```mermaid
+timeline
+  title Profile versions and checks, by model era
+  Opus 4.6 : 4 profile versions
+  Opus 4.7 : 9 profile versions
+  Opus 4.8 : 9 profile versions : Jun, first checks, 4 of 4 pass
+  Opus 5 : 4 profile versions : Jul, 7 valid passes, no fails
+  Opus 5.5 : 1 profile version : Sep, 15 of 15 with and without
+           : Oct, the new suite
+```
+
+Share of runs that failed, where both judges agreed (October suite):
+
+| Setup | Failed | Runs where both judges agreed |
+| --- | --- | --- |
+| Platform prompt only | 37% | 39 of 105 |
+| Profile minus the first rule the case lists | 22% | 25 of 113 |
+| Full profile | 16% | 18 of 114 |
+
+The price was answers about 75% longer and runs about 70% slower (medians).
+
+Then I labelled 20 runs the judges had agreed on, five per box, without
+seeing their verdict. The profile's footer showed me the setup every time.
+
+| | Judges said PASS | Judges said FAIL |
+| --- | --- | --- |
+| **With profile** | I passed 3; 2 I couldn't decide | I passed 4; 1 I couldn't decide |
+| **Without profile** | I failed 4; 1 I couldn't decide | I passed 2, failed 2; 1 I couldn't decide |
+
+The judges graded whether one rule was followed; going by my reasons, I
+graded the whole answer.
+
+The limits matter: the June and July runs had no config-off control arm
+(control arms ran later, in September and October; see the evolution notes),
+so their green results are a no-regression gate and not proof that the
+instructions caused the passes; one
 entry was graded from a partial read of the response; and several patterns
 still have no regression entry. The useful result is not the score. The loop
 changed a decision and caught itself grading a result that did not count.

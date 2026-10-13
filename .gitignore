@@ -1,5 +1,6 @@
-# Raw, unsanitized canonical source synced from the private claude.ai
-# project. Kept locally as the origin for verification-kit/ and harness/
+# Raw, unsanitized canonical source from the author's private instrument
+# repository (synced from the claude.ai project until 2026-10-12). Kept
+# locally as the origin for verification-kit/ and harness/
 # updates, but never committed: these files carry real trace origins, live
 # config, and full profile/project-instruction history that the published
 # docs deliberately sanitize. It also holds other private source material,

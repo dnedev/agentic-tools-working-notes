@@ -139,7 +139,8 @@ were removed — the rule was right and nobody was looking at it.
 ### The instruments are ported derivatives
 
 The taxonomy, the audit template, and the corpus conventions are maintained in
-the author's claude.ai project and ported here sanitized: the same keys, FAIL
+the author's private instrument repository, with a published copy in their
+claude.ai project, and ported here sanitized: the same keys, FAIL
 tests, tie-breaks, and design notes, in this copy's structure and voice, with
 origins labeled by category. Port a change as that semantic delta. Don't reword
 what's already here to taste, and don't re-sanitize settled text, because
@@ -163,6 +164,13 @@ committing:
   genericized derivatives, not mirrors of live configuration: a copy sheet is
   a parameterized snapshot of one installed version with a dated footer, not
   a lineage.
+- Branch names, pull request titles and bodies, and merge messages follow the
+  same rules, since merge commits keep branch names. If a branch name would
+  reveal another setup, merge from the command line with a neutral message or
+  rename the branch first. Keep notes about the other side in its handoff
+  package, not the pull request title or body; a handoff posted as a pull
+  request comment is that package, held to these same rules, under a neutral
+  heading.
 - Flag anything questionable rather than deciding. CI secret detection catches
   secrets, not disclosure judgment — a green pipeline isn't clearance.
 
@@ -173,57 +181,59 @@ or authorize its execution; preserve evidence links and status when moving it.
 
 ### Repositories and release flow
 
-Five places hold versions of this material, and each sees a different subset:
-
-- **Staging** — the private GitHub copy of this repository. Its `main` is the
-  editing home for every shareable file and keeps full history: branches, pull
-  requests, and merge commits. Nothing on it is rewritten.
-- **Public** — the public GitHub repository. It receives only reviewed release
-  snapshots, by fast-forward.
-- **Private source** — a separate repository with SHA-256 objects and its own
-  CI. It holds internal-sourced material, more intermediate history, and
-  adapted copies of these notes. Its history never enters staging or public.
-- **Instrument source** — the author's claude.ai project. It holds the
-  canonical instruments and the profile and project-instruction lineages, with
-  every installed version's text. It feeds staging only through packages
-  unpacked in `_input/`, which arrive as a staging pull request like any other
-  extraction. It never receives releases, and gets a return note after each
-  merge: the public release commit, refinements made while porting,
-  divergences found, and decisions it tracks.
-- **Local `_input/` and `_output/`** — ignored on every side; never synced or
-  committed.
+Staging, this private copy, is the editing home: its `main` holds every
+shareable file and keeps full history (branches, pull requests, merge commits);
+nothing on it is rewritten. The public repository receives only reviewed release
+snapshots, by fast-forward. Two private sources feed staging and never receive
+releases: a separate repository, whose history never enters staging or public,
+and the author's private instrument repository, which holds the canonical
+instruments; the author's claude.ai project holds a published copy of them.
+Local `_input/` and `_output/` are ignored everywhere.
 
 Staging holds only publishable material, because a private repository is one
-visibility setting away from public. Leaving a file out of a release is a
-choice about what to publish, not a hiding place.
+visibility setting away from public. Leaving a file out of a release is a choice
+about what to publish, not a hiding place.
 
-Changes start wherever their driver lives:
-
-- **Shareable work** happens on a staging branch and merges into staging
-  `main`. Hand it to the private source as a reviewed package: the diff since
-  the last synced staging commit, a note per change, and that commit's SHA.
-  The agent there applies it with judgment, adapts what its context needs, and
-  records `Sync-from: staging <sha>`. Don't expect or ask for a blind apply.
-- **Work that starts in the private source** reaches staging only as a
-  sanitized extraction: rewritten where needed, proposed as a staging pull
-  request, and gated (disclosure, secret, link) before the staging push.
-  Adaptations made for the private source never flow back.
+- **Shareable work** happens on a staging branch and merges into `main`; an
+  agent opens the pull request only when the author asks. Hand the work to the
+  separate repository as a reviewed package: the diff since the last synced
+  staging commit, a note per change, and that commit's SHA. The agent there
+  adapts it with judgment and records `Sync-from: staging <sha>`; don't ask
+  for a blind apply.
+- **Work from either private source** arrives only as a sanitized extraction
+  (packages from the instrument repository are unpacked in `_input/`): a
+  staging pull request, gated (disclosure, secret, link) before the push.
+  Adaptations made there never flow back. After a port from the instrument
+  repository merges, send the author a return note to relay to it: the public
+  release commit, refinements made while porting, divergences found, and
+  decisions it tracks.
 
 **Publishing.** The staging `public` branch mirrors public `main` and gets one
 squashed snapshot commit per release: staging `main`'s tree minus the paths in
 `.publish-exclude`. Review it as a pull request into `public`, then
 fast-forward staging `public` and public `main` to it from the command line.
 The merge button would create a different commit under the web identity. The
+author makes the snapshot and pushes it from their own machine with commit
+signing on. An agent here prepares a release on staging (gates, tree, pull
+request description) and doesn't push the staging `public` branch, public
+`main`, or a `publish/` release branch: on a release pull request it reports,
+and any fix lands on staging `main` before a new snapshot. The
 [sharing checklist](harness/sharing-and-release.md#publishing-a-release) holds
 the commands. Run the gates on the snapshot before it is pushed anywhere, and
 check commit metadata: every published commit's author and committer use the
 GitHub noreply address, never an employer or personal mailbox. Set `user.email`
-to it in every GitHub checkout. Never add or fetch the private source as a
+to it in every GitHub checkout. Never add or fetch the separate repository as a
 remote here; its object format can't share commits with this one anyway.
 
 Anything that cites these notes pins a public release commit, never a staging
 commit: staging commits are private, and the two `main` branches have different
 histories.
+
+**Deploying to the author's own setups.** The author runs parts of these notes
+from their own cloud sessions and machines; an agent here can't change those
+setups. When a merged change touches something the author runs, such as a sample
+section, a skill, or a setup script, end with a **To deploy** line saying what
+to update where, or that nothing needs deploying.
 
 ### Naming
 
@@ -279,8 +289,15 @@ two copy sheets stay separate files.
 
 ### Not needed here
 
-No build, no tests, no linter. Don't add tooling or CI for its own sake — this
-repo is markdown notes and should stay cheap to maintain. The
-private source uses **SHA-256 objects**; the public GitHub snapshot uses
-**SHA-1** for hosting compatibility. If older Git tooling errors while working
-with the private source, the object format is the likely cause, not corruption.
+No build, no tests, no CI. Don't add tooling for its own sake — this repo is
+markdown notes and should stay cheap to maintain. The one exception is small:
+staging `main` carries local git hooks, run by
+[prek](https://github.com/j178/prek) from `.pre-commit-config.yaml`, offline,
+with stdlib Python scripts in `scripts/`, both left out of public releases by
+`.publish-exclude`. They run the greps this file already asks for — relative
+links and anchors resolve, no taxonomy count back in prose (Propagation) — and
+a few cheap guards: added lines wrap at 80 columns, no machine paths or private
+repository URLs, no private keys, no stray whitespace. Install with
+`prek install`; run them all with `prek run --all-files`. A passing run doesn't
+clear disclosure judgment or replace saying what you verified. Add a hook when
+it would have caught a real slip, not for coverage.

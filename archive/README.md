@@ -5,19 +5,16 @@ do not belong in the everyday reading path. These are dated snapshots, not
 active task instructions. Archiving an open question does not answer it;
 unfinished experiments remain unfinished and require a fresh decision to run.
 The dated [evidence status](../harness/evidence-status.md) lives with the
-guidance and governs where these records disagree with it. The roadmap and
-research plan were lightly revised on archival: terminology, evidence
-characterization, and pointers replacing duplicated routing and next-work
-sections. Both record the author's own research program and continuity, so
-they stay in staging and are left out of public releases; the
-evidence status and backlog carry what a reader needs from them.
+guidance and governs where these records disagree with it. The author's broader
+roadmap and research plan, which recorded a personal research program and
+continuity, are kept privately; the evidence status and backlog carry the
+results and open work.
 
 ## Agentic development — September 2026
 
 | Record | Why it remains available |
 | --- | --- |
 | [Revision spec](2026-09-agentic-development/revision-spec.md) | Intent, boundaries, and acceptance for the documentation revision |
-| Roadmap and research plan (not in public releases) | The broader research questions, proposed mechanisms, sources, and historical research phases |
 | [Research backlog](2026-09-agentic-development/research-backlog.md) | Unfinished follow-ups and their gates as recorded at archival time |
 | Evaluation fixtures and graders: [R0A](2026-09-agentic-development/evaluations/fixtures/R0A-guided-discovery.md), [R0B](2026-09-agentic-development/evaluations/fixtures/R0B-question-driven-prototype.md), [R0C](2026-09-agentic-development/evaluations/fixtures/R0C-dependency-aware-decomposition.md), [R0D](2026-09-agentic-development/evaluations/fixtures/R0D-externalized-decomposition.md) | Frozen packets for treatments that were retired. Each grader sits beside its fixture under `evaluations/graders/`. Archived 2026-09-25; the R1 operator template and the unrun R5 fixture are held privately. |
 
