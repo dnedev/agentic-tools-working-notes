@@ -161,6 +161,15 @@ A similar read-only hook in the author's own cloud sessions was reviewed on
 - **`find -files0-from`**: the roots come from a file or standard input, so
   the command line never shows them.
 
+The author's other setup found one more class in its own hook, reproduced
+here on 2026-10-14 with git 2.43.0 (observed):
+
+- **`git config` options after an operand**: git config stops parsing options
+  at its first operand, so `git config core.fsmonitor x --list` takes `--list`
+  as the value pattern and sets the key. The author's hook had accepted any
+  `git config` with a read flag anywhere in it; it now accepts options only
+  before the first operand.
+
 Live check in a cloud session, 2026-10-09 (observed): a `PreToolUse` hook set
 in a subagent's frontmatter blocked that subagent's `cd` and `touch` and
 fired only while the subagent ran; the main session's own Bash wasn't
@@ -200,6 +209,15 @@ against [Subagent configuration](https://code.claude.com/docs/en/sub-agents),
   order puts the per-call model and the definition's `model` ahead of the
   variable; the force setting needs v2.1.257 or later (docs, checked
   2026-10-09).
+- **`CLAUDE_CODE_WORKFLOW_SUBAGENT_MODEL`** (changelog only, v2.1.296, read
+  2026-10-14; not observed): it runs every workflow agent on one model while
+  other subagents keep theirs. The environment-variable and workflow pages
+  didn't list it that day, and the workflow page counts a model a stage names
+  as the per-call model, so how the two rank is undocumented. The other setup
+  reported that it overrides per-stage choices (relayed, not re-checked here).
+  Keep it unset when routing per stage.
+  [Changelog](https://github.com/anthropics/claude-code/blob/main/CHANGELOG.md),
+  [Workflow cost](https://code.claude.com/docs/en/workflows#cost)
 - **Family aliases** (observed 2026-10-09; partly documented): a family alias
   in an agent's frontmatter can resolve to the session's model, while full
   model IDs were served exactly; the session's model family wasn't recorded. The docs say a family alias resolves to the
@@ -227,6 +245,18 @@ definitions (a file without a `name` is skipped as documentation).
 [Persistent memory](https://code.claude.com/docs/en/sub-agents#enable-persistent-memory),
 [Nested subagents](https://code.claude.com/docs/en/sub-agents#let-subagents-spawn-their-own-subagents),
 [Environment variables](https://code.claude.com/docs/en/env-vars)
+
+From the author's other setup, relayed on 2026-10-14 and not re-checked here:
+
+- **A fetching agent with a shell and private sources** (2026-10-10): a
+  workflow agent fetched public pages while it also held a shell, search over
+  private sources, and private notes, so a fetched page had a direct path from
+  prompt injection to exfiltration. The fix there: fetch with a fixed-host
+  script outside any agent, and read the saved pages with an agent that has
+  no network, shell, or search.
+- **A retrieval cap by page count** (2026-10-10): a docs fetch capped at a
+  number of pages silently dropped the pages the task needed. Size a cap from
+  a real run, and report what it skipped.
 
 For when to delegate and what to hand over, use the
 [workflow gate and packet](agentic-development-workflow.md#fan-out-gate); a
@@ -277,6 +307,12 @@ recorded: in auto mode, an agent's edit to `.claude/settings.json` was blocked
 as self-modification. Propose settings changes as an exact diff for the person
 to apply.
 
+From the author's other setup, observed 2026-10-10 (relayed, not re-checked
+here): an allow rule that runs scripts in a directory, together with an edit
+allow on the same tree, let an agent write a script and run it with no
+prompt. Keep runnable paths outside the trees an agent may edit, and check
+settings for that overlap.
+
 Observed 2026-10-09 and 2026-10-10 in the author's own cloud sessions, in
 auto mode: each refusal named a category. An edit to a repository's hook
 script was refused as Self-Modification; a delegated session's request for
@@ -298,7 +334,9 @@ or operational recovery. Keep independent review and human decisions distinct.
 A command hook that times out doesn't block: the tool call continues through
 the normal permission flow unless the hook sets `onFailure: "block"` (v2.1.295
 or later; documented, checked 2026-10-10). A guard hook that can stall needs
-that field, or a deadline of its own that denies.
+that field, or a deadline of its own that denies. A verify step that fails
+when a guard's entry lacks the field turns a dropped line into a visible
+failure (suggested by the author's other setup, 2026-10-14).
 [Hooks](https://code.claude.com/docs/en/hooks)
 
 A guard hook's decision can be dropped with no visible error (from the
@@ -357,6 +395,49 @@ it was observed there or documented, with the date.
   `Co-Authored-By: Claude <model> <noreply@anthropic.com>` trailer and a
   `Claude-Session:` link (observed 2026-09-24 and 2026-10-09); the `GIT_*`
   variables changed the author and committer, not these trailers.
+- **Commit signatures** (tested 2026-10-13): with the author's noreply
+  address as committer, the session's signed commits read Unverified on
+  GitHub (`unknown_key` in the API). The same tree and message, rebuilt with
+  the author as author and the session's own identity as committer, read
+  Verified (`valid`), committed by the `claude` account. So set only
+  `GIT_AUTHOR_NAME` and `GIT_AUTHOR_EMAIL` and leave the committer to the
+  session: the work stays under the author's name, GitHub verifies it, and the
+  committer tells a session's commit from one the author made. Without the
+  variables, `author.name` and `author.email` in the checkout's git config set
+  the author alone (git 2.43.0, tested 2026-10-13). Every signature observed
+  from the author's sessions used one key, so it appears to be shared across
+  Anthropic-hosted sessions (inferred, not confirmed): don't register it on
+  your own account. Commits the author makes on github.com are signed by
+  GitHub with GitHub as committer and read Verified (documented; observed on
+  the author's merges, 2026-10-13), so the two kinds both read Verified and
+  stay apart without a personal key. GitHub's docs say a commit whose signer
+  isn't its author reads Partially verified when that author has vigilant mode
+  on (GitHub's docs source, read 2026-10-13; not observed).
+- **Attribution trailers** (documented, checked 2026-10-13): unless
+  `attribution` or `attribution.commit` is set, Claude Code adds
+  `Co-Authored-By: <name> <noreply@anthropic.com>`, naming the model in use
+  when the commit is made (such as `Claude Sonnet 5`), or `Claude` alone when
+  it can't confirm the version. In cloud and Remote Control sessions it also
+  adds `Claude-Session:`, which `attribution.sessionUrl: false` turns off. The
+  trailer reaches the model as a system reminder, and a `CLAUDE.md` or memory
+  rule about it takes precedence unless managed settings set the line; that
+  is how the author's trailer stays without a model name (observed
+  2026-10-13). The docs also say a cloud session doesn't read your machine's
+  `~/.claude/settings.json` or `.claude/settings.local.json`; in a
+  one-repository session, commit the key to `.claude/settings.json`. Projects
+  ask for different trailers when you contribute: the Linux kernel's current
+  text wants `Assisted-by: LLM`, optionally followed by analysis tools, after
+  a 2026 change (commit `816d9992d9ed`, in v7.3-rc1) that dropped the model
+  because naming it "provides free advertising to proprietary software
+  companies while adding little or no useful information"; Kubernetes doesn't
+  allow AI co-authors or an `assisted-by` trailer. GitHub's docs describe
+  `Co-authored-by`, and neither `Assisted-by` nor `Claude-Session:`.
+  [Settings reference](https://code.claude.com/docs/en/settings-reference),
+  [Settings in cloud sessions](https://code.claude.com/docs/en/settings#settings-in-cloud-sessions),
+  [Context Claude Code adds](https://code.claude.com/docs/en/how-claude-code-works#context-claude-code-adds-on-its-own),
+  [Kernel AI coding assistants](https://docs.kernel.org/process/coding-assistants.html),
+  [Kubernetes AI guidance](https://github.com/kubernetes/community/blob/master/contributors/guide/pull-requests.md#ai-guidance),
+  [Creating a commit with multiple authors](https://docs.github.com/en/pull-requests/how-tos/commit-changes/creating-a-commit-with-multiple-authors)
 - **Trailers on applied commits** (observed 2026-09-24 in the author's
   API-harness repository; tested 2026-10-10 in a scratch repository, git
   2.43.0): `git am` and `git cherry-pick` keep the original message, so those
@@ -427,15 +508,39 @@ it was observed there or documented, with the date.
   one account-wide switch per skill (checked 2026-10-11). So a skill written
   for chat and Cowork lands here too: a delegation skill drafted for those
   surfaces was listed among a cloud session's skills, next to the user
-  file's own delegation rules (observed 2026-10-11). To keep one out of
-  Claude Code, deny `Skill(anthropic-skills:<name>)` in the permission
-  settings (documented). Setting `syncClaudeAiSkills` to `false` in user
-  settings stops syncing on a machine, which the docs describe for terminal
-  sessions; it wasn't checked in a cloud session. Whether a desktop Cowork
-  session reads the same user settings, and would drop the skill too, wasn't
-  checked either.
+  file's own delegation rules (observed 2026-10-11). The next item covers
+  keeping one out.
   [Skills synced from
   claude.ai](https://code.claude.com/docs/en/skills#how-synced-skills-behave)
+- **Keeping a synced skill out** (documented, checked 2026-10-12; three
+  clauses inferred, each marked): the docs' deny table lists several rule
+  forms, and three bear on a synced skill. `Skill(anthropic-skills:<name>)`
+  names the synced skill, but the docs don't say it also blocks a call by the
+  short name. `Skill(<name>)` should catch a call by the short name (inferred
+  from its exact-match syntax), and it blocks anything else named `<name>`, a
+  nested skill included. When another command takes the short name, the synced
+  skill answers only to its full name, so the rule would block that command
+  instead (inferred). The parameter form `Skill(skill:<name>)` blocks a skill
+  under any of its names, but which value names a synced skill isn't
+  documented. `skillOverrides` set to `"off"` hides a skill from Claude's
+  listing and the `/` menu and makes a call by its full name return an error.
+  It's keyed by skill name, and which key matches a synced skill isn't
+  documented; the `/skills` menu writes the setting itself, so it may show the
+  key (not checked). Plugin skills are exempt from it, and the deny table says
+  Claude Desktop can deliver a synced skill as a plugin. The listing matters
+  because every listed skill adds to the context on every turn. A narrower
+  description only steers when Claude picks the skill; it doesn't block a call
+  (inferred). Setting `syncClaudeAiSkills` to `false` in user settings stops
+  syncing and unloads every synced skill on a machine, which the docs describe
+  for terminal sessions; it wasn't checked in a cloud session. The author's
+  cloud Setup script now writes the full-name and short-name deny rules; that
+  they load and block the call was not observed as of 2026-10-12. Whether a
+  desktop Cowork session reads the same user settings, and would drop the
+  skill too, wasn't checked either.
+  [Skills](https://code.claude.com/docs/en/skills), under "Restrict Claude's
+  skill access" and "Override skill visibility from settings";
+  [Match by input
+  parameter](https://code.claude.com/docs/en/permissions#match-by-input-parameter)
 - **User-level files** (observed 2026-10-09; partly inferred): a `CLAUDE.md`
   linked into `~/.claude` by the Setup script loaded as user instructions.
   Agents and skills linked the same way were listed; that they came through

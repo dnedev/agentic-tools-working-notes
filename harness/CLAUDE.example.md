@@ -230,7 +230,9 @@ together. Use independent review when risk earns it.
   Two environment settings outrank per-call ones:
   `CLAUDE_CODE_EFFORT_LEVEL` beats both the per-call effort and the
   definition's, and `CLAUDE_CODE_SUBAGENT_MODEL_FORCE` ignores both model
-  settings, so keep them unset when routing per call. In Claude Code,
+  settings. A third, `CLAUDE_CODE_WORKFLOW_SUBAGENT_MODEL`, puts every
+  workflow agent on one model; how it ranks against a stage's model isn't
+  documented yet. Keep all three unset when routing per call. In Claude Code,
   thinking can't be switched off on the 5.5 models or Fable-class; effort is
   the dial.
 - **Classes** (2026-10 names; substitute your vendor's equivalents):

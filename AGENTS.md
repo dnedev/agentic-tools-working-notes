@@ -212,18 +212,24 @@ about what to publish, not a hiding place.
 squashed snapshot commit per release: staging `main`'s tree minus the paths in
 `.publish-exclude`. Review it as a pull request into `public`, then
 fast-forward staging `public` and public `main` to it from the command line.
-The merge button would create a different commit under the web identity. The
-author makes the snapshot and pushes it from their own machine with commit
-signing on. An agent here prepares a release on staging (gates, tree, pull
-request description) and doesn't push the staging `public` branch, public
-`main`, or a `publish/` release branch: on a release pull request it reports,
-and any fix lands on staging `main` before a new snapshot. The
+The merge button would create a different commit under the web identity. A
+cloud session builds the snapshot, with the session as committer (the author
+has no personal signing key, decided 2026-10-13). An agent here prepares a
+release on staging (gates, tree, pull request description) and doesn't push
+the staging `public` branch, public `main`, or a `publish/` release branch
+unless the author asks: on a release pull request it reports, and any fix
+lands on staging `main` before a new snapshot. The
 [sharing checklist](harness/sharing-and-release.md#publishing-a-release) holds
 the commands. Run the gates on the snapshot before it is pushed anywhere, and
-check commit metadata: every published commit's author and committer use the
-GitHub noreply address, never an employer or personal mailbox. Set `user.email`
-to it in every GitHub checkout. Never add or fetch the separate repository as a
-remote here; its object format can't share commits with this one anyway.
+check commit metadata: every published commit's author uses the GitHub
+noreply address, and its committer the session's
+`Claude <noreply@anthropic.com>` or that noreply address; never an employer
+or personal mailbox. Set `user.email` to the noreply address
+in every GitHub checkout on the author's machines; in a cloud session the
+author comes from the environment and the committer stays the session's
+([Commit signatures](harness/claude-code-notes.md#cloud-sessions)). Never add
+or fetch the separate repository as a remote here; its object format can't
+share commits with this one anyway.
 
 Anything that cites these notes pins a public release commit, never a staging
 commit: staging commits are private, and the two `main` branches have different

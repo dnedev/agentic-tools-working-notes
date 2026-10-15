@@ -17,6 +17,42 @@ The taxonomy and the audit template are maintained in the author's private
 instrument repository (in the claude.ai project until 2026-10-12) and ported
 here. Entries below describe what landed in this copy.
 
+## 2026-10-14
+
+- Folded in the author's other setup's reply to the 2026-10-11 handoff. The
+  [Claude Code notes](harness/claude-code-notes.md) gain a bypass class for
+  the read-only hook, `git config` options after an operand: git config stops
+  parsing options at its first operand, so a trailing `--list` is read as
+  the value pattern and the command writes. That setup found it in its own
+  hook; this side reproduced it with git 2.43.0, and the author's hook now
+  accepts options only before the first operand. The Claude Code sample
+  names a third environment setting to keep unset when routing per call,
+  `CLAUDE_CODE_WORKFLOW_SUBAGENT_MODEL`, which so far only the changelog for
+  v2.1.296 documents; how it ranks against a model a workflow stage names
+  isn't documented. The notes also carry the reply's relayed findings,
+  marked not re-checked here (a fetching agent that also holds a shell and
+  private sources, a retrieval cap by page count, and an allow rule for
+  running scripts that overlaps an edit allow), and its suggestion to check
+  `onFailure` in a verify step. The release checklist says where a
+  `Sync-from` line has to sit to count as a trailer, checked with git 2.43.0.
+
+## 2026-10-13
+
+- The commit-identity notes follow a change in the author's convention: in
+  cloud sessions the author stays the author and the session's own identity
+  becomes the committer, so GitHub verifies the session's signature. Tested on
+  a rebuild of the 2026-10-12 release commit with the same tree and message:
+  Verified, where the author as committer had read Unverified. The author's
+  own commits on github.com are signed by GitHub, so the committer tells the
+  two apart and both read Verified. The author dropped the 2026-10-10 plan for
+  a personal signing key and for vigilant mode, which would have marked every
+  session commit Partially verified; releases are built in cloud sessions.
+  The 2026-10-12 release commit on staging `public` was replaced by that
+  rebuild before it reached public, the one exception to no force-push. The
+  Claude Code notes gain Commit signatures and Attribution trailers entries;
+  the release checklist, its convention line and its ruleset note follow, and
+  AGENTS.md's release lines and metadata check match.
+
 ## 2026-10-12
 
 - The evolution notes gain an October 12 entry, and the README one passage, on a
@@ -43,6 +79,19 @@ here. Entries below describe what landed in this copy.
   the same. Where AGENTS.md said "the private repository" for the other
   private source, it now says "the separate repository", since two private
   repositories feed staging now.
+- The Claude Code notes' Cloud sessions section gains a "Keeping a synced
+  skill out" item after "Skills", which now points there. Three of the
+  documented deny-rule forms bear on a synced claude.ai skill, and each leaves
+  something open: the full name isn't documented to cover a call by the short
+  name; the short name blocks anything else with that name and, once another
+  command takes it, would block that command instead; and the docs don't say
+  which value the any-name parameter form takes for a synced skill.
+  `skillOverrides` set to `"off"` also hides a skill and blocks a call by its
+  full name, and the docs don't say which of its keys matches a synced skill.
+  Every listed skill costs context on every turn, so that matters too. The
+  author's cloud Setup script now writes the full-name and short-name rules;
+  that they hold in a session was not observed as of 2026-10-12. Checked
+  against the skills and permissions docs on 2026-10-12.
 
 ## 2026-10-11
 

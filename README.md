@@ -53,6 +53,17 @@ might be useful, in general and for my setup.
 
 You don't need this section to use anything in the table above.
 
+Most of the work behind these notes goes into one fairly large set of
+standing instructions, which I call my profile. It sits in the
+account-level instructions field in claude.ai, so it goes out with every
+chat and Cowork task on my account, and a
+[sanitized copy](harness/claude-ai-profile-instructions.example.md) is in
+these notes. When the same failure shows up across unrelated
+conversations, the fix goes in the profile; one that belongs to a single
+kind of work goes into that project's instructions instead. The aim is
+that every later conversation starts a little closer to how I want to
+work, and that only helps if the changes are right.
+
 I kept finding that a plausible instruction change had no durable
 test in my own workflow. So I started using this loop: observe the
 failure, classify the trace, decide whether anything should change,

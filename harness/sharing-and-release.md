@@ -47,18 +47,22 @@ confidentiality judgment.
 
 Staging `main` is the editing home and keeps full history. Public `main`
 receives one squashed snapshot per release through the staging `public`
-branch, so review sees exactly what will be published. The author runs this
-checklist on their own machine with commit signing on (`commit.gpgsign`), so
-the snapshot commit is signed when it's made and the commit reviewed is the
-one published: no amend, no force-push. The signing key is registered on the
-author's GitHub account as a signing key, which is what lets GitHub show the
-release commit as Verified (GitHub docs, checked 2026-10-10). A cloud session
-signs its commits with a key that isn't the author's (see
-[Commit identity](claude-code-notes.md#cloud-sessions)), and the author's
-signing key stays on their machine and isn't put in a cloud environment
-(decided 2026-10-10), so the release isn't made there. In a checkout with
-remotes `staging` and `public`, `user.email` set to the GitHub noreply
-address, and signing on:
+branch, so review sees exactly what will be published. The author's
+releases are built in a cloud session, which signs the snapshot commit when
+it's made; with the session as committer, GitHub shows it as Verified,
+committed by the `claude` account (see
+[Commit signatures](claude-code-notes.md#cloud-sessions)). The commit
+reviewed is the one published: no amend, no force-push. The author decided on
+2026-10-13 against a personal signing key: they work in cloud sessions and on
+github.com, where GitHub signs their own commits, so a key would sign almost
+nothing. The 2026-10-12 release is the one exception to the no-force-push
+rule: its first build, with the author as committer, read Unverified, and the
+author had it rebuilt with the same tree and message and replaced on staging
+`public` before it reached public (decided 2026-10-13). The checklist also
+works on a machine with a signing key registered on the author's account
+(GitHub docs, checked 2026-10-10). In a checkout with remotes `staging` and
+`public`, the author set to the GitHub noreply address (in a cloud session,
+through `GIT_AUTHOR_NAME` and `GIT_AUTHOR_EMAIL`), and signing on:
 
 ```sh
 git fetch staging main public
@@ -116,23 +120,31 @@ identity and signature:
 git log --format='%h %an <%ae> %cn <%ce> %G?' staging/public..publish
 ```
 
-Every line should show only the noreply address, as author and committer,
-and end in `G`, a good signature. For an SSH signing key, git reports `G`
-only when the key is listed in `gpg.ssh.allowedSignersFile` (git
-documentation, checked 2026-10-10). Without that file, an SSH-signed commit
-read `N` after an error about the missing file (observed 2026-10-10, git
-2.43.0, without `ssh-keygen` installed). That check reads author, committer,
-and signature only. A commit written in a Claude Code cloud session also
+Every line should show only the noreply address as author and
+`Claude <noreply@anthropic.com>` as committer (the noreply address again for
+a release made on the author's machine), and end in `G`, a good signature.
+For an SSH signing key, git reports `G` only when the key is listed in
+`gpg.ssh.allowedSignersFile` (git documentation, checked 2026-10-10).
+Without that file, an SSH-signed commit read `N` after an error about the
+missing file (observed 2026-10-10, git 2.43.0, without `ssh-keygen`
+installed), and a cloud session's own signature read `N` the same way
+(observed 2026-10-13). There, after pushing for review, read GitHub's verdict
+with `gh api repos/<owner>/<repo>/commits/<sha> --jq .commit.verification`
+instead. That check reads author, committer, and signature only. A commit
+written in a Claude Code cloud session also
 carries a `Co-Authored-By` trailer and a `Claude-Session:` link in its message
 ([observed](claude-code-notes.md#cloud-sessions)); if a release shouldn't
 carry them, read `git log --format=%B staging/public..publish` before pushing.
 The snapshot is one squashed commit whose message is written at release time,
 so session trailers in staging history don't reach public; only that message
 does. The author's release messages carry neither trailer, a choice made
-2026-10-08. In private repositories the author's convention, decided 2026-10-10,
-is that the author stays author and committer and Claude is credited with
-`Co-Authored-By: Claude <noreply@anthropic.com>`, without a model name, next
-to the `Claude-Session:` link. Then push it for review, and put
+2026-10-08. In private repositories the author's convention, decided 2026-10-10
+and revised 2026-10-13, is that the author stays author, a cloud session's own
+identity is the committer so that GitHub can verify it, and Claude is credited
+with `Co-Authored-By: Claude <noreply@anthropic.com>`, without a model name,
+next to the `Claude-Session:` link; the author's own commits keep the author
+as committer, and those made on github.com carry GitHub as committer and its
+signature. Then push it for review, and put
 the staging `main` commit it was built from in the pull request description
 rather than in the public commit:
 
@@ -153,7 +165,7 @@ Anything that cites the notes should pin the resulting public commit. A new
 snapshot does not remove anything from already published history; discovery of
 an older leak needs a separate owner-led response.
 
-After the first signed release, the public repository gets a ruleset on its
+After the first Verified release, the public repository gets a ruleset on its
 default branch with **Restrict deletions**, **Block force pushes**, and
 **Require signed commits**. GitHub's docs (checked 2026-10-10): with required
 signing, "contributors and bots can only push commits that have been signed
@@ -162,12 +174,15 @@ commits you make using the web interface". So the rule alone wouldn't stop a
 commit GitHub signs for someone with write access (inferred; not tested). From
 then on cloud sessions don't get write access to the public repository:
 agents prepare a release on staging, and only the author pushes public. This
-is the author's setup, decided 2026-10-10. The author also turns on GitHub's
-vigilant mode. The docs (checked 2026-10-10) mark an unsigned commit
-Unverified when its committer or an author has vigilant mode on; they don't
-say how unsigned commits pushed before it was turned on will read, the older
-public ones included (not checked). Cloud-session commits already read
-Unverified.
+is the author's setup, decided 2026-10-10. Vigilant mode stays off, which
+replaces the 2026-10-10 plan to turn it on (decided 2026-10-13). GitHub's docs
+say to "only enable vigilant mode if you sign all of your commits and tags",
+and with it on, a signed commit that names the author but has another
+committer reads Partially verified, which would cover every session commit
+(GitHub's docs source, read 2026-10-13; not observed). Cloud-session commits
+read Unverified while the author was their committer, and Verified with the
+session as committer (see
+[Commit signatures](claude-code-notes.md#cloud-sessions)).
 [Displaying verification statuses](https://docs.github.com/en/authentication/managing-commit-signature-verification/displaying-verification-statuses-for-all-of-your-commits),
 [About commit signature verification](https://docs.github.com/en/authentication/managing-commit-signature-verification/about-commit-signature-verification),
 [Available rules for rulesets](https://docs.github.com/en/repositories/configuring-branches-and-merges-in-your-repository/managing-rulesets/available-rules-for-rulesets)
@@ -182,7 +197,10 @@ share commits anyway: it uses a different object format.)
   the last synced commit, a short note per change (what, why, and what may need
   adapting there), and the base SHA. The receiving agent reviews and adapts
   rather than applying blindly, and records `Sync-from: staging <sha>` so the
-  next handoff knows its base.
+  next handoff knows its base. Put that line in the message's last paragraph,
+  with the other trailers, or match it in the body: a line above the blank
+  line before the trailers isn't a trailer, so `%(trailers)` log formats miss
+  it (observed with git 2.43.0 on 2026-10-14, after the other copy hit it).
 - **Back from it.** Extract only reviewed, sanitized changes into a branch here,
   run the checks under [Review before export](#review-before-export) before the
   push, and merge through a pull request. Adaptations made for the other context
