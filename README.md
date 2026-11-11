@@ -6,24 +6,47 @@ n=1, graded by me, and tied to the model versions I used: take what's useful,
 verify it in your own environment, and discard the rest. [Scope](#scope) has
 the full caveats.
 
+New here? The [scaffold overview](harness/scaffold.md) shows how one whole
+setup fits together, from instructions and skills to hooks, agents and the
+knowledge base, and why each piece exists.
+
 ## Start here
 
-Each row stands on its own; none needs another first.
+Four ways in. Each row stands on its own; none needs another first.
+
+### See the setup
 
 | I want to... | Go to |
 | --- | --- |
-| Start a task with an agent | The [task brief](harness/agentic-development-adoption.md#start-a-task): a message you paste into Claude Code, Codex, or Cowork as you start the task, alongside your existing instructions. Fill in only what matters; there's nothing to install. |
+| See how one whole setup fits together, knowledge base included | The [scaffold overview](harness/scaffold.md): each layer, why it exists, how a session learns about it, how a knowledge base is wired in, and a block to hand your agent. |
+
+### Use it with my agent
+
+| I want to... | Go to |
+| --- | --- |
 | Have my agent pick out what's useful for me | The [hand-off prompt](#hand-it-to-an-agent): paste it into the agent or assistant you use. It asks for proposals, not changes. |
-| Review what the agent did | [Review the result, then get it merged](harness/agentic-development-adoption.md#review-the-result-then-get-it-merged). Read the diff before the agent's summary, and treat "done" as a claim until it names the criterion and the check that ran. |
-| Recover a session that's going sideways | [When a session goes sideways](harness/agentic-development-adoption.md#when-a-session-goes-sideways). Start a fresh session with a short packet rather than correcting through accumulated confusion. |
-| Find where a conversation's reasoning went wrong | The [audit prompt](verification-kit/trace-self-audit-template.md#paste-ready-template-copy-everything-in-the-block): paste it into a fresh chat with the transcript attached, on a surface that transcript is allowed to reach. It's for the occasional bad conversation, like research or a recommendation you acted on, not every one; [the three steps](verification-kit/README.md#try-it-on-one-conversation). |
-| Borrow rules for my Claude Code or Codex setup | The [`CLAUDE.md` sample](harness/CLAUDE.example.md) or the [Codex `AGENTS.md` sample](harness/AGENTS.example.md). Each sample's header says what to adapt first. Lift single rules into what you already have, then [check what loaded](harness/agentic-development-adoption.md#changing-your-setup-optional). |
-| Borrow rules for another tool | The [harness index](harness/README.md#samples-by-tool): Cursor, claude.ai, Cowork, ChatGPT, and Snowflake CoCo samples, each with where it goes and its notes, plus a few skills. |
-| Plan longer or riskier work | The [workflow](harness/agentic-development-workflow.md); read the section you need, not the page. Before relying on its advice about model choice or splitting work across agents, check the [evidence status](harness/evidence-status.md) for what was tested and what wasn't. |
-| Pass these notes on | Send the link, plus the [hand-off prompt](#hand-it-to-an-agent) for anyone who'd rather use an agent. To share an adapted copy, my [sharing checklist](harness/sharing-and-release.md) has the checks I run before sharing mine. |
+| Borrow rules for my own setup | The [`CLAUDE.md` sample](harness/CLAUDE.example.md) or the [Codex `AGENTS.md` sample](harness/AGENTS.example.md); for Cursor, claude.ai, Cowork, ChatGPT and Snowflake CoCo, and a few skills, the [harness index](harness/README.md#samples-by-tool). Each sample's header says what to adapt first. Lift single rules into what you already have, then [check what loaded](harness/agentic-development-adoption.md#changing-your-setup-optional). |
+| Work with an agent day to day | The [task brief](harness/agentic-development-adoption.md#start-a-task) to paste as you start a task (nothing to install); [reviewing the result](harness/agentic-development-adoption.md#review-the-result-then-get-it-merged), where "done" is a claim until it names the check that ran; [when a session goes sideways](harness/agentic-development-adoption.md#when-a-session-goes-sideways); and the [workflow](harness/agentic-development-workflow.md) for longer or riskier work; before relying on its advice about model choice or splitting work across agents, check the [evidence status](harness/evidence-status.md). |
+
+### See how I test and grade
+
+| I want to... | Go to |
+| --- | --- |
+| Find where a conversation's reasoning went wrong | The [audit prompt](verification-kit/trace-self-audit-template.md#paste-ready-template-copy-everything-in-the-block): paste it into a fresh chat with the transcript attached, on a surface that transcript is allowed to reach. It's for the occasional bad conversation, not every one; [the three steps](verification-kit/README.md#try-it-on-one-conversation). |
+| See how failures are classified and turned into checks | The [failure-pattern taxonomy](verification-kit/failure-pattern-taxonomy.md), the [regression-corpus method](verification-kit/regression-corpus-method.md), and the [evaluation protocol](harness/evaluations/README.md) for workflow changes. |
+
+### See why it's this way
+
+| I want to... | Go to |
+| --- | --- |
+| Follow one failure from trace to rule to re-check | The [worked example](verification-kit/worked-example.md). |
+| Know what's tested and what isn't | The [evidence status](harness/evidence-status.md), [what the runs showed](verification-kit/README.md#what-the-runs-showed), the [evolution notes](verification-kit/evolution-and-lessons.md), and the decision records ([0001](harness/decisions/0001-selective-skill-derivation.md), [0002](harness/decisions/0002-data-work-instruction-layers.md), [0003](harness/decisions/0003-data-layer-evidence-from-the-pack.md)). |
 
 The samples are tuned to my own voice and defaults, so take single rules
-rather than whole files.
+rather than whole files. To pass these notes on, send the link, plus the
+[hand-off prompt](#hand-it-to-an-agent) for anyone who'd rather use an agent;
+to share an adapted copy, the [sharing
+checklist](harness/sharing-and-release.md) has the checks I run on mine.
 
 ## Hand it to an agent
 
@@ -51,7 +74,7 @@ might be useful, in general and for my setup.
 
 ## Why it looks like this
 
-You don't need this section to use anything in the table above.
+You don't need this section to use anything in the tables above.
 
 Most of the work behind these notes goes into one fairly large set of
 standing instructions, which I call my profile. It sits in the
@@ -129,9 +152,6 @@ cases where it invalidates its own apparent successes.
   Codex, ChatGPT, Cowork, Cursor, and Snowflake CoCo. Its own index links each artifact.
   It also holds the workflow pilot's evaluations and decision record; nothing
   in [Start here](#start-here) requires them.
-- **[`archive/`](archive/README.md)** — dated research, completed revision
-  records, and retired evaluation fixtures, kept for
-  context rather than everyday navigation.
 
 Dated changes, and the reasoning behind the conventions, are in
 [CHANGELOG.md](CHANGELOG.md).

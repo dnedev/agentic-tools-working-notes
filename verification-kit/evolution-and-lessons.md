@@ -39,7 +39,7 @@ instructions duplicated the global layer. *Lessons: duplication across
 layers is a deletion, not an addition — and token budget is attention
 budget.*
 
-**May — the four-failure rewrite (v5.0).** Seventeen documented failures
+**May — the four-failure rewrite.** Seventeen documented failures
 across two long threads (a long-form research thread and a trivia
 lookup) clustered into four root causes: generation passed off as
 retrieval, absence treated as evidence, confidence as performance, and
@@ -219,9 +219,9 @@ while the sequence is unstable. Inspect what stayed pinned between turns —
 priority, evidence, or time — before treating each answer as an isolated call.*
 
 **September 3 — provenance applied to the rules themselves.** The same source
-reconciliation found that a private taxonomy/history chain described the
-August interlocutor clause as recast into a replacement grammar. The recorded
-decision and installed text instead showed deletion on preference grounds. The
+reconciliation found that an earlier copy of the history described the
+August interlocutor clause as recast into a replacement grammar. The decision
+record showed deletion on preference grounds. The
 tracked evolution note had already preserved the deletion accurately; the
 taxonomy now states the distinction explicitly and the private regression case
 is a no-clause watch, not a test of a rule that does not exist. *Lesson: a rule's
@@ -252,11 +252,10 @@ FAIL that would validate it as a detector. The corpus now calls such passes
 *stack-default* until a control arm reproduces them. *Lesson: a PASS under
 your full stack is not evidence that the stack caused it.*
 
-**September — keep the text, not just the story.** The profile's version
-history had been replacing its installed copy at each install, so the
-outgoing version's verbatim text was overwritten each time; several versions
-had to be reconstructed by reversing recorded edits. The history now keeps
-every installed version's verbatim text beside its rationale. *Lesson: a
+**September — keep the text, not just the story.** My version history had
+overwritten the outgoing version's verbatim text at each install; several
+versions had to be reconstructed by reversing recorded edits. The history now
+keeps every version's verbatim text beside its rationale. *Lesson: a
 version history without the versions' text is a story about them. Keep the
 text.*
 

@@ -176,6 +176,11 @@ as a starting hypothesis, not a ranking:
 - the smallest capable model for a well-scoped code slice or a mechanical
   prototype spike.
 
+These classes are the generic starting point. The author's own Claude Code
+sample routes by class instead (2026-10): the smallest class isn't a default
+there, and a stage with a complete brief and a check that runs goes to the
+mid-size class at medium effort. That's a personal preference, not a result.
+
 Effort is a reasoning signal, not a spend ceiling, and labels are
 host-relative: the same label need not buy equal compute across models or
 hosts. Lower it for simple, high-volume work; raise it only for unresolved
@@ -198,15 +203,18 @@ require parallel execution. For parallel work, require all of these:
   as a hypothesis until measured.
 
 Before dispatch, use deterministic local search or parsing to build the
-smallest sufficient evidence packet. For the first pilot, add exactly one
+smallest sufficient evidence packet. For a first pilot, add exactly one
 read-only worker with a bounded scope, output schema, query/tool ceiling, and
 stop condition. Expand only after a representative comparison shows that extra
 coverage or elapsed-time gain survives repeated context, synthesis, and review
-cost. Use separate worktrees for independent write tasks; different files can
-still share an API, migration, or deployment dependency. Work on a coupled
-ownership unit stays sequential, followed by checks of the integrated result.
-The practical limit is the review capacity of the human owner, not the number
-of available agent slots.
+cost. (That is the path for adopting fan-out. The author's own Claude Code
+sample has run multi-agent workflows by default for substantive work since
+October 2026, a personal default with no measured comparison behind it.) Use
+separate worktrees for independent write tasks; different files can still
+share an API, migration, or deployment dependency. Work on a coupled ownership
+unit stays sequential, followed by checks of the integrated result. The
+practical limit is the review capacity of the human owner, not the number of
+available agent slots.
 
 Start the worker from the self-contained packet, not a full owner-history fork,
 unless shared context is explicitly required and checked for conflicting role
@@ -230,6 +238,50 @@ question; independent alternatives may run in isolated sandboxes against the
 same observation. Implementation retains one writer per ownership unit, and a
 fresh reviewer stays independent of that writer. Agent count never substitutes
 for resolving a decision dependency.
+
+One worked run, observed 2026-10-15 on a second setup (n=1, not an
+evaluation, not re-checked here): carrying reviewed changes from one
+repository into another.
+Deterministic checks came first: file hashes against the last synced commit
+and a patch dry run. Before dispatch the coordinating session stated the cost:
+eight agents, all Opus-class at high, and a token estimate (the run stayed
+close to it). It departs from the one-worker first pilot
+above, and no comparison was run. Four analyzers briefed to stay read-only ran
+in a pipeline, each with an output schema, an evidence boundary, the rule to
+stop on a refused action, and no recursive delegation. One skeptic per
+analysis re-read the cited sources to refute its claims; it ran on the same
+model class, so it was a weaker independence check. The skeptics corrected
+dates and over-claims and refuted one premise. The coordinating session
+re-checked the decisive anchors, a fresh-context reviewer read the outbound
+text, and the human owner saw one review before anything was sent. Inspecting
+actual actions mattered: agents wrote scratch files despite the brief (see the
+[Claude Code notes](claude-code-notes.md#bounded-subagents)).
+
+A later review of that setup's sessions (2026-10-09 to 2026-10-26; its
+transcripts read by Opus-class reviewers, each finding cluster then checked by
+one same-class critic; n=1 setup, author-graded, not an evaluation) found four
+gaps around fan-out and review:
+
+- **The cost line before dispatch** was missing, or posted in the same turn
+  as the launch, on some of the runs made after that setup adopted the rule.
+  With multi-agent workflows on by default, the tool's own large-workflow
+  warning doesn't show (documented), so nothing showed a run's size in time
+  to veto it; two runs were stopped after launch. The fix proposed there is a
+  pre-tool hook on the workflow tool that shows the plan and asks above a
+  size threshold; it isn't built yet.
+- **Review after publication.** Five times a reviewer ran after the push or
+  publish it was reviewing, so its findings became follow-up fixes or
+  corrections in shared material. The fix proposed there is an ordering rule:
+  the review is folded in before the push, publish, or send, unless the owner
+  says to ship first.
+- **Relayed figures.** Twice a number from a delegated worker went into a
+  draft or a commit before the coordinating session recomputed it, although
+  checking decisive anchors was already a rule there. One turned a
+  difference of about 2% into about 9%.
+- **A security-only reviewer** that runs on every change discarded, as out
+  of scope by design, a finding that a script would drop older copies of
+  data it maintains after a format change. A script that deletes or
+  overwrites owned state needs a correctness review as well.
 
 ## Worker packet and return
 

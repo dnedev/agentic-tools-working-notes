@@ -8,11 +8,11 @@
 @AGENTS.md
 
 > **Import sentinel.** If your context doesn't contain the `AGENTS.md`
-> sections "Using these notes" and "Editing this repository", with
-> "Preserve the epistemic register — the prime directive", "Propagation — the
-> one thing to get right", and "The instruments are ported derivatives" under
-> the second, the `@AGENTS.md` import may have failed silently — read
-> `AGENTS.md` directly before proceeding.
+> sections "Using these notes", "Maintaining this copy", and "Adapting your
+> own copy", with "Preserve the epistemic register — the prime directive"
+> and "Propagation — the one thing to get right" under the last, the
+> `@AGENTS.md` import may have failed silently — read `AGENTS.md` directly
+> before proceeding.
 
 Project instructions live in `AGENTS.md` (read by Codex, Cursor, Copilot, and other
 agents per the [agents.md spec](https://agents.md)). Don't add instructions here —

@@ -4,8 +4,9 @@ Dated record of what changed here and why. Written retroactively on
 2026-08-10 from the commit history and the working notes behind it, so
 entries before that date are reconstructions — coarser than the commits
 they summarize, and silent about whatever the commits did not record.
-Updated when a convention changes or the repo changes shape, not on every
-edit.
+Since 2026-11-11 an entry covers what changed between public releases;
+before that, entries were added when a convention changed or the repo changed
+shape, not on every edit.
 
 Two omissions are deliberate. There is no version number: this is not
 released software, while individual instruments and candidate contracts carry
@@ -13,45 +14,266 @@ their own version lines. And there is no pattern count anywhere below — the
 taxonomy table is the only place one lives, for the reason recorded under
 2026-08-05.
 
-The taxonomy and the audit template are maintained in the author's private
-instrument repository (in the claude.ai project until 2026-10-12) and ported
+The taxonomy and the audit template are maintained privately and ported
 here. Entries below describe what landed in this copy.
+
+## 2026-11-11
+
+- The [scaffold overview](harness/scaffold.md) is about how the scaffold
+  works and how to wire a KB into a session: a new paragraph says which
+  pieces connect the vault to a session, and the page no longer describes the
+  author's backups, dotfiles or notes repositories, or names private records.
+- The notes describe how the scaffold works rather than how this copy is run.
+  The rules for maintaining this copy aren't published any more;
+  [AGENTS.md](AGENTS.md) gates edits on them, and the [sharing
+  checklist](harness/sharing-and-release.md) keeps the generic publishing and
+  sync steps. The footers of the user-level samples and copy sheets are dated
+  snapshots rather than revision histories of installed texts, observations
+  from a second setup carry one neutral label, and usage figures that
+  described how much the author's setups are used are gone. Earlier entries
+  below were trimmed of the same material.
+- The README's Start here is grouped by four uses (see the setup, use it
+  with an agent, how the author tests and grades, why it's this way), and a
+  [worked example](verification-kit/worked-example.md) follows one failure
+  pattern from trace to rule. The archive (revision records, the research
+  backlog and the retired R0A to R0D fixtures) is no longer published; it is
+  in releases through 2026-10-15. The sharing checklist is shorter.
+
+## 2026-11-10
+
+- A [scaffold overview](harness/scaffold.md) shows how one setup's layers
+  fit together: always-loaded instructions, skills on a trigger, hooks and
+  settings, delegated agents, a private knowledge base and agent memory,
+  and workstream files, each with why it exists and how a
+  session learns about it. It is linked
+  from the README's Start here table and the
+  [harness index](harness/README.md). n=1, the author's setup as of that
+  date.
+- The [Claude Code notes](harness/claude-code-notes.md) add, from one setup:
+  a subagent called with a model the allowlist didn't admit was served
+  another family without an error, and a hook comparing the requested model
+  with `resolvedModel` warns at launch (workflow agents at `SubagentStop`);
+  idle compaction back on at a higher threshold once state could be
+  restored; steering a compaction's summary and restoring state after it
+  with hooks, observed in a manual `/compact`; and what a long session
+  costs, where most of the cost was input context, not output.
+- The [Claude Code sample](harness/CLAUDE.example.md) writes anything meant
+  to last when it settles, not at the end of a session, because long
+  sessions stay open for days.
+- The Claude Code notes and the sample's Safety section no longer say an `Edit`
+  deny twin adds only NotebookEdit: by the current permissions docs, Bash writes
+  by redirect or `tee` are checked against `Edit` rules, so the twin covers them
+  too; whether a `Read` deny alone does isn't settled. A second setup raised it;
+  checked against the docs, not tested.
+
+## 2026-11-02
+
+- A
+  [model and effort benchmark](harness/evaluations/model-and-effort-2026-11-01.md)
+  checked two of the author's rules on narrow tasks graded by code: Haiku's
+  answers matched Sonnet's and Opus's, but as a session it wasn't faster
+  than Sonnet, and medium effort couldn't be shown to differ from high. Both
+  rules stay, and the
+  [delegation skill sample](harness/skills/delegation/SKILL.md) now gives
+  that evidence for its Haiku line and spells out what "sure" means in its
+  effort line. The [Claude Code sample](harness/CLAUDE.example.md) takes
+  the same evidence and rule: Opus-class and Fable-class at high, or
+  medium for a very simple or checked task, where it said never below
+  high.
+- The Claude Code sample's credential deny follows the notes' 2026-11-01
+  reading: `Read(...)` rules, which also block Edit and Write, without the
+  `Edit(...)` twin or the reason given for leaving it off project-wide
+  patterns.
+
+## 2026-11-01
+
+- A docs review compared the notes with the Claude Code and claude.com/docs
+  pages. The [Claude Code notes](harness/claude-code-notes.md) correct what it
+  showed stale: fork mode is on with `-p` and in the Agent SDK from v2.1.302, a
+  fork shares the main session's conversation and model, and a `Read` deny also
+  blocks Edit and Write, so the reason a second setup gave for keeping
+  project-wide credential patterns as `Read` rules only is out of date. They add
+  that Explore runs on the session's model unless the call names one (with a
+  model named, it applied in the author's runs), what a cloud thread in a Claude
+  Code project loads, the `/usage` breakdown and main-session cache line, and
+  that an interruption restarts subagents while workflows resume.
+- The [Cowork notes](harness/cowork-notes.md) record that the desktop app's
+  projects are local and separate from claude.ai projects, and that Claude
+  Code's fork and nesting defaults differ from what chat showed; the
+  [claude.ai notes](harness/claude-ai-notes.md) point to that split.
+- The review's agents reported more than could be re-read that day. These
+  items appear as leads marked "not re-read here": the desktop Cowork
+  overview on `~/.claude`, scheduled-task approval, connector tool
+  permissions, plugins and connectors in Claude Code, skills needing code
+  execution, the auto-mode classifier variable, and mid-session `CLAUDE.md`
+  edits. The rest stay out until someone re-reads them.
+
+## 2026-10-26
+
+- The [Claude Code notes](harness/claude-code-notes.md) gain a section on the
+  prompt cache in long sessions: the documented lifetimes and idle
+  compaction, one-hour cache writes observed on one setup, and what watchers
+  cost in a long context.
+- The [workflow pilot](harness/agentic-development-workflow.md)'s fan-out gate
+  records a review of a second setup's sessions: the cost line skipped before
+  dispatch, reviews run after publication, secondhand figures, and a
+  security-only reviewer's blind spot.
+
+## 2026-10-22
+
+- The task-type `data-*` skills and their callee prompt left these notes:
+  they're specific to one setup, which keeps them. The CoCo samples and notes
+  and decisions 0002 and 0003 stay, with the modules and the callee prompt
+  described rather than linked.
+- The [user-global sample](harness/CLAUDE.example.md)'s model rule now says
+  the latest release per class holds wherever a model is configured, and to
+  keep the vendor's default where the API refuses the latest.
+- The [Claude Code notes](harness/claude-code-notes.md) record why the
+  auto-mode classifier stays on an older Sonnet (documented, plus one debug-log
+  probe and a fresh-session check of subagent models), and that the advisor
+  tool reads the whole conversation, so it isn't a fresh-context reviewer.
+
+## 2026-10-21
+
+- Added an
+  [execution-contract sample](harness/coco-execution-contract.example.md)
+  for CoCo, the layer the data layer assumes (L2 in decision 0002): which rules
+  in the Claude Code global direct CoCo, connection discipline, refusals and
+  restricted scopes as boundaries, the documentation route, and session side
+  effects. The tested machine had no such file when it was checked; a marker
+  probe confirmed the live counterpart loads.
+- [Decision 0003](harness/decisions/0003-data-layer-evidence-from-the-pack.md)
+  now records a run on the CoCo CLI itself: no detectable difference between
+  the data layer and the redesign before it with the stronger model (equal
+  passes; unsupported "verified" labels 0 of 36 against 2 of 36, not
+  significant). The [CoCo notes](harness/coco-notes.md) add what the CLI showed
+  on the way: the instruction patterns it searches, a user-level Cursor rule
+  not loading, the headless tool allowlist, restricted session scope objects,
+  isolated homes for an A/B, hooks loaded from Claude Code, and the measured
+  loaded set.
+- The [CoCo sample](harness/coco-user-defaults.example.md)'s Evidence section
+  now carries the evidence-labelling pack's bullets again, with its judgement
+  and design-advice rules: the redesign had dropped the lines against
+  treating memory or analogy as verification and against answering feature
+  questions without the documentation, and it did worse on the one item they
+  target (not significant).
+  [Decision 0003](harness/decisions/0003-data-layer-evidence-from-the-pack.md)
+  records the reading, the numbers and what stays unmeasured.
+- Moved the reply voice and format out of the
+  [user-global sample](harness/CLAUDE.example.md) into a new
+  [output-style sample](harness/claude-code-output-style.example.md): subagents
+  loaded those lines from `CLAUDE.md`, and an output style reaches only the
+  main conversation and forks. "Commit in prose" stays beside Calibration,
+  since subagent reports need its status flags, and Interaction now puts
+  questions and early answers first. Untested beyond one fresh session quoting
+  the style back.
+- Added a [writing-for-others](harness/skills/writing-for-others/SKILL.md)
+  skill for text other people read, triggered from the user-global sample;
+  its check before handing over is a mechanical search, per the lesson that a
+  rule that keeps slipping needs a different shape.
+- The [Claude Code notes](harness/claude-code-notes.md#output-styles) gain an
+  Output styles section (loading, precedence, silent fallbacks, detection),
+  and the [claude.ai notes](harness/claude-ai-notes.md) record that styles are
+  gone there and skills are activated on demand.
+
+## 2026-10-16
+
+- Replaced the CoCo sample with a data-work session layer, and added eight
+  task-type modules as `data-*` skills, plus a callee prompt for delegated runs
+  that load no instruction file. The sample now covers effective context, tiers
+  and writes, evidence for warehouse results, data handling, a pointer to the
+  modules, and the handoff; role switches and writes need the task to name
+  them. [Decision 0002](harness/decisions/0002-data-work-instruction-layers.md)
+  records the layer design and three pre-install reviews. It also records the
+  conclusions of one small evaluation of a data agent, not on CoCo: a stronger
+  model fixed almost all of the recurring errors where effort and instructions
+  didn't, and the sample's text at the time made no detectable difference on
+  either model. The [CoCo notes](harness/coco-notes.md) gain skill locations,
+  rule-file discovery, a skill probe, and those conclusions, marked as not
+  CoCo evidence.
+  The sample and the modules haven't been through the probes yet.
+
+## 2026-10-15
+
+- Recorded a check on a second setup's guarded-stage note: in a cloud session, a
+  workflow stage run as the hook-guarded `scout` had a shell-redirect write
+  refused by its frontmatter hook, the same as a direct call (one probe, a
+  redirect only). The note also records that an attached repository's unguarded
+  namesake stood in for the guarded agent, and that a session keeps the agent
+  definitions it started with. Corrected the same day: the session did pick the
+  removal up, later rather than at once, and the note now says so; it also
+  records a reader-agent probe and the hook's wider test coverage.
+
+- The [Claude Code sample](harness/CLAUDE.example.md) gains, each from a second
+  setup and dated: "could not evaluate this action" read as a failed check to
+  retry as-is; hooks and the routes not to take in the refusal rule; logs,
+  plugin docs, chat messages and system-reminder blocks in the untrusted-input
+  list; wider Opus-class judgment (unknown-cause debugging, safety guards,
+  anything nothing downstream checks); full-ID pins as an agent's own model,
+  with a routine for stale pins; a pinned smallest-class host agent given the
+  mid-size class per call; the review command's levels; no second security
+  review over a background one; specialist reviewers by request or risk axis; no
+  same-model judge panels; per-task commit grants and a plugin's own review step
+  in plugin workflows; what independence a same-class `critic` keeps; read-only
+  workflow stages run as guarded agent types; and credential `Edit(...)` denies
+  scoped to home-directory paths. A new multi-repository bullet adds scope rules
+  and one observation: an attached repository's agent definition shadows a
+  user-level one of the same name, so a guard on your own agent doesn't hold
+  against an unguarded namesake. The Explore step names owners and conventions
+  in all three samples that share the loop table. The workflow and evidence
+  pages each say how the author's own defaults relate to their generic guidance.
+
+- Carried the account profile's October revision into the [profile copy
+  sheet](harness/claude-ai-profile-instructions.example.md) and the [Claude Code
+  sample](harness/CLAUDE.example.md). The device premise and its placeholder are
+  gone; the structure rule states its reason and asks for nesting; diagrams only
+  where the surface renders them; emoji as a request rather than a permission;
+  the literal-prose clause scoped to the substance, with a register that matches
+  the one I set; and the earned-positive line that had dropped out by May is
+  back. The Claude Code sample also asks for full depth over the host's brevity
+  defaults, the coding-tool form of the copy sheet's small-screen line. The
+  revision rests on a count of formatting features in single-turn harness
+  answers, Opus models only; the register and candor edits have no measurement
+  yet. The Codex, Cursor, and CoCo samples keep their own response-shape wording
+  and weren't changed.
+- From a second setup, the [Claude Code notes](harness/claude-code-notes.md)
+  gain a workflow run in which scratch files appeared despite a read-only brief,
+  while a hook-guarded reviewer was stopped; two follow-ups to the fetch items
+  (a reader's output reaching stages with full tools, and sizing the page cap);
+  `find -files0-from` under bfs, which Claude Code's Bash tool ran; an Edit deny
+  refusing a Write, and why project-wide credential patterns stay Read-only
+  there; and `attribution.commit` setting the plain trailer. The [workflow
+  page](harness/agentic-development-workflow.md#fan-out-gate) gains that run as
+  one worked example, n=1.
 
 ## 2026-10-14
 
-- Folded in the author's other setup's reply to the 2026-10-11 handoff. The
-  [Claude Code notes](harness/claude-code-notes.md) gain a bypass class for
+- The [Claude Code notes](harness/claude-code-notes.md) gain a bypass class for
   the read-only hook, `git config` options after an operand: git config stops
-  parsing options at its first operand, so a trailing `--list` is read as
-  the value pattern and the command writes. That setup found it in its own
-  hook; this side reproduced it with git 2.43.0, and the author's hook now
-  accepts options only before the first operand. The Claude Code sample
-  names a third environment setting to keep unset when routing per call,
+  parsing options at its first operand, so a trailing `--list` is read as the
+  value pattern and the command writes. A second setup found it in its own hook;
+  it was reproduced here with git 2.43.0, and the author's hook now accepts
+  options only before the first operand. The Claude Code sample names a third
+  environment setting to keep unset when routing per call,
   `CLAUDE_CODE_WORKFLOW_SUBAGENT_MODEL`, which so far only the changelog for
-  v2.1.296 documents; how it ranks against a model a workflow stage names
-  isn't documented. The notes also carry the reply's relayed findings,
-  marked not re-checked here (a fetching agent that also holds a shell and
-  private sources, a retrieval cap by page count, and an allow rule for
-  running scripts that overlaps an edit allow), and its suggestion to check
-  `onFailure` in a verify step. The release checklist says where a
-  `Sync-from` line has to sit to count as a trailer, checked with git 2.43.0.
+  v2.1.296 documents; how it ranks against a model a workflow stage names isn't
+  documented. The notes also carry that setup's findings, marked not re-checked
+  here (a fetching agent that also holds a shell and private sources, a
+  retrieval cap by page count, and an allow rule for running scripts that
+  overlaps an edit allow), and its suggestion to check `onFailure` in a verify
+  step. The sharing checklist says where a sync marker has to sit to count as a
+  trailer, checked with git 2.43.0.
 
 ## 2026-10-13
 
-- The commit-identity notes follow a change in the author's convention: in
-  cloud sessions the author stays the author and the session's own identity
-  becomes the committer, so GitHub verifies the session's signature. Tested on
-  a rebuild of the 2026-10-12 release commit with the same tree and message:
-  Verified, where the author as committer had read Unverified. The author's
-  own commits on github.com are signed by GitHub, so the committer tells the
-  two apart and both read Verified. The author dropped the 2026-10-10 plan for
-  a personal signing key and for vigilant mode, which would have marked every
-  session commit Partially verified; releases are built in cloud sessions.
-  The 2026-10-12 release commit on staging `public` was replaced by that
-  rebuild before it reached public, the one exception to no force-push. The
-  Claude Code notes gain Commit signatures and Attribution trailers entries;
-  the release checklist, its convention line and its ruleset note follow, and
-  AGENTS.md's release lines and metadata check match.
+- The commit-identity notes follow a change in the author's convention: in cloud
+  sessions the author stays the author and the session's own identity becomes
+  the committer, so GitHub verifies the session's signature. Tested on a rebuild
+  of an earlier commit with the same tree and message: Verified, where the
+  author as committer had read Unverified. The author's own commits on
+  github.com are signed by GitHub, so the committer tells the two apart and both
+  read Verified. The Claude Code notes gain Commit signatures and Attribution
+  trailers entries.
 
 ## 2026-10-12
 
@@ -68,46 +290,34 @@ here. Entries below describe what landed in this copy.
   fifths with it); going by the author's reasons, the author graded the whole
   answer. The figures are aggregates; the cases, checks and transcripts stay
   private, and no instrument changed.
-- AGENTS.md now says the taxonomy, the audit template, and the corpus
-  conventions are maintained in the author's private instrument repository,
-  that packages come from it, and that a port's return note goes back to it
-  through the author. They moved there on 2026-10-12, and the author's
-  claude.ai project now holds a published copy. The repository isn't named
-  here, under the sanitization rules. Packages still arrive in `_input/`; the
-  dated entries below keep the claude.ai project as written.
-- The changelog's opening note and the `.gitignore` comment on `_input/` say
-  the same. Where AGENTS.md said "the private repository" for the other
-  private source, it now says "the separate repository", since two private
-  repositories feed staging now.
-- The Claude Code notes' Cloud sessions section gains a "Keeping a synced
-  skill out" item after "Skills", which now points there. Three of the
-  documented deny-rule forms bear on a synced claude.ai skill, and each leaves
-  something open: the full name isn't documented to cover a call by the short
-  name; the short name blocks anything else with that name and, once another
-  command takes it, would block that command instead; and the docs don't say
-  which value the any-name parameter form takes for a synced skill.
-  `skillOverrides` set to `"off"` also hides a skill and blocks a call by its
-  full name, and the docs don't say which of its keys matches a synced skill.
-  Every listed skill costs context on every turn, so that matters too. The
-  author's cloud Setup script now writes the full-name and short-name rules;
-  that they hold in a session was not observed as of 2026-10-12. Checked
-  against the skills and permissions docs on 2026-10-12.
+- The Claude Code notes' Cloud sessions section gains a "Keeping a synced skill
+  out" item after "Skills", which now points there. Three of the documented
+  deny-rule forms bear on a synced claude.ai skill, and each leaves something
+  open: the full name isn't documented to cover a call by the short name; the
+  short name blocks anything else with that name and, once another command takes
+  it, would block that command instead; and the docs don't say which value the
+  any-name parameter form takes for a synced skill. `skillOverrides` set to
+  `"off"` also hides a skill and blocks a call by its full name, and the docs
+  don't say which of its keys matches a synced skill. Every listed skill costs
+  context on every turn, so that matters too. A Setup script can write the
+  full-name and short-name rules; that they hold in a session was not observed
+  as of 2026-10-12. Checked against the skills and permissions docs on
+  2026-10-12.
 
 ## 2026-10-11
 
-- Delegation findings from the author's own sessions of 2026-10-11 on the
-  merged chat-and-Cowork surface, ported from the claude.ai project and each
-  marked observed. The Cowork notes gain a dated subsection: a model per
-  call but no effort setting, no fork and no nesting, what reached a
-  subagent (not the profile; a project's instructions and the skill list in
-  a scheduled task; repository instructions on first read), repository agent
-  definitions that loaded while their frontmatter hook didn't run, a
-  scheduled task that started a session, and a failed send to another
-  session. The plugin support table, checked the same day, sits next to the
-  hook observation; it covers plugin components and lists agents and hooks as
-  ignored in chat and loaded in desktop Cowork tasks, so it doesn't settle
-  which applies there. The notes' header and their "not established" line now
-  say what was observed and what is still open.
+- Delegation findings from the author's own sessions of 2026-10-11 on the merged
+  chat-and-Cowork surface, each marked observed. The Cowork notes gain a dated
+  subsection: a model per call but no effort setting, no fork and no nesting,
+  what reached a subagent (not the profile; a project's instructions and the
+  skill list in a scheduled task; repository instructions on first read),
+  repository agent definitions that loaded while their frontmatter hook didn't
+  run, a scheduled task that started a session, and a failed send to another
+  session. The plugin support table, checked the same day, sits next to the hook
+  observation; it covers plugin components and lists agents and hooks as ignored
+  in chat and loaded in desktop Cowork tasks, so it doesn't settle which applies
+  there. The notes' header and their "not established" line now say what was
+  observed and what is still open.
 - The claude.ai notes' "Checking what actually reaches the model" adds that a
   project-instructions edit reached a running chat only after its session
   restarted, that a large project knowledge base stayed out of context as a
@@ -135,33 +345,11 @@ here. Entries below describe what landed in this copy.
   2026-10-11), that the delegation skill was listed in a cloud session next
   to the user file's rules (observed 2026-10-11), and the documented ways to
   keep a synced skill out of Claude Code. The Cowork notes point there.
-- AGENTS.md now says that an agent opens a staging pull request only when the
-  author asks, and that on a release pull request it reports instead of
-  pushing: it never pushes a `publish/` release branch, and a fix lands on
-  staging `main` before a new snapshot. Both were implied before. They are
-  written down now because cloud sessions are told by default to open a draft
-  pull request after each push (observed 2026-10-11), and a repository's own
-  instructions are what override that.
 
 ## 2026-10-10
 
-- The release checklist is now run on the author's own machine with commit
-  signing on, so the reviewed snapshot commit is the signed one that's
-  published, with no amend or force-push. The noreply check before any push
-  also reads names and the signature status. After the first signed release,
-  a public-repository ruleset requires signed commits next to deletion and
-  force-push protection, and cloud sessions lose write access to the public
-  repository, so only the author pushes public, and the author turns on
-  vigilant mode. Commits made in cloud sessions stay signed with the
-  session's key, which GitHub labels Unverified; the author's signing key
-  isn't put in a cloud environment. AGENTS.md's Publishing paragraph now says
-  an agent prepares a release on staging and doesn't push it. The relevant
-  GitHub and git docs were rechecked on 2026-10-10.
 - The README's acknowledgment adds one line crediting Claude, mostly through
-  Claude Code, for drafting and maintaining the notes. The sharing checklist
-  records the commit convention: trailers name Claude without a model, the
-  author stays author and committer, and public release commits still carry
-  no trailers.
+  Claude Code, for drafting and maintaining the notes.
 - Added a Headless runs section to the Claude Code notes, from scripted
   `claude -p` runs on 2026-10-09: what `--safe-mode` turns off, replacing the
   system prompt, the usage readings a subscription run reports, and WebFetch
@@ -178,24 +366,24 @@ here. Entries below describe what landed in this copy.
   setup under test, a long unattended run, or a repository hook. A session
   started and directed by another was refused, by auto mode's checks, the
   push access and instruction-file edits its coordinator asked for.
-- Ported general findings from the author's API-harness repository (2026-09-24
-  and 2026-09-25) and from the author's own cloud sessions into the Claude
-  Code notes, each line marked observed, documented, or inferred, with every
+- Ported general findings from an evaluation repository (2026-09-24 and
+  2026-09-25) and from the author's own cloud sessions into the Claude Code
+  notes, each line marked observed, documented, or inferred, with every
   documented part rechecked on 2026-10-10. Instruction placement gains the
   canaries on when `AGENTS.md` loads on its own and the bare import, a second
   loading check whose planted token sits in a file that shouldn't load, and a
   session that kept the `CLAUDE.md` it started with. Bounded subagents gains
-  what a subagent starts with and fork mode, the allowlist bypass classes from
-  a review of a similar cloud-session hook, placed next to "since closed", and
-  a live cloud check of a subagent's frontmatter hook. Permissions and
-  completion gains the file rules. Cloud sessions gains commit trailers and
-  trailers on applied commits, environment variables and secrets, VM lifetime,
-  installing uv, auto memory, and plugins. Two readings from 2026-09-24 no
-  longer matched the docs: a running session now picks up changed variables
-  when its VM is restored or rebuilt, and the plugin docs no longer mention
-  cloud sessions for synced plugins, which still loaded in the author's. The
-  User-level files line now marks agent and skill loading as inferred, and
-  Commit identity no longer claims resume, which wasn't tested.
+  what a subagent starts with and fork mode, the allowlist bypass classes from a
+  review of a similar cloud-session hook, placed next to "since closed", and a
+  live cloud check of a subagent's frontmatter hook. Permissions and completion
+  gains the file rules. Cloud sessions gains commit trailers and trailers on
+  applied commits, environment variables and secrets, VM lifetime, installing
+  uv, auto memory, and plugins. Two readings from 2026-09-24 no longer matched
+  the docs: a running session now picks up changed variables when its VM is
+  restored or rebuilt, and the plugin docs no longer mention cloud sessions for
+  synced plugins, which still loaded in the author's. The User-level files line
+  now marks agent and skill loading as inferred, and Commit identity no longer
+  claims resume, which wasn't tested.
 - The claude.ai notes add that the per-model system-prompt pages also serve
   Markdown at `.md`.
 - Three follow-ups to the port, each rechecked on 2026-10-10. Instruction
@@ -210,13 +398,6 @@ here. Entries below describe what landed in this copy.
   linked to unrelated accounts. One research claim was corrected before it
   landed: the later issue concerns `claude-code@anthropic.com`, not
   `noreply@anthropic.com`.
-- Staging gains a minimal, offline prek setup: `.pre-commit-config.yaml` with
-  prek's builtin hooks for merge markers left during a merge, private keys,
-  YAML, end-of-file, and trailing whitespace, and local stdlib scripts in
-  `scripts/` that check relative links and anchors, check for a taxonomy count
-  back in prose, wrap added lines at 80 columns, and refuse machine paths and
-  private repository URLs. `AGENTS.md`'s "Not needed here" now says what exists
-  and why. The hooks stay out of public releases (`.publish-exclude`).
 - Session learnings from the author's own cloud sessions of 2026-10-09 and
   2026-10-10, each line marked observed, documented, or inferred, with the
   documented parts checked on 2026-10-10. Permissions and completion names
@@ -231,9 +412,8 @@ here. Entries below describe what landed in this copy.
   and adds scripted-run gotchas, multi-turn runs over one stream-json
   process, a grader run with `--json-schema`, and the flags for unattended
   permissions.
-- The release checklist records that the author's release messages carry
-  neither session trailer. `AGENTS.md` Sanitization now covers branch names,
-  pull request text, and merge messages.
+- `AGENTS.md` Sanitization now covers branch names, pull request text, and merge
+  messages.
 - The Claude Code sample's Agents and delegation section adds two lines:
   write anything meant to last to a repository file and ask to commit it
   before the session ends, and stop and report a refusal rather than route
@@ -242,17 +422,13 @@ here. Entries below describe what landed in this copy.
   against the model classes before launch, not only a statement of its
   models, after one session's fan-out ran every agent on Opus-class or
   Fable-class, single-hop lookups and audits included.
-- Trimmed setup detail readers don't need from the Claude Code notes, the Claude
-  Code sample's footer, the release checklist, and `AGENTS.md`, keeping each
-  finding, its date, and its observed or documented mark. `AGENTS.md`'s release
-  flow now states the rules without the full map of the author's private copies.
-  The roadmap and research plan, never released, left staging `main`; the
-  archive README says they are kept privately. The release checklist's section
-  on the other copy is now "Syncing with another copy", and a handoff posted as
-  a pull request comment counts as the handoff package, under a neutral heading.
+- Trimmed setup detail readers don't need from the Claude Code notes, the
+  Claude Code sample's footer, the release checklist, and `AGENTS.md`, keeping
+  each finding, its date, and its observed or documented mark. The roadmap and
+  research plan, never released, left the tracked notes.
 - The Codex sample's Task scale and delegation section gains a second,
-  Codex-only paragraph from the author's live file: each worker's model and
-  effort chosen per task, the agent count, models, effort, and rough cost
+  Codex-only paragraph from the author's own instructions: each worker's model
+  and effort chosen per task, the agent count, models, effort, and rough cost
   stated before a multi-agent run, direct tools before one batched read-only
   agent for lookups, and custom read-only agents that stay read-only by
   instruction, since one wrote a file in a test while its parent had write
@@ -261,25 +437,25 @@ here. Entries below describe what landed in this copy.
   that change what a bounded role can do (an agent's `memory` field turns on
   Read, Write, and Edit; nesting depth, which one setting turns off) and where
   an agent's on-demand reference files belong; and, under Permissions and
-  completion, a guard hook whose decisions were dropped for a wrong output
-  shape and the misfires of matching text instead of commands. Docs checked
+  completion, a guard hook whose decisions were dropped for a wrong output shape
+  and the misfires of matching text instead of commands. Docs checked
   2026-10-10; the observations are the author's, from 2026-10-01, n=1.
 
 ## 2026-10-09
 
-- Revised the Claude Code sample's Agents and delegation section again, from
-  the author's live configuration. Effort is the only dial, since thinking
-  can't be switched off on the current models, and the top tier never runs
-  below high. The smallest tier stays out of fan-out: on the current models
-  it saved money but not time, and its misses are silent omissions; it backs
-  only the host's background helpers. `scout` is narrowed to single-hop lookups, with sweeps and absence questions
-  going to a top-tier stage. The model is passed per call, after a pinned alias
-  didn't hold in a session running a different model. The host's standing
-  workflow mode pre-authorizes workflows for substantive tasks, and a safety
-  guard gets adversarial probes and a differential test before it ships. A
-  review of the author's own sessions had traced little rework to reasoning
-  depth and most to checks that weren't run. These remain unmeasured personal
-  defaults.
+- Revised the Claude Code sample's Agents and delegation section again, from the
+  author's own instructions. Effort is the only dial, since thinking can't be
+  switched off on the current models, and the top tier never runs below high.
+  The smallest tier stays out of fan-out: on the current models it saved money
+  but not time, and its misses are silent omissions; it backs only the host's
+  background helpers. `scout` is narrowed to single-hop lookups, with sweeps and
+  absence questions going to a top-tier stage. The model is passed per call,
+  after a pinned alias didn't hold in a session running a different model. The
+  host's standing workflow mode pre-authorizes workflows for substantive tasks,
+  and a safety guard gets adversarial probes and a differential test before it
+  ships. A review of the author's own sessions had traced little rework to
+  reasoning depth and most to checks that weren't run. These remain unmeasured
+  personal defaults.
 - Rewrote the model choice in the same section around first-pass
   correctness and completeness, with token price the dimension traded first.
   It names the environment settings that outrank per-call model and effort,
@@ -304,24 +480,18 @@ here. Entries below describe what landed in this copy.
   actually ran on. The documented parts were checked 2026-10-09 against the
   Claude Code cloud-environments, settings, and hooks pages. Observations from
   one account, not measured.
-- [AGENTS.md](AGENTS.md) now asks an editing agent to end with a **To deploy**
-  line when a merged change touches something the author runs from their own
-  cloud sessions or machines, such as a sample section, a skill, or a setup
-  script, saying what to update where or that nothing needs deploying. An
-  agent here can't change those setups.
-- Added gotchas reported back from the author's other setup to the
-  [Claude Code notes](harness/claude-code-notes.md), each dated and marked
-  observed or documented: under Bounded subagents, how plugin agents without
-  an `effort` field, `CLAUDE_CODE_EFFORT_LEVEL`, the forced subagent model
-  setting, and family aliases change which model and effort an agent runs on;
-  under Permissions and completion, that `/effort` saves the level as the
-  default; and a new Shell and terminal section on `!` input while the agent
-  is busy, zsh's `path` variable, and a config manager's apply step that
-  needs a terminal. The documented parts were checked 2026-10-09 against the
-  Claude Code subagent, plugin-components, environment-variable,
-  model-configuration, and interactive-mode pages; the `!` observation
-  differs from the current docs, and the note says so. Observations from one
-  setup, not measured.
+- Added gotchas from a second setup to the [Claude Code
+  notes](harness/claude-code-notes.md), each dated and marked observed or
+  documented: under Bounded subagents, how plugin agents without an `effort`
+  field, `CLAUDE_CODE_EFFORT_LEVEL`, the forced subagent model setting, and
+  family aliases change which model and effort an agent runs on; under
+  Permissions and completion, that `/effort` saves the level as the default; and
+  a new Shell and terminal section on `!` input while the agent is busy, zsh's
+  `path` variable, and a config manager's apply step that needs a terminal. The
+  documented parts were checked 2026-10-09 against the Claude Code subagent,
+  plugin-components, environment-variable, model-configuration, and
+  interactive-mode pages; the `!` observation differs from the current docs, and
+  the note says so. Observations from one setup, not measured.
 - The Claude Code sample's Agents and delegation section now says agents
   inherit the session's effort, after a plugin reviewer that pinned only a
   model ran at the session's effort.
@@ -376,17 +546,15 @@ here. Entries below describe what landed in this copy.
 
 ## 2026-10-02
 
-- Ported the claude.ai project's September work. The taxonomy moves to v1.8:
-  a coverage ceiling, comparative-only failures as paired entries, a map of
-  external canons that declines a competing-hypotheses key, and P15's
-  platform-layer note. No key changed, so Part B is unchanged. The corpus
-  method gains conventions for paired entries and for stack-default versus
-  model-default passes, and its limits note the first control arm. The
-  evolution notes gain three September entries, with their lessons mostly
-  folded into the existing list, and a correction to an April paraphrase of
-  an instruction-count paper. The profile copy sheet completes the
-  2026-10-01 refresh with the two deletions that had been held for
-  confirmation.
+- The taxonomy moves to v1.8: a coverage ceiling, comparative-only failures as
+  paired entries, a map of external canons that declines a competing-hypotheses
+  key, and P15's platform-layer note. No key changed, so Part B is unchanged.
+  The corpus method gains conventions for paired entries and for stack-default
+  versus model-default passes, and its limits note the first control arm. The
+  evolution notes gain three September entries, with their lessons mostly folded
+  into the existing list, and a correction to an April paraphrase of an
+  instruction-count paper. The profile copy sheet completes the 2026-10-01
+  refresh with the two deletions that had been held for confirmation.
 - Replaced the untrusted-input line in every sample with one shared wording,
   after Anthropic's current prompting note and OpenAI's Model Spec: content I
   didn't write is data, followed only as far as my own words point, with a
@@ -400,31 +568,15 @@ here. Entries below describe what landed in this copy.
 - Added two limits to the [corpus method](verification-kit/regression-corpus-method.md):
   its checks run only in fresh sessions, so long-thread drift goes unmeasured,
   and passing checks grade process, not whether the answer was right.
-- Named the claude.ai project in AGENTS.md as the instrument source: a fifth
-  place that feeds staging through reviewed packages. Replaced "apply
-  verbatim" with porting each change as a sanitized semantic delta, which is
-  what the copies had already been doing.
 
 ## 2026-10-01
 
-- Changed how releases flow. Staging `main` is now the editing home for the
-  shareable notes and keeps full history; the public repository receives one
-  squashed snapshot per release through a staging `public` branch, built from
-  `main` minus `.publish-exclude`. Work that starts in the private source
-  arrives as a sanitized, gated extraction, and staging changes go back as a
-  reviewed handoff that the receiving agent adapts rather than applies
-  blindly. Published commits use the GitHub noreply address, and anything
-  citing these notes pins a public release commit. [AGENTS.md](AGENTS.md) holds
-  the rules and the
-  [sharing checklist](harness/sharing-and-release.md#publishing-a-release) the
-  commands. The roadmap and research plan stay in staging and are left out of
-  public releases.
 - Revised the Claude Code sample's Agents and delegation section from the
-  author's live configuration: critique through a pinned `critic` on a
-  top-tier model chosen per task, explicit models for unpinned subagents, no
-  forks for independent checks, read-only helpers that keep Bash behind an
-  allowlist hook, and the host's built-in review command as the default review
-  route. These remain unmeasured personal defaults.
+  author's own instructions: critique through a pinned `critic` on a top-tier
+  model chosen per task, explicit models for unpinned subagents, no forks for
+  independent checks, read-only helpers that keep Bash behind an allowlist hook,
+  and the host's built-in review command as the default review route. These
+  remain unmeasured personal defaults.
 - Moved the delegation and review measurement candidates (design only) out of
   the archived backlog into the live
   [measurement candidates](harness/evaluations/measurement-candidates.md). Their
@@ -437,12 +589,12 @@ here. Entries below describe what landed in this copy.
   skill's test-first step became a regular instruction; and the September
   entries below were compressed to changes in shape, leaving run figures to
   the evidence status and source intake.
-- Rechecked the surface notes against current documentation: Cowork's move
-  into the new Claude experience and the October 6 cloud-only change for new
-  Pro and Max tasks, default-on claude.ai memory, custom GPTs moving to
-  plugins, Cursor's renamed rule settings and hook failure behavior, newly
-  documented CoCo CLI flags, and redirected or dead links. Refreshed the
-  claude.ai profile copy sheet from the current live profile.
+- Rechecked the surface notes against current documentation: Cowork's move into
+  the new Claude experience and the October 6 cloud-only change for new Pro and
+  Max tasks, default-on claude.ai memory, custom GPTs moving to plugins,
+  Cursor's renamed rule settings and hook failure behavior, newly documented
+  CoCo CLI flags, and redirected or dead links. Refreshed the claude.ai profile
+  copy sheet from the author's own instructions.
 
 ## 2026-09-25
 
@@ -478,8 +630,7 @@ here. Entries below describe what landed in this copy.
 ## 2026-09-24
 
 - Archived the roadmap and research plan, lightly revised, and replaced the
-  next execution plan with a shorter
-  [research backlog](archive/2026-09-agentic-development/research-backlog.md).
+  next execution plan with a shorter research backlog.
   Added the revision spec and evidence reconciliation, and ignored `_output/`
   for private drafts and handoffs. Archived pending work remains pending.
 - Added a small [working core](harness/working-principles.md) and an everyday
@@ -560,29 +711,30 @@ here. Entries below describe what landed in this copy.
   workflow lanes, separating requirements ambiguity from solution
   uncertainty. Spec Kit, Superpowers, gstack, and BMAD are comparison sources;
   their broader bundles and side-effect assumptions are not adopted.
-- Added a research and execution plan (archived; not in public releases) that
+- Added a research and execution plan (archived) that
   extends the program across application code, infrastructure, data, semantic
   models, incidents, and research, and separates portable role contracts from
-  host-native projections. Machine state, internal sources, exact model IDs,
-  and the detailed claim register stay in ignored private files.
-- Synced the [failure-pattern taxonomy](verification-kit/failure-pattern-taxonomy.md)
-  to its September v1.6 semantics. P1 now makes explicit that unsupported
-  wall-clock language about a conversation's own history is a generated
-  specific; P14 covers the repeated oscillation caused by silently reweighted
-  criteria; and the P15 note records that its related account-level clause was
-  removed by preference rather than recast. The key set did not change, so the
-  audit template's Part B sweep remains unchanged.
-- Refreshed the
-  [claude.ai profile copy sheet](harness/claude-ai-profile-instructions.example.md)
-  from the September source snapshot: positional references when prior-turn
-  timing is not established, verification-tracking in the answer body as well
-  as the footer, and later footers that state a confidence move and its cause.
-  Raw registry, profile lineage, and private regression-corpus inputs stayed
-  ignored; none of their identifiers entered the tracked files.
+  host-native projections. Machine state, private sources, exact model IDs, and
+  the detailed claim register stay in ignored private files.
+- Updated the [failure-pattern
+  taxonomy](verification-kit/failure-pattern-taxonomy.md) to its September v1.6
+  semantics. P1 now makes explicit that unsupported wall-clock language about a
+  conversation's own history is a generated specific; P14 covers the repeated
+  oscillation caused by silently reweighted criteria; and the P15 note records
+  that its related account-level clause was removed by preference rather than
+  recast. The key set did not change, so the audit template's Part B sweep
+  remains unchanged.
+- Refreshed the [claude.ai profile copy
+  sheet](harness/claude-ai-profile-instructions.example.md) from the author's
+  own instructions as of September: positional references when prior-turn timing
+  is not established, verification-tracking in the answer body as well as the
+  footer, and later footers that state a confidence move and its cause. Private
+  regression-corpus inputs stayed ignored; none of their identifiers entered the
+  tracked files.
 
 ## 2026-09-01
 
-- Added a master roadmap (archived; not in public releases) above the task
+- Added a master roadmap (archived) above the task
   workflow, and a cross-surface
   [agentic-development workflow pilot](harness/agentic-development-workflow.md)
   for choosing a direct, disposable-prototype, or spec-driven lane, routing
@@ -625,12 +777,10 @@ here. Entries below describe what landed in this copy.
   by omission — over the size cap, or by a name one surface ignores — which is
   why the verification advice is a fresh-session marker probe with a negative
   control rather than reading the file back.
-- Tightened the repository opening for public sharing: dated and sanitized,
-  n=1 and subjectively graded, useful as artifacts rather than a framework,
+- Tightened the repository opening for public sharing: dated and sanitized, n=1
+  and subjectively graded, useful as artifacts rather than a framework,
   benchmark, comprehensive methodology, production-readiness claim, or
-  scientifically validated evidence. The project instructions now require
-  public distribution to use a fresh sanitized snapshot rather than the
-  private repository's history, and Finder metadata is ignored.
+  scientifically validated evidence. Finder metadata is now ignored.
 - Tightened third-party provenance before that export. The spec-driven-change
   sample now describes Spec Kit and Kiro as documented influences rather than
   borrowed text, removes an unverified paper page range, and links the Kiro
@@ -675,13 +825,12 @@ here. Entries below describe what landed in this copy.
 
 ## 2026-08-15
 
-- Added a full, sanitized claude.ai
-  [profile-instructions copy sheet](harness/claude-ai-profile-instructions.example.md)
-  alongside the existing operating notes. The copy sheet owns paste-ready
-  account-level preferences; the notes continue to own instruction placement,
-  audit setup, and provenance hazards. Identity and device details are
-  parameterized, and the supplied live text and private version history remain
-  outside the repo.
+- Added a full, sanitized claude.ai [profile-instructions copy
+  sheet](harness/claude-ai-profile-instructions.example.md) alongside the
+  existing operating notes. The copy sheet owns paste-ready account-level
+  preferences; the notes continue to own instruction placement, audit setup, and
+  provenance hazards. Identity and device details are parameterized, and the
+  author's own text and its version history remain outside the repo.
 - Reconciled shared semantics rather than publishing the supplied profile
   snapshot verbatim: confidence is an ordinal evidence grade rather than a
   probability claim, and a hedge cannot harden into an assertion across turns
@@ -701,7 +850,7 @@ here. Entries below describe what landed in this copy.
   profile identity, device, and richer consumer-research detail did not move
   wholesale into the coding samples. The withdrawn interlocutor clause remains
   absent. The public copy uses the other config samples' date-only snapshot
-  convention instead of inheriting the live profile's private revision label.
+  convention instead of inheriting the profile's private revision label.
 
 ## 2026-08-12
 
@@ -730,13 +879,12 @@ here. Entries below describe what landed in this copy.
 
 ## 2026-08-10
 
-- Synced both instruments from canonical. The taxonomy gains a
-  source-overlap watch item, carried at label grain: the name and the
-  tie-break neighbours travel, the FAIL test doesn't exist yet. The audit
-  template gains a ledger-triage step between the cold read and the keyed
-  sweep, which sorts the gaps a trace disclosed about itself and treats
-  only one bucket — never attempted, though retrievable — as a finding. No
-  pattern was added, so the keyed sweep is unchanged.
+- The taxonomy gains a source-overlap watch item, carried at label grain: the
+  name and the tie-break neighbours travel, the FAIL test doesn't exist yet. The
+  audit template gains a ledger-triage step between the cold read and the keyed
+  sweep, which sorts the gaps a trace disclosed about itself and treats only one
+  bucket — never attempted, though retrievable — as a finding. No pattern was
+  added, so the keyed sweep is unchanged.
 - Dropped the interlocutor guard from all three config samples — the
   [Claude](harness/CLAUDE.example.md) and [Codex](harness/AGENTS.example.md)
   ones and the [ChatGPT sheet](harness/chatgpt-personalization.example.md). It
@@ -802,11 +950,8 @@ here. Entries below describe what landed in this copy.
 
 ## 2026-08-06
 
-- Repositioned the notes as dual-use — readable outside the environment
-  they were written in. Named internal policy documents came out in favor
-  of a generic deferral ("if anything here conflicts with the rules in
-  your environment, follow those rules"), which resolved the outstanding
-  link placeholders by removing the need for them.
+- Repositioned the notes as dual-use — readable outside the environment they
+  were written in.
 - Tightened the confidence ladder, and pulled back lessons that had
   claimed more than the runs supported.
 - Reflowed the ChatGPT
@@ -820,7 +965,6 @@ here. Entries below describe what landed in this copy.
   had already drifted between copies — a stale number outlived the
   taxonomy change that invalidated it, in more than one file. Removing the
   numbers removed the chore of chasing them.
-- Synced the taxonomy and the audit template from canonical.
 - Added the [license](LICENSE) and the
   [claude.ai notes](harness/claude-ai-notes.md).
 - Added the OpenAI-side samples in one pass: a Codex user-global config
@@ -837,8 +981,8 @@ here. Entries below describe what landed in this copy.
   `CLAUDE.md` as a thin adapter that imports `AGENTS.md` — one
   instruction file rather than two copies to keep in step.
 - Added the sanitized global Claude config example.
-- Synced the verification kit from canonical and added the
-  [regression corpus method](verification-kit/regression-corpus-method.md).
+- Added the [regression corpus
+  method](verification-kit/regression-corpus-method.md).
 - Slimmed [claude-code-notes.md](harness/claude-code-notes.md) to durable
   principles plus pointers to the official docs. Product figures go stale
   faster than notes get revised, so the notes stopped carrying them.
@@ -847,7 +991,6 @@ here. Entries below describe what landed in this copy.
 
 - Initial import: the [verification kit](verification-kit/README.md) and a
   `harness/` scaffold.
-- Enabled SAST and Secret Detection in CI, from the hosting UI. Worth
-  stating plainly, since the repo's own guidance does: secret detection
-  catches secrets, not disclosure judgment, so a green pipeline is not
-  sanitization clearance.
+- Enabled secret detection in CI. Worth stating plainly, since the repo's own
+  guidance does: secret detection catches secrets, not disclosure judgment, so a
+  green pipeline is not sanitization clearance.

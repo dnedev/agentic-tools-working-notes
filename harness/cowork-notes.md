@@ -1,7 +1,10 @@
 # Cowork — practical operating notes
 
 Reference, not always-loaded instructions. Primary documentation checked
-2026-09-24 and rechecked 2026-10-01. Apart from the delegation observations
+2026-09-24 and rechecked 2026-10-01. Lines marked checked 2026-11-01 were
+checked that day; leads from the same review are marked "not re-read
+here". claude.com/docs' "Cowork" pages describe the desktop app; lines
+that rest on them say so. Apart from the delegation observations
 dated 2026-10-11, no Cowork session, account, or permission probe was run for
 these notes. The [copy sheet](cowork-instructions.example.md) is an adoption
 preview.
@@ -30,6 +33,15 @@ sessions also start from what Claude remembers from chats, and task context
 carries back to chat; record that before claiming independence or choosing
 which evidence to supply ([Getting started](https://support.claude.com/en/articles/13345190-get-started-with-claude-cowork)).
 [Projects](https://support.claude.com/en/articles/14116274-organize-your-tasks-with-projects-in-claude-cowork)
+
+The desktop app's own projects page goes further (documented, checked
+2026-11-01): "Projects live on your computer. They aren't synced to the
+cloud", and "A Cowork project is not the same thing as a project on
+claude.ai": the two are stored separately, and "Linking doesn't merge them".
+So a desktop Cowork project is not the account project that chats on the web
+and mobile share. The help-center article above wasn't rechecked that day,
+so whether the two pages describe the same projects isn't settled.
+[Desktop projects](https://claude.com/docs/cowork/guide/projects)
 
 The documentation says sessions run in the cloud on every surface, and it also
 refers to local sessions. From October 6, 2026, new tasks on Pro and Max plans
@@ -60,6 +72,12 @@ compete. That statement covers desktop sessions; the documentation checked on
 2026-10-01 does not say whether cloud tasks load the file. The desktop
 changelog adds that, in a folder with no `CLAUDE.md`, Claude reads `AGENTS.md`
 for project instructions. Inspect active sources rather than assume parity.
+A docs review on 2026-11-01 reported that the desktop app's Cowork overview
+says Cowork "doesn't read the Claude Code CLI's `~/.claude` directory", in a
+passage about connectors, skills, and plugins (not re-read here). Read
+literally, that conflicts with the Claude Code documentation above; a stamp
+line in `~/.claude/CLAUDE.md`, read back from a desktop Cowork task, would
+settle which one holds.
 [Instruction loading](https://code.claude.com/docs/en/memory),
 [Changelog](https://claude.com/docs/cowork/changelog)
 
@@ -88,6 +106,11 @@ documented behavior.
   be seen.
 - **No fork, no nesting.** Asking for a fork agent returned "Agent type 'fork'
   not found". Subagents had no agent tool of their own, so spawn depth was one.
+  Claude Code documents the opposite defaults: fork mode on from v2.1.302,
+  and subagents spawning up to three layers below the main conversation
+  (checked 2026-11-01; [Claude Code
+  notes](claude-code-notes.md#bounded-subagents)). This observation holds
+  only for the surface it was made on.
 - **What reached a subagent.** The profile preferences didn't, in marker
   probes across several sessions that asked for a stamp line to be quoted. In
   a scheduled Cowork task, a subagent saw the project's instructions, through
@@ -125,6 +148,21 @@ not a shared skill. A skill turned on for the account also loads in Claude
 Code's cloud and signed-in terminal sessions, so a chat and Cowork skill
 reaches there too unless it's turned off on the Claude Code side ([Claude
 Code notes](claude-code-notes.md#cloud-sessions)).
+
+Leads from a docs review on 2026-11-01, taken from its agents' reports and
+not re-read here, so none of them is documented in these notes yet:
+
+- **Scheduled tasks in the desktop app**: a desktop changelog entry was
+  reported to make "Automatically approve" the default for scheduled tasks
+  Claude creates, where the organization allows it. If it holds, authorizing
+  a schedule there also authorizes its runs to use tools unattended.
+- **Connector tool permissions**: the connectors page was reported to offer
+  Always allow, Needs approval, or Blocked for each group of tools or a
+  single tool. That would be an enforced layer under the copy sheet's
+  instruction about connectors, not a replacement for it.
+- **Plugins and connectors in Claude Code**: the plugin and connector pages
+  were reported to say that account plugins and connectors also reach Claude
+  Code, as account skills do.
 
 ## First-use recipe
 
