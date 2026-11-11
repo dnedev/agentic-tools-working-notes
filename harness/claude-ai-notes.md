@@ -34,13 +34,17 @@ onto them directly:
   for one kind of work. A project also carries **Project Knowledge** —
   files the chats in it can read. One example sits in the
   [project-instructions copy sheet](claude-ai-project-instructions.example.md).
-- **Skills (and styles, where still shown)** — customize how responses are
-  formatted and delivered, and (skills) add task capabilities. The
-  personalization article checked 2026-10-01 lists skills and no styles. Keep *behavior* rules out
-  of the style layer; a tone preset that quietly carries enforcement is
+- **Skills** — customize how responses are formatted and delivered, and add
+  task capabilities. The personalization article (dated 2026-09-16, checked
+  2026-10-21) lists instructions, project instructions, and skills; styles are
+  gone. Skills are activated on demand rather than applied to every chat, so
+  per-reply voice and format stay in the profile, and a skill suits a
+  conditional format such as writing for other readers. Keep *behavior* rules
+  out of the tone layer; a tone preset that quietly carries enforcement is
   the mistake the evolution notes call out
   ([evolution-and-lessons.md](../verification-kit/evolution-and-lessons.md),
-  the style-layer audit).
+  the style-layer audit). Claude Code's output styles are a different,
+  always-on surface ([Claude Code notes](claude-code-notes.md#output-styles)).
 - **Per-session** — the pasted chat-starter, and the audit template
   itself.
 
@@ -122,8 +126,8 @@ already written up in
   redirects there, checked 2026-10-01)
 - Things that rot and should be re-checked, never cached here: which plans
   gate Projects and project instructions; the current model lineup and
-  per-model context window; whether styles or skills is the live
-  tone/format surface; per-model behavioral priors (these age in months —
+  per-model context window; whether skills are still the only tone/format
+  surface; per-model behavioral priors (these age in months —
   the [kit's drift caveat](../verification-kit/README.md) applies).
 
 ## Cowork and tasks
@@ -135,7 +139,11 @@ instruction mechanics. Use the [Cowork notes](cowork-notes.md) and its scoped
 copy sheet for artifact work. The global instructions field is shared in the
 new experience, and projects work in every conversation, so do not paste two
 competing global instruction sets or fork a task-only copy of a project's
-instructions. The Cowork notes carry the dated primary-source check.
+instructions. The Cowork notes carry the dated primary-source check. The
+desktop app's Cowork projects are a different thing: its docs say they live
+on the computer and are stored separately from claude.ai projects, and
+linking one doesn't merge them (desktop docs, checked 2026-11-01; see the
+[Cowork notes](cowork-notes.md#use-the-surface-that-is-actually-present)).
 
 ## Checking what actually reaches the model
 
@@ -165,6 +173,10 @@ instructions. The Cowork notes carry the dated primary-source check.
   that this session was in that mode is an inference. Don't assume a project
   file was read because it is in the project.
   [RAG for projects](https://support.claude.com/en/articles/11473015-retrieval-augmented-generation-rag-for-projects)
+- **Skills may need code execution.** A docs review on 2026-11-01 reported
+  that the skills overview says skills run in the code sandbox, so the Code
+  execution and file creation setting must be on (not re-read here). If it
+  holds, that setting is the first thing to check when a skill doesn't load.
 - **The project tool's file names.** A session's project tool wrote a bare
   file name under `claude/`, and a leading `/` was kept as part of the name,
   so the session couldn't create a file at the project's root. In one session
@@ -175,7 +187,7 @@ instructions. The Cowork notes carry the dated primary-source check.
   project's conversations (checked 2026-10-02). It was not available inside
   one cloud Cowork task (observed 2026-09-29), and a scheduled-task session
   didn't show up in it a few minutes after it ran (one check, observed
-  2026-10-11), so keep version texts in project knowledge rather than relying
+  2026-10-11), so keep reference texts in project knowledge rather than relying
   on search to find them.
 - **A GitHub repository in a project is a snapshot.** You select files and
   folders from one branch; it refreshes only when you press Sync now, and no
@@ -183,7 +195,9 @@ instructions. The Cowork notes carry the dated primary-source check.
 
 _Principles current as of 2026-08-05; feature names verified against the
 Claude help center articles on Projects and personalization (last modified
-July 2026), with memory, styles, and the docs host rechecked 2026-10-01, and
+July 2026), with memory and the docs host rechecked 2026-10-01, styles
+rechecked 2026-10-21, and
 the system-prompt pages' Markdown copies fetched 2026-10-10. The last two
 sections carry their own dates: "checked" marks a help-center check
-on that date, and "observed" marks the author's own sessions. The figures are intentionally elsewhere._
+on that date, or a desktop-docs check where the line says so, and "observed"
+marks the author's own sessions. The figures are intentionally elsewhere._

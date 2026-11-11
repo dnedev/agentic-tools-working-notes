@@ -234,10 +234,8 @@ informed structure remains locally unverified; weigh it accordingly.
 
 Sanitized for sharing — last revised 2026-10-01. The test-first step in
 step 3, added 2026-09-25 after a review found no position on tests, is now a
-regular instruction rather than a labeled proposal. A rule of the same shape
-has been piloted for development work in one private repository since
-2026-09-25; it is not yet evaluated. The version R0C evaluated is the one
-pinned by hash in the
+regular instruction rather than a labeled proposal. The version R0C evaluated
+is the one pinned by hash in the
 [source intake](../../evaluations/source-intake-and-overlap.md). The 2026-08-12
 revision added repository-contract discovery and risk-scaled lifecycle
 acceptance criteria. The prior revision

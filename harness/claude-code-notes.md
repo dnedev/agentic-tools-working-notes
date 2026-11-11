@@ -1,12 +1,12 @@
 # Claude Code — practical operating notes
 
 Reference, not always-loaded context. Primary documentation was first checked
-2026-09-24 and rechecked through 2026-10-10; a line saying "checked <date>" was
+2026-09-24 and rechecked through 2026-11-01; a line saying "checked <date>" was
 rechecked that day against the page it cites. Each behavior line says whether it
 was observed, documented, or inferred, with a date. Observations are one
 engineer's: a workstation, the author's own cloud sessions, the cloud sessions
-of the author's API-harness repository (2026-09-24 and 2026-09-25), and the
-author's other setup (2026-10-01 to 2026-10-09, reported back). The probes are
+of an evaluation repository (2026-09-24 and 2026-09-25), and a second setup
+(2026-10-01 to 2026-11-10). The probes are
 the ones each section names; no other behavior probe was run. They are n=1 and
 tied to the versions named. The [user-global sample](CLAUDE.example.md) is
 illustrative; the [everyday guide](agentic-development-adoption.md) covers
@@ -38,7 +38,7 @@ user level, loads both files together where `AGENTS.md` support is available,
 but also loads `AGENTS.md` files you may not mean as instructions, such as
 copies kept in a dotfiles repository.
 
-A second method, from the author's API-harness repository (observed
+A second method, from an evaluation repository (observed
 2026-09-24, Claude Code 2.1.281), uses a different negative control: in a
 scratch copy rather than the real files, plant a unique token in each file
 under test and one in a file that should not load, then ask the same
@@ -51,14 +51,14 @@ the session read one file that the rule's `paths` match, and ask for tokens
 this way was reported unevenly: one rule's token was listed in 3 of 4 runs
 after reading a matching file, and in 0 of 2 after reading a file outside the
 rule's `paths`. A yes/no question ("does your context contain ...") answered
-no while the token was there. That harness's rule is to run each case at
+no while the token was there. That repository's rule is to run each case at
 least three times. The flags are in the CLI reference (checked 2026-10-10).
 [CLI flags](https://code.claude.com/docs/en/cli-reference#cli-flags),
 [Path-specific
 rules](https://code.claude.com/docs/en/memory#path-specific-rules)
 
-From the author's API-harness repository, canaries run 2026-09-24 on Claude
-Code 2.1.281; documented parts checked 2026-10-10.
+From an evaluation repository, canaries run 2026-09-24 on Claude Code
+2.1.281; documented parts checked 2026-10-10.
 
 - **When `AGENTS.md` loads on its own** (documented; partly observed): with
   the default Project instructions setting, from v2.1.277, only when no
@@ -88,8 +88,8 @@ not a position, so it doesn't depend on either.
 [Share one file with other coding
 tools](https://code.claude.com/docs/en/memory#share-one-file-with-other-coding-tools)
 
-**Edits during a session** (observed 2026-09-24 in the author's API-harness
-repository, version not recorded; documented in part): a running session kept
+**Edits during a session** (observed 2026-09-24 in an evaluation repository,
+version not recorded; documented in part): a running session kept
 the `CLAUDE.md` it started with. Several commits after the file had been
 replaced, the session was still shown the original text. The docs say the
 project-root `CLAUDE.md` is re-read from disk after `/compact` (checked
@@ -98,7 +98,11 @@ observation. After changing an instruction file mid-session, read the file on
 disk before relying on it, or start a fresh session; changed agent
 definitions behaved the same way (see Bounded subagents). Nobody checked
 whether an imported `AGENTS.md` is re-read after `/compact`, or what subagents
-started from the old session load.
+started from the old session load. A docs review on 2026-11-01 reported that
+the prompt-caching page now documents this for the project-root and user
+`CLAUDE.md`, with an edit loading on the next `/clear`, `/compact`, or
+restart; that quote wasn't re-read here, so the line above stays an
+inference until it is.
 [Instruction discovery](https://code.claude.com/docs/en/memory), under
 "Instructions seem lost after `/compact`"
 
@@ -107,6 +111,57 @@ in separate scopes. Do not import this entire guide or the research backlog.
 After an approved change, check for duplicated guidance and preserve the
 owning configuration's update and rollback route.
 
+## Output styles
+
+An output style is a Markdown file with frontmatter that sets the main
+conversation's role, tone, and response format. One is active at a time,
+selected by `outputStyle` in a settings file, by `/output-style`, or from the
+editor's menu (documented, checked 2026-10-21). User styles live in
+`~/.claude/output-styles/`, project styles in `.claude/output-styles/`. The
+file name is the style name unless the frontmatter sets `name`, and the
+setting must match it exactly: a value that matches no style gives the Default
+style with no error, and a frontmatter block that doesn't parse loads the
+style under its file name (documented). `/output-style` and the menus save the
+choice to the project's `.claude/settings.local.json`, so a switch persists
+for that project rather than ending with the session, and project settings
+override a user default (documented).
+[Output styles](https://code.claude.com/docs/en/output-styles)
+
+The style reaches the main conversation and forks only. Other subagents run
+their own system prompt, while `CLAUDE.md` reaches every subagent except the
+built-in Explore and Plan agents and a custom agent that sets `omitClaudeMd`
+(documented, checked 2026-10-21). That gives
+a clean split: how replies to the user read goes in the style, and anything a
+subagent must also follow (evidence, calibration, interaction, safety) stays
+in `CLAUDE.md`. I moved my voice and format lines this way on 2026-10-21; the
+[output-style sample](claude-code-output-style.example.md) is the result, and
+the [user-global sample](CLAUDE.example.md) keeps the rest.
+[What loads at startup](https://code.claude.com/docs/en/sub-agents)
+
+`keep-coding-instructions: true` keeps the built-in software-engineering
+section, but only on the full system prompt. The newest models default to a
+shorter prompt without that section, so the field changes nothing there
+unless `CLAUDE_CODE_SIMPLE_SYSTEM_PROMPT` is set to `0` (documented, checked
+2026-10-21). Setting it anyway costs nothing and keeps the section if a
+session lands on the full prompt (inferred).
+
+A style is instructions, not enforcement. `/output-style` with no argument
+marks the current style (documented), but nothing reports it unprompted, and
+the hooks reference lists no input that carries it (inferred from that
+reference). Two cheap checks cover the common silent cases (observed,
+2026-10-21, n=1, CLI 2.1.306): a session-start hook that resolves
+`outputStyle` from the managed, local, project, and user settings files and
+warns when the result isn't the user default or its file is missing, and a
+headless check that asks a fresh session to quote the first line under one of
+the style's headings. Neither sees a plugin style that forces itself, device
+or server-managed policy, or a one-off `--settings` override, and in a linked
+worktree the local settings file is the one at the main checkout's root
+(documented). Changing the setting in a running editor session delivered the
+style as a message from the next turn on, which matches the documented
+cache-safe switch (observed, same day). On claude.ai
+there is no always-on style layer any more; see the
+[claude.ai notes](claude-ai-notes.md).
+
 ## Bounded subagents
 
 Custom subagents can live in `.claude/agents/` or `~/.claude/agents/` and have
@@ -114,29 +169,63 @@ separate context, tool selection, model, and permission fields. Omitted tools
 inherit available tools. Parent permission modes can override a child's
 `permissionMode`, and plugin agents ignore some fields, including that one.
 Read the current precedence rules before claiming a reviewer is constrained.
-Interactive sessions enable fork mode by default, and a fork inherits the whole
-conversation; use a named custom subagent or a new session when a fresh packet
-or independent reviewer matters.
+Fork mode is on by default from Claude Code v2.1.302, and a fork sees the same
+system prompt, tools, model, and message history as the main session
+(documented, checked 2026-11-01), so it is never an independent reviewer: it
+shares both the session's framing and its model. Use a named custom subagent
+or a new session when a fresh packet or independent reviewer matters.
 [Subagent configuration](https://code.claude.com/docs/en/sub-agents)
+
+The advisor tool isn't a fresh-context reviewer either (documented, checked
+2026-10-21): it reads the whole conversation, every tool call and result
+included, and Claude decides when to consult it, so it shares the session's
+framing, and a stronger advisor model receives everything the session holds.
+It needs the Anthropic API; behind a gateway it depends on whether the gateway
+forwards the server tool. For an independent check, keep a named reviewer with
+a fresh packet.
+[Advisor](https://code.claude.com/docs/en/advisor)
 
 What a subagent starts with (documented, checked 2026-10-10): a subagent that
 isn't a fork gets its own prompt, the task message, and the `CLAUDE.md`
 hierarchy, including an imported `AGENTS.md`, but not the main conversation
 or auto memory. The built-in Explore and Plan agents skip `CLAUDE.md`, and a
 custom agent with `omitClaudeMd` skips the user, project, and local files, so
-put any rule they need in the task prompt. A fork also gets the main
-session's system prompt, tools, and model, and the memory docs name it as the
-one subagent that gets the main session's auto memory. The docs put fork mode
-off with `-p` and in the Agent SDK. In one cloud session in the author's
-API-harness repository on 2026-09-25 (Claude Code 2.1.282), it was off too
-(observed): the Agent tool offered no `fork` type and kept its
-`run_in_background` parameter, the two signs the docs name. Check which mode a
-session is in before relying on either.
+put any rule they need in the task prompt. Explore's documented model is the
+main conversation's (checked 2026-11-01 through the fetch tool's page
+summary), so without a model in the call it
+runs on whatever the session runs. A model named in the call still applied:
+in the author's runs on 2026-11-01, on Claude Code 2.1.316, Explore agents
+ran on the Haiku and Sonnet models their calls named, and all 84 agents in
+those runs resolved to the model requested (observed). So name the model on
+an Explore call, and put the rules it needs in the prompt. A named model
+isn't always the served one, though: on one setup on 2026-11-05 (Claude Code
+2.1.318, n=1), a subagent called with a model the session's
+`availableModels` allowlist didn't admit ran on another model family with no
+error, and its output was read as the requested model's. Its Agent result's
+`resolvedModel` named the model actually served. On 2026-10-16 (2.1.300), a
+call of the same kind was served the requested model despite the allowlist,
+so the behavior isn't a guarantee either way. A `PostToolUse` hook on the
+Agent tool that compares `tool_input.model` with `tool_response.resolvedModel`
+warns at launch, background agents included; workflow agents need the same
+check at `SubagentStop`, from the agent's transcript. Replayed over that
+setup's past runs, it flagged that one launch and no other among the
+Agent-tool launches that recorded a served model, and none of the subagent
+transcripts (observed 2026-11-10). A fork also gets the
+main session's system prompt, tools, and model, and the memory docs name it as
+the one subagent that gets the main session's auto memory. When first
+checked, the docs put fork mode off with `-p` and in the Agent SDK; from
+v2.1.302 it is on by default there too (documented, checked 2026-11-01). In
+one cloud session in an evaluation repository on 2026-09-25
+(Claude Code 2.1.282), before that change, it was off (observed): the Agent
+tool offered no `fork` type and kept its `run_in_background` parameter, the
+two signs the docs name. Check which mode a session is in before relying on
+either.
 [What loads at
 startup](https://code.claude.com/docs/en/sub-agents#what-loads-at-startup),
 [Fork
 mode](https://code.claude.com/docs/en/sub-agents#turn-fork-mode-on-or-off),
-[Auto memory](https://code.claude.com/docs/en/memory#auto-memory)
+[Auto memory](https://code.claude.com/docs/en/memory#auto-memory),
+[Hooks](https://code.claude.com/docs/en/hooks)
 
 Partial probe on one workstation, 2026-10-01, not an evaluation: a read-only
 lookup role that keeps Bash behind an allowlist hook allowed a read and blocked
@@ -147,6 +236,36 @@ start a fresh session before trusting a changed role. Identity and
 cancellation were not probed; M1 in the
 [measurement candidates](evaluations/measurement-candidates.md) is the planned
 check.
+
+From one workflow run on a second setup on 2026-10-15 (observed there, n=1,
+not re-checked here): its eight agents were briefed to stay read-only and
+write nothing, scratch files included. Six scratch files still appeared in the
+temp directory during the run, each byte-identical to a tracked file when
+checked afterwards; one agent reported writing one, and which agents wrote the
+rest isn't known. In the same session the fresh-context reviewer, a custom
+agent with the allowlist hook in its frontmatter and dispatched on its own,
+had even a dry-run `git apply --check` and a process substitution refused by
+the hook. A brief requests read-only work; a guarded agent type enforces it.
+So run a read-only workflow stage as such a type, with the model set per call,
+and still inspect the actions, as the [fan-out
+gate](agentic-development-workflow.md#fan-out-gate) says. Whether the hook
+fires when a workflow runs the type wasn't checked in this run.
+
+Checked the same day in a cloud session (Claude Code 2.1.300,
+one probe, n=1): a one-stage workflow run as the hook-guarded `scout`, briefed
+to write a file with a shell redirect, was refused by the frontmatter hook,
+word for word as a direct `scout` call was, and neither file appeared. Only a
+redirect was tried in a stage; the hook's own test suite was then extended
+with `tee`, `cp`, `mv`, interpreters, downloaders and other write routes, and
+every one was refused. Two observations from the session that set it up: an
+attached repository's unguarded `scout` stood in for the guarded user-level
+one until that repository's copy was removed; and the session picked the
+removal up, but not at once: a stage and a direct call made minutes after the
+files were deleted still ran the old copy, while a direct call later in the
+same session ran the guarded one and was refused. Re-check which definition a
+name resolves to before trusting a guard change. A no-network reader agent
+(Read, Grep and Glob only), given a saved page with a planted instruction,
+reported it as a finding and didn't follow it (one probe, the same day).
 
 A similar read-only hook in the author's own cloud sessions was reviewed on
 2026-10-09 and 2026-10-10. The bypass classes found there are general git and
@@ -161,14 +280,23 @@ A similar read-only hook in the author's own cloud sessions was reviewed on
 - **`find -files0-from`**: the roots come from a file or standard input, so
   the command line never shows them.
 
-The author's other setup found one more class in its own hook, reproduced
+A second setup found one more class in its own hook, reproduced
 here on 2026-10-14 with git 2.43.0 (observed):
 
 - **`git config` options after an operand**: git config stops parsing options
   at its first operand, so `git config core.fsmonitor x --list` takes `--list`
-  as the value pattern and sets the key. The author's hook had accepted any
+  as the value pattern and sets the key. That hook had accepted any
   `git config` with a read flag anywhere in it; it now accepts options only
   before the first operand.
+
+From a second setup (not re-checked):
+
+- **`find -files0-from` under bfs**: in Claude Code's Bash tool on one
+  workstation, `find` was a shell function from the session's shell snapshot
+  that ran bfs 4.1.1. There, a roots file holding one line that isn't a path
+  printed `bfs: error: <that line>: No such file or directory.`, so the option
+  also reads a file's content (both observed 2026-10-15). That's a second
+  reason to deny it; `type find` in the tool's own shell shows what runs.
 
 Live check in a cloud session, 2026-10-09 (observed): a `PreToolUse` hook set
 in a subagent's frontmatter blocked that subagent's `cd` and `touch` and
@@ -186,7 +314,7 @@ Observed 2026-10-09: to see which model a subagent actually ran on, read the
 `claude-sonnet-5-5`; what an alias reaches depends on the account and the date,
 so check the transcript rather than the definition.
 
-Model and effort routing, from the author's other setup, each line marked
+Model and effort routing, from a second setup, each line marked
 observed or documented, with the date. Documented parts checked 2026-10-09
 against [Subagent configuration](https://code.claude.com/docs/en/sub-agents),
 [Environment variables](https://code.claude.com/docs/en/env-vars), and
@@ -213,8 +341,8 @@ against [Subagent configuration](https://code.claude.com/docs/en/sub-agents),
   2026-10-14; not observed): it runs every workflow agent on one model while
   other subagents keep theirs. The environment-variable and workflow pages
   didn't list it that day, and the workflow page counts a model a stage names
-  as the per-call model, so how the two rank is undocumented. The other setup
-  reported that it overrides per-stage choices (relayed, not re-checked here).
+  as the per-call model, so how the two rank is undocumented. A second setup
+  reported that it overrides per-stage choices (not re-checked here).
   Keep it unset when routing per stage.
   [Changelog](https://github.com/anthropics/claude-code/blob/main/CHANGELOG.md),
   [Workflow cost](https://code.claude.com/docs/en/workflows#cost)
@@ -232,7 +360,8 @@ whether `tools` or `disallowedTools` still limit those, so treat a role with
 `memory` as able to write (inferred); one of the author's read-only role
 definitions had carried `memory: user` unnoticed until a rewrite on
 2026-10-01 (observed). And subagents can spawn their own subagents, three
-layers deep by default since v2.1.219; `CLAUDE_CODE_MAX_SUBAGENT_SPAWN_DEPTH`
+layers below the main conversation by default (rechecked 2026-11-01), since
+v2.1.219; `CLAUDE_CODE_MAX_SUBAGENT_SPAWN_DEPTH`
 set to `1` in the settings `env` turns nesting off for every subagent in the
 session, which can enforce a packet's no-recursive-delegation non-goal
 (inferred). In one headless check on 2026-10-01 with it set, a workflow's
@@ -246,17 +375,31 @@ definitions (a file without a `name` is skipped as documentation).
 [Nested subagents](https://code.claude.com/docs/en/sub-agents#let-subagents-spawn-their-own-subagents),
 [Environment variables](https://code.claude.com/docs/en/env-vars)
 
-From the author's other setup, relayed on 2026-10-14 and not re-checked here:
+From a second setup, noted 2026-10-14 and not re-checked here:
 
-- **A fetching agent with a shell and private sources** (2026-10-10): a
-  workflow agent fetched public pages while it also held a shell, search over
-  private sources, and private notes, so a fetched page had a direct path from
+- **A fetching agent with a shell and non-public data** (2026-10-10): a
+  workflow agent fetched public pages while it also held a shell and access to
+  non-public data, so a fetched page had a direct path from
   prompt injection to exfiltration. The fix there: fetch with a fixed-host
   script outside any agent, and read the saved pages with an agent that has
   no network, shell, or search.
 - **A retrieval cap by page count** (2026-10-10): a docs fetch capped at a
   number of pages silently dropped the pages the task needed. Size a cap from
   a real run, and report what it skipped.
+
+From the same second setup, following up both items (observed there,
+2026-10-10; not re-checked here):
+
+- **The reader's output still travels**: once the fetching stage was a reader
+  with no network, shell, or search, its quoted claims still reached later
+  stages that held a shell and full tools, so a planted instruction could act
+  second-hand. Those stages now run as read-only agent types too: an
+  allowlisted shell, no MCP servers, no network.
+- **Sizing the cap**: taking linked pages round-robin per index and pattern,
+  instead of first come, didn't save the pages the task needed at a 30-page
+  cap; raising the cap to 45, sized from that run, did. The run filled the new
+  cap too, so the record of skipped pages, each with its reason, is what to
+  read after each run.
 
 For when to delegate and what to hand over, use the
 [workflow gate and packet](agentic-development-workflow.md#fan-out-gate); a
@@ -284,12 +427,22 @@ a hook is not a universal security boundary. Prose cannot prove denial, and a
 clean final tree cannot prove that no forbidden action occurred.
 [Permission rules](https://code.claude.com/docs/en/permissions)
 
-File rules (documented, checked 2026-10-10; first read 2026-09-24 in the
-author's API-harness repository):
+File rules (documented, checked 2026-10-10; first read 2026-09-24 in an
+evaluation repository):
 
 - Only `Edit(path)` and `Read(path)` rules are checked for files. A
   `Write(path)` rule is accepted, never consulted, and draws a warning at
   startup.
+- A `Read` deny also blocks the Edit and Write tools on the same path,
+  including creating a new file there; NotebookEdit isn't covered
+  (documented, checked 2026-11-01).
+- Bash writes are checked against `Edit` rules: the target of an output
+  redirect (`>`, `>>`, `2>`) and each file a `tee` writes. Input redirects
+  (`<`) are checked against `Read` rules. Whether a `Read` deny alone stops
+  a Bash write isn't settled: the Redirections lists name only `Edit` rules
+  for the write side, while the page's warning says Read and Edit deny rules
+  both apply to `tee` and redirect targets (documented, checked 2026-11-10;
+  not tested).
 - `./path` and bare `path` are relative to the current directory; `/path` is
   anchored at the settings source, which for a rule in `.claude/settings.json`
   is the session's primary working directory; `//path` is absolute.
@@ -302,16 +455,24 @@ author's API-harness repository):
   for that.
   [Read and Edit](https://code.claude.com/docs/en/permissions#read-and-edit)
 
-Observed 2026-09-24 in the author's API-harness repository; version not
+Observed 2026-09-24 in an evaluation repository; version not
 recorded: in auto mode, an agent's edit to `.claude/settings.json` was blocked
 as self-modification. Propose settings changes as an exact diff for the person
 to apply.
 
-From the author's other setup, observed 2026-10-10 (relayed, not re-checked
-here): an allow rule that runs scripts in a directory, together with an edit
+Observed 2026-10-10 on a second setup, n=1, not re-checked here: an allow
+rule that runs scripts in a directory, together with an edit
 allow on the same tree, let an agent write a script and run it with no
 prompt. Keep runnable paths outside the trees an agent may edit, and check
 settings for that overlap.
+
+Observed 2026-10-14 on a second setup, n=1, not re-checked here: a fresh
+session with an added `Edit(<dir>/**)` deny was refused a Write into that
+directory, and the same probe without the rule wrote the file, as the File
+rules above predict. By the File rules as rechecked on 2026-11-01, a `Read`
+deny already blocks the Edit and Write tools on every path it matches. An
+`Edit` twin still adds NotebookEdit and Bash writes by redirect or `tee`
+(docs, checked 2026-11-10).
 
 Observed 2026-10-09 and 2026-10-10 in the author's own cloud sessions, in
 auto mode: each refusal named a category. An edit to a repository's hook
@@ -326,6 +487,23 @@ another session attached a further repository the same day without refusal. The
 refused steps were reported, not retried by another route, and done from a
 session a person was directing.
 
+The auto-mode classifier runs on its own model, not the session's or the
+subagents' (documented, checked 2026-10-21): Claude Sonnet 5 by default, or
+the value of `ANTHROPIC_DEFAULT_SONNET_MODEL` unless that is Sonnet 5.5 or
+Opus 5.5. `CLAUDE_CODE_AUTO_MODE_MODEL` (2.1.302 or later) picks another
+model, but not Opus 5, Sonnet 5.5, or Opus 5.5. A docs review on 2026-11-01
+reported that the 2.1.302 changelog entry limits the variable to the
+client-side classifier and leaves server-side auto mode's model unchanged
+(not re-read here). On 2.1.306 a `--debug-file`
+run logged why: the API's safeguards refuse the classifier's escalated check
+on Sonnet 5.5 (observed 2026-10-21, n=1). So an older Sonnet in usage data can
+be the classifier rather than a stale pin; two fresh sessions that each
+dispatched a pinned subagent and an alias-selected one were served Sonnet 5.5
+on both (observed 2026-10-22). The classifier's own requests can time out,
+which reads as auto mode being unable to evaluate an action; the same action
+went through when retried as it was (observed 2026-10-22).
+[Default classifier model](https://code.claude.com/docs/en/permission-modes#default-classifier-model)
+
 Derive checks from the repository. A hook may automate a deterministic gate,
 but do not add one until its trigger, bypasses, failure, and recovery are
 understood. A passed test does not establish complete intent, secure behavior,
@@ -336,11 +514,11 @@ the normal permission flow unless the hook sets `onFailure: "block"` (v2.1.295
 or later; documented, checked 2026-10-10). A guard hook that can stall needs
 that field, or a deadline of its own that denies. A verify step that fails
 when a guard's entry lacks the field turns a dropped line into a visible
-failure (suggested by the author's other setup, 2026-10-14).
+failure (suggested on a second setup, 2026-10-14).
 [Hooks](https://code.claude.com/docs/en/hooks)
 
-A guard hook's decision can be dropped with no visible error (from the
-author's other setup, observed 2026-10-01; documented, checked 2026-10-10): a
+A guard hook's decision can be dropped with no visible error (observed
+2026-10-01 on a second setup, n=1; documented, checked 2026-10-10): a
 `PreToolUse` hook that returned `hookSpecificOutput` without `hookEventName`,
 and with `reason` in place of `permissionDecisionReason`, had every deny and
 ask ignored, with no error seen in that session. The docs require
@@ -369,8 +547,8 @@ Effort is not a spend cap. Record effective configuration for comparisons,
 include approval and integration cost, and recheck after model/host drift.
 
 `/effort` saves the level as the default for the active model in later
-sessions (from the author's other setup, observed 2026-10-09; documented,
-checked 2026-10-09); `max`, and a level set in a `-p` run, apply to that
+sessions (observed 2026-10-09 on a second setup, n=1; documented, checked
+2026-10-09); `max`, and a level set in a `-p` run, apply to that
 session only. For one session, press `s` in the `/effort` slider or the
 `/model` picker (v2.1.257 or later per the docs).
 [Adjust effort level](https://code.claude.com/docs/en/model-config#adjust-effort-level)
@@ -386,8 +564,8 @@ it was observed there or documented, with the date.
 - **Commit identity** (observed and tested 2026-10-09): at start (resume
   wasn't tested), after the environment's Setup script runs, the session
   rewrites `~/.gitconfig` and `/etc/gitconfig` with its own identity
-  (`Claude <noreply@anthropic.com>`; also seen 2026-09-24 in the author's
-  API-harness repository) and SSH commit signing, so a Setup script can't set
+  (`Claude <noreply@anthropic.com>`; also seen 2026-09-24 in an evaluation
+  repository) and SSH commit signing, so a Setup script can't set
   the commit identity. `GIT_AUTHOR_NAME`, `GIT_AUTHOR_EMAIL`,
   `GIT_COMMITTER_NAME`, and `GIT_COMMITTER_EMAIL` in the environment's
   Environment variables override every git config file, and commits stay
@@ -422,7 +600,11 @@ it was observed there or documented, with the date.
   trailer reaches the model as a system reminder, and a `CLAUDE.md` or memory
   rule about it takes precedence unless managed settings set the line; that
   is how the author's trailer stays without a model name (observed
-  2026-10-13). The docs also say a cloud session doesn't read your machine's
+  2026-10-13). Setting `attribution.commit` to the plain trailer instead
+  keeps the line from resting on prose; on a second setup, the session's
+  attribution reminder then carried the plain trailer (observed 2026-10-14,
+  n=1).
+  The docs also say a cloud session doesn't read your machine's
   `~/.claude/settings.json` or `.claude/settings.local.json`; in a
   one-repository session, commit the key to `.claude/settings.json`. Projects
   ask for different trailers when you contribute: the Linux kernel's current
@@ -438,8 +620,8 @@ it was observed there or documented, with the date.
   [Kernel AI coding assistants](https://docs.kernel.org/process/coding-assistants.html),
   [Kubernetes AI guidance](https://github.com/kubernetes/community/blob/master/contributors/guide/pull-requests.md#ai-guidance),
   [Creating a commit with multiple authors](https://docs.github.com/en/pull-requests/how-tos/commit-changes/creating-a-commit-with-multiple-authors)
-- **Trailers on applied commits** (observed 2026-09-24 in the author's
-  API-harness repository; tested 2026-10-10 in a scratch repository, git
+- **Trailers on applied commits** (observed 2026-09-24 in an evaluation
+  repository; tested 2026-10-10 in a scratch repository, git
   2.43.0): `git am` and `git cherry-pick` keep the original message, so those
   commits lack the `Co-Authored-By` and `Claude-Session:` trailers the session
   adds to messages it writes. On an unpushed branch of your own,
@@ -460,6 +642,14 @@ it was observed there or documented, with the date.
   single-repository sessions.
   [Environment caching](https://code.claude.com/docs/en/cloud-environments#environment-caching),
   [Settings in cloud sessions](https://code.claude.com/docs/en/settings#settings-in-cloud-sessions)
+- **Cloud threads in a project** (documented, checked 2026-11-01): a cloud
+  thread in a Claude Code project, the kind that coordinates parallel
+  sessions, "loads only the repository root's `CLAUDE.md`,
+  `.claude/CLAUDE.md`, and `.claude/rules/` files that aren't
+  path-specific". That doesn't describe an ordinary cloud session started on
+  a repository, which the rest of this section covers. Whether a project
+  thread loads a repository's agents and skills wasn't checked.
+  [What carries over](https://code.claude.com/docs/en/cloud-environments#what-carries-over-from-your-setup)
 - **Environment variables and secrets** (documented, checked 2026-10-10): a
   session reads the environment's variables when it's created, and again
   whenever Claude Code starts in its VM after the VM is restored from idle
@@ -480,8 +670,8 @@ it was observed there or documented, with the date.
   (inferred, not tested), so anything that should outlive the session has
   to be pushed first. Auto memory is one such file (see below).
   [Time limits](https://code.claude.com/docs/en/cloud-environments#time-limits)
-- **Installing uv** (documented, checked 2026-10-10; observed 2026-09-24 in the
-  author's API-harness repository and 2026-10-10): `astral.sh` isn't on the
+- **Installing uv** (documented, checked 2026-10-10; observed 2026-09-24 in an
+  evaluation repository and 2026-10-10): `astral.sh` isn't on the
   default allowed domains, so uv's install script failed behind the proxy on
   2026-09-24; on 2026-10-10 it downloaded in a container whose network settings
   weren't recorded. PyPI (`pypi.org`, `files.pythonhosted.org`) is on them, and
@@ -553,8 +743,8 @@ it was observed there or documented, with the date.
   approach doesn't carry over there; see the
   [Cowork notes](cowork-notes.md#deliberate-differences-from-a-coding-host).
   [What carries over](https://code.claude.com/docs/en/cloud-environments#what-carries-over-from-your-setup)
-- **Auto memory** (documented, checked 2026-10-10; observed 2026-09-24 in the
-  author's API-harness repository): auto memory is saved under
+- **Auto memory** (documented, checked 2026-10-10; observed 2026-09-24 in an
+  evaluation repository): auto memory is saved under
   `~/.claude/projects/<project>/memory/` on the machine running Claude Code,
   and the docs say these files are not shared across machines or cloud
   environments. One cloud session's container had no memory directory. A
@@ -624,8 +814,8 @@ it was observed there or documented, with the date.
 
 ## Shell and terminal
 
-From the author's other setup, each line marked observed or documented, with
-the date.
+From a second setup, each line marked observed or documented, with the
+date.
 
 - **`!` input while the agent is busy** (observed 2026-10-02): input typed
   with a leading `!` while the agent was working was queued as plain chat
@@ -674,13 +864,14 @@ documented, with the date.
   (documented for `--max-budget-usd`, checked 2026-10-10). On 2026-10-10 the
   event's `rate_limit_info` carried `status`, `overageStatus`,
   `isUsingOverage`, `surpassedThreshold`, and `unifiedWindows`, with each
-  window's `utilization` and `resetsAt` (observed). At 0.92 of the 5-hour
-  window, `status` read `allowed_warning` with `surpassedThreshold` 0.9; at
-  1.0 it read `rejected`, with `overageStatus` `allowed` and `isUsingOverage`
-  true, and the call itself still completed, on overage. A minimal call
-  reads the windows on demand: `claude -p ok --safe-mode --model <model>
-  --effort low --tools "" --output-format stream-json --verbose
-  --no-session-persistence`, keeping the `rate_limit_event` line.
+  window's `utilization` and `resetsAt` (observed). Past the warning
+  threshold, `status` read `allowed_warning` with `surpassedThreshold` 0.9;
+  with the window used up it read `rejected`, with `overageStatus` `allowed`
+  and `isUsingOverage` true, and the call itself still completed, on
+  overage. A minimal call reads the windows on demand: `claude -p ok
+  --safe-mode --model <model> --effort low --tools "" --output-format
+  stream-json --verbose --no-session-persistence`, keeping the
+  `rate_limit_event` line.
   [CLI flags](https://code.claude.com/docs/en/cli-reference#cli-flags)
 - **WebFetch results** (observed 2026-10-09): pages that answered 403, 404,
   429, 451, or 503 came back as ordinary tool results with `is_error` false;
@@ -731,6 +922,81 @@ documented, with the date.
   used `--permission-mode dontAsk` with an explicit allowlist instead.
   [Turn off permission prompts in unattended runs](https://code.claude.com/docs/en/headless#turn-off-permission-prompts-in-unattended-runs)
 
+## Prompt cache and long sessions
+
+How long the prompt cache holds decides what a pause costs in a long session
+(documented, checked 2026-10-26). Every request falls in one of two buckets,
+the main conversation and everything else, and each gets a five-minute or a
+one-hour lifetime. On a Claude subscription within plan usage, the main
+conversation gets an hour by default; with an API key, a cloud provider, or
+usage credits it gets five minutes, so after a longer pause the next turn
+writes the whole prefix again. `promptCacheTtl` (`"1h"` or `"5m"`) sets the
+main conversation's lifetime and `subagentPromptCacheTtl` the rest's. A
+one-hour write costs more than a five-minute one, so short bursts of work
+that never pause pay extra. Behind a gateway set with `ANTHROPIC_BASE_URL`,
+part of the one-hour request travels in the `anthropic-beta` header, which
+the gateway has to forward.
+[Prompt caching](https://code.claude.com/docs/en/prompt-caching#which-ttl-each-request-gets)
+
+- **Reading it** (documented, checked 2026-11-01): `/usage` breaks usage
+  down by skill, subagent, plugin, and MCP server, and shows a cache line for
+  the main session that leaves subagents out. It is the first reading to
+  take; a subagent's cache isn't in that line.
+  [Costs](https://code.claude.com/docs/en/costs)
+- **One-hour writes, observed** (2026-10-26 on one setup, Claude Code
+  2.1.310, n=1): with `promptCacheTtl` set to `"1h"`, a headless
+  run reported one-hour cache writes
+  (`usage.cache_creation.ephemeral_1h_input_tokens`) and no five-minute
+  ones, and the same call about seven minutes later read that cache back,
+  with `CLAUDE_CODE_DISABLE_EXPERIMENTAL_BETAS` set. Before the change, a
+  review of the same setup's long sessions found no one-hour writes, and
+  pauses rewrote large prefixes.
+- **Idle compaction** (documented, checked 2026-10-26): on the one-hour
+  lifetime, a conversation past a token threshold (200,000 by default) can be
+  compacted after about 54 idle minutes, so the next message sends a summary
+  instead of the whole conversation. It needs auto-compaction on and feature
+  flags fetched from Anthropic. One setup set `idleCompaction` to `false` on
+  2026-10-26, because its review traced lost push targets and stale state to
+  compaction, and it preferred paying the rewrite on return. On 2026-11-10 it
+  turned it back on at a 400,000-token threshold
+  (`CLAUDE_CODE_IDLE_COMPACT_MIN_TOKENS`), once a hook that restores the
+  written state after a compaction existed (next bullet; n=1). Whether it
+  fires there hasn't been observed yet.
+  [idleCompaction](https://code.claude.com/docs/en/settings-reference#idlecompaction)
+- **Steering and recovering a compaction** (observed 2026-11-10 on one
+  setup, Claude Code 2.1.322, a manual `/compact` in a throwaway headless
+  session, n=1): a `PreCompact` hook's stdout became instructions for the
+  summary, and the summary followed them. It kept open threads marked
+  verified or assumed, boundaries and exact paths, and said it had received
+  the extra instructions. `PostCompact` got the summary as `compact_summary`,
+  which the hook saved to a file a fresh session can resume from. A
+  `SessionStart` hook with the `compact` matcher put back the state sections
+  of the session's workstream file, marked as possibly stale. The docs list
+  idle compaction under the `auto` trigger for `PreCompact` and
+  `PostCompact`; that the `SessionStart` hook also fires after idle
+  compaction is inferred, not observed. Inject only files from a location
+  you control: a security review flagged that a workstream file picked up
+  from a cloned repository would put its text into context with a hook's
+  standing.
+  [PreCompact](https://code.claude.com/docs/en/hooks#precompact)
+- **What a long session costs** (observed 2026-11-10 on one setup, past
+  transcripts at list prices, actual billing unchecked, n=1): most of
+  main-session cost was input context, not output: the calls with the most
+  context took a larger share of cost than of calls, and output, where effort
+  acts, was a small share. Of the returns after more than an hour, past either
+  cache lifetime, at least half came after more than a day.
+- **Pauses longer than an hour** lose the cache on either lifetime. The docs
+  note that compacting after the cache has expired reprocesses the history
+  uncached, so `/compact` is cheapest at a natural break while the cache is
+  still warm. The other way back, starting a fresh session from a written
+  workstream file, is one setup's practice, not a measured one.
+- **Watchers in a long session** (observed in the same review, n=1): a
+  monitor that woke the session on routine progress lines made each wake-up
+  a full turn. In one afternoon, more than a dozen monitor-driven turns each
+  rewrote the cache on the five-minute lifetime. Waking only on failure,
+  completion, or silence (a log that stops growing) takes fewer turns and
+  also catches a stalled run, which a filter for success lines misses.
+
 ## Continuity and rollback
 
 Keep long-task intent and acceptance in a durable artifact, progress in a
@@ -738,6 +1004,15 @@ separate plan, and verification with the candidate. On interruption, identify
 partial work, pending checks, owned temporary state, and the next authorized
 step. Session compaction or rewind is not a substitute for a reviewed diff,
 version control, or recovery of external effects.
+
+Interrupting delegated work (documented, checked 2026-11-01): on an
+interruption, subagents restart the turn, while workflows are resumable in
+the same session. In a cloud session on 2026-11-01 (observed, n=1), a stop
+ended five running read-only agents after about two and a half minutes, and
+none of their work came back. Say so before a long launch of subagents, and
+consider a workflow for a fan-out that may need stopping (inferred from the
+docs line, not tested).
+[Workflows](https://code.claude.com/docs/en/workflows)
 
 Cowork uses a separate [surface guide](cowork-notes.md). Do not infer equivalent
 instruction discovery, context independence, or permission controls from the

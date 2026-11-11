@@ -37,18 +37,24 @@ conditions.
 - [Measurement candidates](measurement-candidates.md) — delegation and review
   comparisons, design only (2026-10-01); none has run. It also records a
   delegation skill for chat and Cowork as a candidate (2026-10-11).
+- [Model and effort benchmark](model-and-effort-2026-11-01.md): a dated
+  record of one run, graded by code. Haiku, Sonnet and Opus at medium and
+  high effort, on narrow tasks with a check; it backs the sample skill's
+  Haiku and effort lines and ranks nothing.
 
-Retired fixtures (R0A–R0D) are [archived](../../archive/README.md) as dated
-history; the R1 operator template and the unrun R5 fixture are held privately.
+Retired fixtures (R0A–R0D) are no longer published (they were in releases
+through 2026-10-15), and the unrun R5 fixture is held privately; the [evidence
+status](../evidence-status.md) records the retired runs.
 
 ## Reproducibility boundary
 
 A method can be reusable without supplying a complete experiment package. R2
-and R3 need operator-owned private inputs, and R0D describes a temporary
-checker whose source is not retained here. Preserve or create authorized,
-sanitized inputs and any required checker before claiming replayability, and
-freeze a new version when they change. Do not expose a held-out key to a runner
-just because the grader is tracked in this repository.
+and R3 need operator-owned private inputs, and R0D, no longer published,
+described a temporary checker whose source is not retained here. Preserve or
+create authorized, sanitized inputs and any required checker before claiming
+replayability, and freeze a new version when they change. Do not expose a
+held-out key to a runner just because the grader is tracked in this
+repository.
 
 ## Run protocol
 

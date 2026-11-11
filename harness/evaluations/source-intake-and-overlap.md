@@ -10,15 +10,15 @@ failure from the invalid rerun, M9 records which IDE operations were actually
 used, and S15 notes that R5's baseline must be re-frozen before any run; links
 were updated for files moved into the archive, and the S8 skill has since
 gained a 2026-09-25 proposal, so its hash no longer matches the tracked file;
-the R5 links were removed when the fixture was held privately, and the S0 row
-was generalized for sharing. Amended 2026-10-01: the S7 file link never
-resolved at its pin, because upstream split that page on 2026-08-30; it now
-points to the planning-path successor at the same pin, where the routing
-mechanism appears, and which text the original review read is not recorded.
-The S15 research-plan reference is plain text because that file is left out of
-public releases. S0 and the B1 to B3 baselines are private, so the baseline
-comparison and overlap matrix cannot be replayed from this repository. Frozen
-pre-run text is otherwise unchanged.
+the S0 row was generalized for sharing. Amended 2026-10-01: the S7 file link
+never resolved at its pin, because upstream split that page on 2026-08-30; it
+now points to the planning-path successor at the same pin, where the routing
+mechanism appears, and which text the original review read is not recorded. S0
+and the B1 to B3 baselines are private, so the baseline comparison and overlap
+matrix cannot be replayed from this repository. Frozen pre-run text is
+otherwise unchanged, except a disclosure amendment on 2026-11-11: rows S0, S5,
+S10, S14, S17 and M4 lost private-source and approval detail, and S14 its
+token figures.
 
 This is the first mechanism-level intake under the accepted
 [selective-derivation decision](../decisions/0001-selective-skill-derivation.md).
@@ -40,19 +40,17 @@ at retrieval time; a later upstream change does not silently alter this review.
 
 | ID | Source and revision | Files reviewed | Rights and use boundary |
 | --- | --- | --- | --- |
-| S0 | An existing shared skill catalog at a privately recorded revision | Collaborative brainstorming, adversarial challenge, broad web-prototype, spec, planning, and agent-dispatch procedures | Approved private source; compare behavior without reproducing its text here |
+| S0 | A private skill catalog the author uses | Collaborative brainstorming, adversarial challenge, broad web-prototype, spec, planning, and agent-dispatch procedures | Private source; compare behavior without reproducing its text here |
 | S1 | Current personal [workflow](../agentic-development-workflow.md) and [spec procedure](../skills/spec-driven-change/SKILL.md) | Uncertainty router, guided lane, disposable-prototype lane, spec trigger | Repository license applies; this is the cheaper local baseline |
 | S2 | Anthropic, [AI-native SDLC playbook](https://claude.com/blog/the-ai-native-sdlc-playbook) | Intent, specification, plan, implementation/tests, review, and incident artifacts | Pattern evidence and attribution only; do not copy article text or treat vendor guidance as validation |
 | S3 | Matt Pocock skills [`6654f6b60cd9d5be8b54c6fafe44346dabeb3b76`](https://github.com/mattpocock/skills/tree/6654f6b60cd9d5be8b54c6fafe44346dabeb3b76) | [`grilling`](https://github.com/mattpocock/skills/blob/6654f6b60cd9d5be8b54c6fafe44346dabeb3b76/skills/productivity/grilling/SKILL.md), [`grill-me`](https://github.com/mattpocock/skills/blob/6654f6b60cd9d5be8b54c6fafe44346dabeb3b76/skills/productivity/grill-me/SKILL.md), and [`prototype`](https://github.com/mattpocock/skills/blob/6654f6b60cd9d5be8b54c6fafe44346dabeb3b76/skills/engineering/prototype/SKILL.md) | MIT; any copied or derivative portion retains the copyright and license notice plus a visible local delta |
 | S4 | GitHub Spec Kit [`db64869985644df296827a5bbbaa0181a58a058e`](https://github.com/github/spec-kit/tree/db64869985644df296827a5bbbaa0181a58a058e) | [`clarify`](https://github.com/github/spec-kit/blob/db64869985644df296827a5bbbaa0181a58a058e/templates/commands/clarify.md) | MIT; use as a bounded comparison, not a reason to install its CLI or artifact system |
-| S5 | Superpowers [`b36e0829c6d0140e93cfef2ca599b1b07d4a7797`](https://github.com/obra/superpowers/tree/b36e0829c6d0140e93cfef2ca599b1b07d4a7797) | [`brainstorming`](https://github.com/obra/superpowers/blob/b36e0829c6d0140e93cfef2ca599b1b07d4a7797/skills/brainstorming/SKILL.md) | MIT; the shared catalog already contains an attributed derivative, so another copy would be duplication |
+| S5 | Superpowers [`b36e0829c6d0140e93cfef2ca599b1b07d4a7797`](https://github.com/obra/superpowers/tree/b36e0829c6d0140e93cfef2ca599b1b07d4a7797) | [`brainstorming`](https://github.com/obra/superpowers/blob/b36e0829c6d0140e93cfef2ca599b1b07d4a7797/skills/brainstorming/SKILL.md) | MIT; the S0 catalog already contains an attributed derivative, so another copy would be duplication |
 | S6 | gstack [`0d1bd5616c0ef096bb7ccee336f63c60ee408618`](https://github.com/garrytan/gstack/tree/0d1bd5616c0ef096bb7ccee336f63c60ee408618) | [`office-hours`](https://github.com/garrytan/gstack/blob/0d1bd5616c0ef096bb7ccee336f63c60ee408618/office-hours/SKILL.md) and its product/engineering plan split | MIT; inspect the premise-testing mechanism only, without bundle routing, telemetry, or commit behavior |
 | S7 | BMAD Method [`891c0abbc1128f318e098a566f925155022aef12`](https://github.com/bmad-code-org/BMAD-METHOD/tree/891c0abbc1128f318e098a566f925155022aef12) | [`choose-a-planning-path`](https://github.com/bmad-code-org/BMAD-METHOD/blob/891c0abbc1128f318e098a566f925155022aef12/docs/plan/choose-a-planning-path.md) (successor to `workflow-map`) | MIT with a separate trademark notice; use generic routing ideas without names, marks, or framework packaging |
 
 The license check establishes permission to evaluate and, where applicable,
-derive. It is not approval to publish a derivative into the shared catalog.
-That requires an owner, destination review, retained notice, frozen evaluation,
-and the catalog's own contribution process.
+derive.
 
 ## Local baselines
 
@@ -151,7 +149,7 @@ side-effect ceiling differ from the existing choices.
 ## M4 — Mandatory design brainstorming
 
 - **Identity:** S5 `brainstorming`; an attributed derivative is already present
-  in the shared catalog.
+  in the S0 catalog.
 - **Need:** Surface intent and approaches before implementation.
 - **Mechanism:** Explore context, ask one question at a time, present several
   approaches, recommend one, present a design, and obtain approval.
@@ -260,7 +258,7 @@ open.
 - dependency-aware vertical decomposition and tracker publication;
 - specification conformance versus engineering-risk review;
 - owner, explorer, reviewer, and classifier contracts;
-- code intelligence and organization retrieval;
+- code intelligence and shared code search;
 - Terraform, data, semantic-model, incident, and security overlays; and
 - cross-host discovery, permissions, fallback, and cleanup behavior.
 
@@ -371,12 +369,12 @@ or R0B decisions.
 Status: frozen before R2 execution, 2026-09-04
 
 This tranche evaluates retrieval order, not an IDE product or a new indexing
-system. It uses a clean Python repository and an index that is already running
-on the operator's machine.
+system. It uses a clean Python repository and an already configured local
+index.
 
 | ID | Source and revision | Surface reviewed | Use boundary |
 | --- | --- | --- | --- |
-| S10 | Private Python tooling fixture at an operator-retained immutable revision | Repository instructions plus deterministic `git`, `rg`, and bounded file slices | Cheaper local-search baseline; read-only and repository-scoped |
+| S10 | A Python tooling fixture at an operator-retained immutable revision | Repository instructions plus deterministic `git`, `rg`, and bounded file slices | Cheaper local-search baseline; read-only and repository-scoped |
 | S11 | Configured IDEA MCP observed 2026-09-04 | Module inventory, symbol search, call analysis, symbol information, file reads, and text/regex search; a module-inventory probe returned the three expected project modules | Existing local index only; no installation, re-indexing, IDE terminal, mutation, or claim that inventory proves answer quality |
 
 ### M9 — Local search with indexed escalation
@@ -386,7 +384,7 @@ on the operator's machine.
   availability alone does not say which route costs less for a complete
   answer.
 - **Overlap:** The working retrieval ladder already starts with local search
-  and permits an IDE or organization index when discovery is weak. It has no
+  and permits an IDE or shared code index when discovery is weak. It has no
   measured threshold for moving the IDE earlier.
 - **Candidate mechanism:** Keep local search as the first rung unless the
   already configured IDE route repairs a critical miss, removes at least two
@@ -436,7 +434,7 @@ Status: frozen before R3 execution, 2026-09-04
 | --- | --- | --- | --- |
 | S12 | Current local [reviewer role](roles/reviewer.md) and [spec-driven procedure](../skills/spec-driven-change/SKILL.md) at the current working revision | Fresh context, complete candidate/intent/evidence packet, conformance plus risk review, actionable findings, and owner-held progression verdict | Existing local baseline; it names both concerns but does not require separate ledgers |
 | S13 | Matt Pocock skills [`6654f6b60cd9d5be8b54c6fafe44346dabeb3b76`](https://github.com/mattpocock/skills/tree/6654f6b60cd9d5be8b54c6fafe44346dabeb3b76) | [`code-review`](https://github.com/mattpocock/skills/blob/6654f6b60cd9d5be8b54c6fafe44346dabeb3b76/skills/engineering/code-review/SKILL.md): fixed-point validation, separate standards/spec axes, missing-spec stop, isolated parallel reviewers, and side-by-side reporting | MIT; evaluate axis separation with attribution, but do not copy the smell catalog, tracker/setup assumptions, mandatory parallelism, or host syntax |
-| S14 | Sanitized local infrastructure-review observation, exact task evidence retained privately | Fresh read-only reviewer plus owner review found material issues, but the reviewer alone used 4,163,677 exposed tokens and the combined turn used about 12.7 million without a predeclared comparison | Cost/failure-mode evidence only; not a controlled result and not proof that review fan-out is ineffective |
+| S14 | Sanitized local infrastructure-review observation | Fresh read-only reviewer plus owner review found material issues, but the unconstrained reviewer's token use was large (figures not published), without a predeclared comparison | Cost/failure-mode evidence only; not a controlled result and not proof that review fan-out is ineffective |
 
 ### M10 — Specification-conformance and engineering-risk ledgers
 
@@ -500,7 +498,7 @@ Terraform, or turn an infrastructure observation into a controlled baseline.
 | --- | --- | --- | --- |
 | S15 | Current [workflow](../agentic-development-workflow.md), research plan (archived), [owner](roles/owner.md), and [reviewer](roles/reviewer.md) contracts at the frozen R5 working revision. These contracts were revised on 2026-09-24 (workflow, owner v3, reviewer v2, archived research plan); re-freeze and pin the baseline revision before any R5 run | Generic evidence reconciliation, repository-defined checks, lifecycle and recovery criteria, and scoped gate recommendation | Existing local baseline; no infrastructure-specific treatment wording |
 | S16 | HashiCorp's official Terraform [style](https://developer.hashicorp.com/terraform/language/style), [`validate`](https://developer.hashicorp.com/terraform/cli/commands/validate), [`test`](https://developer.hashicorp.com/terraform/cli/commands/test), [`depends_on`](https://developer.hashicorp.com/terraform/language/meta-arguments/depends_on), and [automation](https://developer.hashicorp.com/terraform/tutorials/automation/automate-terraform) guidance, from the dated 2026-09-03 local evidence snapshot | Separate format, initialization/validation, refresh, test, plan, and apply concerns; dependency-lock and automation boundaries; conservative explicit dependencies | Official-source mechanism evidence; not refreshed during the offline R5 pass and not evidence for a real provider or environment |
-| S17 | Sanitized local source-only infrastructure review, exact repositories and revisions retained privately | Phase gates, lockout ordering, suspicious network inputs, state/output access, imperative-provider behavior, partial-apply recovery, exact-tree binding, and whole-review cost | Failure-mode and fixture-shaping evidence only; no private source text is reproduced and the uncontrolled review is not a baseline |
+| S17 | Sanitized local source-only infrastructure review | Phase gates, lockout ordering, suspicious network inputs, state/output access, imperative-provider behavior, partial-apply recovery, exact-tree binding, and whole-review cost | Failure-mode and fixture-shaping evidence only; no private source text is reproduced and the uncontrolled review is not a baseline |
 
 The first-party HashiCorp agent-skill collection remains a later source-review
 candidate. It is not needed to test this independently worded overlay, and no

@@ -59,11 +59,8 @@ Comparative evaluation:
 </deliverable_shape>
 ```
 
-Sanitized for sharing, 2026-10-02. Derived from the project's instructions as
-installed 2026-09-29, with the purpose line's domains and one example
-parameterized; the installed copy ends with a stamp line (date and
-version) so a session can confirm which text reached it, left out here as on
-the profile copy sheet. That version was installed without validation, by
+Sanitized snapshot, 2026-09-29, with the purpose line's domains and one
+example parameterized. That text was installed without validation, by
 choice: its gathering, parallel-fetch, why-X-over-Y, and ML-results rules are
 new and untested, each with a watch for what would show it wrong. It relies on
 the profile for evidence tiering, joins, and confidence, and does not restate

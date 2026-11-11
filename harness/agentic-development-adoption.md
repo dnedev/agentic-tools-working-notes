@@ -96,9 +96,8 @@ For repository guidance, the README owns orientation and navigation, and the
 repository's `AGENTS.md` owns local commands and working rules, with enough
 vocabulary for a fresh agent to begin. The root `AGENTS.md` in **this**
 repository opens with a short orientation for an agent you point at these
-notes; its "Editing this repository" section is contributor guidance for
-editing them. Neither part is a
-personal core to install.
+notes; its "Adapting your own copy" section holds the rules for changing a
+copy. Neither part is a personal core to install.
 
 ## Keep what helps
 

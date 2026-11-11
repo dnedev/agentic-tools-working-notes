@@ -26,6 +26,9 @@ judgment. Take what's useful, discard the rest.
 - **[Evolution and lessons](evolution-and-lessons.md).** A dated account of
   what changed, what failed, and which apparent improvements were later
   withdrawn or narrowed.
+- **[Worked example](worked-example.md).** One pattern followed from the
+  trace that produced it to the rule and its re-check, with the steps the
+  published record doesn't cover marked.
 
 ## How I use the regression loop
 
@@ -62,12 +65,12 @@ difference:
 
 ```mermaid
 timeline
-  title Profile versions and checks, by model era
-  Opus 4.6 : 4 profile versions
-  Opus 4.7 : 9 profile versions
-  Opus 4.8 : 9 profile versions : Jun, first checks, 4 of 4 pass
-  Opus 5 : 4 profile versions : Jul, 7 valid passes, no fails
-  Opus 5.5 : 1 profile version : Sep, 15 of 15 with and without
+  title Profile rewrites and checks, by model era
+  Opus 4.6 : profile rewrites, no checks yet
+  Opus 4.7 : profile rewrites, no checks yet
+  Opus 4.8 : profile rewrites : Jun, first checks, 4 of 4 pass
+  Opus 5 : profile rewrites : Jul, 7 valid passes, no fails
+  Opus 5.5 : Sep, 15 of 15 with and without
            : Oct, the new suite
 ```
 
@@ -121,11 +124,9 @@ changed a decision and caught itself grading a result that did not count.
   taxonomy and the loop age well; any per-model claims should be
   re-verified before you rely on them.
 - **Not included, by choice:** my actual configuration text (tuned to my
-  register and defaults — wrong for you by design); the corpus *entries*
+  register and defaults — wrong for you by design) and the corpus *entries*
   themselves (distilled from personal transcripts; the method is in
-  `regression-corpus-method.md`); and the one-time, venue-specific
-  internal-socialization prompt for deciding where to post this (it names
-  internal tooling, so it stays out).
+  `regression-corpus-method.md`).
 
 Adapt freely. If you build your own corpus, I'd genuinely like to see
 which patterns your usage surfaces that mine didn't.

@@ -8,27 +8,29 @@ rest on a run and which are conservative defaults. The
 
 Status: dated evidence record, 2026-09-24; corrected 2026-09-25 (R0A validity,
 unrun conditions, the R0C baseline, R1 and R5 fixtures held privately) and
-2026-10-01 (a key to the run labels; plainer critique and attribution notes).
-No outcome was regraded. It reviews existing records rather than adding an
+2026-10-01 (a key to the run labels; plainer critique and attribution notes)
+and 2026-10-15 (how the author's own defaults relate to the rejections). No
+outcome was regraded. It reviews existing records rather than adding an
 experiment: primary local run records and a later written critique of the
 research program were re-read; raw session traces were not independently
-regraded. Private targets, transcripts, model IDs, and internal contribution
-sources remain outside this shareable record. It supports the
-[documentation revision](../archive/2026-09-agentic-development/revision-spec.md).
+regraded. Private targets, transcripts, model IDs, and unpublished
+contribution sources remain outside this shareable record. It supports the
+documentation revision, whose spec is no longer published (it was in releases
+through 2026-10-15).
 
 ## What the evidence permits
 
-Run IDs below are stable experiment labels, not links to a public corpus.
-Each reads `<fixture>-<condition>-<sequence>`: the fixture (R0A to R0D are
-[archived](../archive/README.md); R1P, R2, and R3 are in
-[evaluations](evaluations/README.md); R1 and R5 are held privately), the
-condition (A is the baseline or only condition, B the treatment; R0D ran
-only a treatment), and the attempt number. C3b and C4 are stages in the
-archived [research backlog](../archive/2026-09-agentic-development/research-backlog.md);
-S8 is a source row in [source intake](evaluations/source-intake-and-overlap.md),
-whose M rows are mechanisms, distinct from the M1 to M9
-[measurement candidates](evaluations/measurement-candidates.md); P0-CODEX-FANOUT-01
-is a retrospective record outside the fixture series. The public instruments
+Run IDs below are stable experiment labels, not links to a public corpus. Each
+reads `<fixture>-<condition>-<sequence>`: the fixture (R1P, R2, and R3 are in
+[evaluations](evaluations/README.md); the retired R0A to R0D are no longer
+published, and R1 and R5 are held privately), the condition (A is the baseline
+or only condition, B the treatment; R0D ran only a treatment), and the attempt
+number. C3b and C4 are stages in the archived research backlog, no longer
+published; S8 is a source row in [source
+intake](evaluations/source-intake-and-overlap.md), whose M rows are
+mechanisms, distinct from the M1 to M9 [measurement
+candidates](evaluations/measurement-candidates.md); P0-CODEX-FANOUT-01 is a
+retrospective record outside the fixture series. The public instruments
 explain the method; some need operator-owned private inputs and cannot be
 replayed from this checkout alone.
 
@@ -66,10 +68,15 @@ arms under current, matched conditions for a new comparison.
 | Revise | Evaluation method | Add repetitions/order, frozen registration, grader independence, measured approvals, invalidity, and later defects. Thresholds must use available measures; arbitrary trial counts and cost ceilings from critiques are not adopted as optima. |
 | Revise | Surface adoption | Codex, Claude Code, and Cowork get concrete guidance and separate mechanics. No assumption that common prose produces equal discovery, permissions, subagents, or persistence. |
 | Revise | Repository onboarding | README owns orientation and navigation; contributor instructions own local working rules; focused references own detail. This is a proposal-derived placement choice, not a fresh-start benchmark result. |
-| Revise | Research navigation | Archive the roadmap and research notes as dated context; keep dated results here and in source intake, and outstanding work in the archived [research backlog](../archive/2026-09-agentic-development/research-backlog.md), which is not an active queue. Avoid carrying retired tasks as immediate instructions. |
+| Revise | Research navigation | Archive the roadmap and research notes as dated context; keep dated results here and in source intake, and outstanding work in the archived research backlog, no longer published, which is not an active queue. Avoid carrying retired tasks as immediate instructions. |
 | Remove from shareable copy | Private target names, history identifiers, source-specific grader answers | The R1 packet and key stay private, and no R1 template is published. Private evidence remains unchanged; no invented public replacement is labeled as the historical fixture. |
 | Defer | Useful fresh-packet comparison, model/effort tuning, parallel writers, host-native role installation | Require a named task, frozen baseline/key, observable cost and boundaries, then a representative pilot. |
 | Reject for this revision | Automatic fan-out, model-ID defaults, a new orchestrator/installer/registry, blanket two-ledger review, whole-bundle skill adoption (the author's personal bundle trial sits outside this; see the [skill-derivation decision](decisions/0001-selective-skill-derivation.md)) | No demonstrated need or qualifying evidence; unnecessary maintenance and wider authority. |
+
+The rejections above describe what these notes recommend to others. Since
+October 2026 the author's own Claude Code sample runs workflows by default for
+substantive tasks and pins full model IDs in its own agent definitions; both
+are personal defaults, not reversals of this table.
 
 ## Critique adjudication
 
@@ -81,9 +88,9 @@ were checked afresh instead of copying its older host assumptions.
 
 The original R1 design had a saturated coverage baseline, overlapping owner
 and explorer questions, and a cost win dependent on unexposed active time.
-The [C3b design gate](../archive/2026-09-agentic-development/research-backlog.md#c3b--useful-fresh-packet-comparison)
-therefore requires disjoint questions and an observable decision rule before
-any new run. A new prompt or packet gets a new version, not an invisible retry.
+The C3b design gate in the archived backlog therefore requires disjoint
+questions and an observable decision rule before any new run. A new prompt
+or packet gets a new version, not an invisible retry.
 
 ## Attribution and publication
 

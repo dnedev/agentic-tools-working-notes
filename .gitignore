@@ -1,11 +1,4 @@
-# Raw, unsanitized canonical source from the author's private instrument
-# repository (synced from the claude.ai project until 2026-10-12). Kept
-# locally as the origin for verification-kit/ and harness/
-# updates, but never committed: these files carry real trace origins, live
-# config, and full profile/project-instruction history that the published
-# docs deliberately sanitize. It also holds other private source material,
-# such as run records and preserved pre-sanitization history. Rename the dir
-# if you like — keep it ignored.
+# Private source material, kept locally and never committed.
 _input/
 
 # Private drafts, reviews, handoffs, and exports. Promote only deliberately

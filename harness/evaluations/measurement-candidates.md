@@ -4,8 +4,8 @@ Status: design only, 2026-10-01. None of these has been run; the delegation
 skill recorded [below](#candidate-a-delegation-skill-for-chat-and-cowork) on
 2026-10-11 has its own status. They follow from a
 research pass on agent roles, fan-out, and review, and from read-only lookup
-and review roles added to the author's live Claude Code and Codex
-configuration. Those roles are not evaluated; M1 is their first check. The
+and review roles the author added to Claude Code and Codex. Those roles are
+not evaluated; M1 is their first check. The
 partial probes behind them are recorded in the
 [Claude Code](../claude-code-notes.md#bounded-subagents) and
 [OpenAI](../openai-surfaces-notes.md#codex-delegation-and-adoption) notes. The
@@ -38,8 +38,11 @@ win by silently dropping work.
 ## Candidate: a delegation skill for chat and Cowork
 
 Status: recorded 2026-10-11 as a candidate projection for chat and Cowork,
-not added to the [shared skills](../README.md#samples-by-tool). Unlike the
-rows above, it has had two runs, neither of them a comparison.
+not added to the [shared skills](../README.md#samples-by-tool); its
+text is published as a [sample](../skills/delegation/SKILL.md) from
+2026-11-01, still as a candidate. Unlike the
+rows above, it has had two runs in chat (2026-10-11), neither of them a
+comparison.
 
 The author drafted a skill, in the claude.ai project, that carries the
 [Claude Code sample](../CLAUDE.example.md)'s delegation rules into chat and
